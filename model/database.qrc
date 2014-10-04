@@ -1,0 +1,5 @@
+﻿<RCC>
+    <qresource prefix="/">
+        <file>slot-store.sqlite</file>
+    </qresource>
+</RCC>
