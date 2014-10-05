@@ -15,12 +15,18 @@
 # along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------------
 
-TEMPLATE = subdirs
-CONFIG += ordered
+INCLUDEPATH += $$PWD/include
 
-SUBDIRS = app
+HEADERS += \
+    $$PWD/include/tfabstracttoolbar.h \
+    $$PWD/include/tfcontrolbar.h \
+    $$PWD/include/tfselectionbar.h
 
-OTHER_FILES += \
-    LICENSE \
-    README.md \
-    .gitignore
+SOURCES += \
+    $$PWD/src/tfabstracttoolbar.cpp \
+    $$PWD/src/tfcontrolbar.cpp \
+    $$PWD/src/tfselectionbar.cpp
+
+TRANSLATIONS = \
+    $$PWD/translations/emm_widgets_en.ts \
+    $$PWD/translations/emm_widgets_de.ts

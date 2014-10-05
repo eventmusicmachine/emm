@@ -15,12 +15,22 @@
 # along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------------
 
-TEMPLATE = subdirs
-CONFIG += ordered
+QT += sql
 
-SUBDIRS = app
+INCLUDEPATH += $$PWD/include
 
-OTHER_FILES += \
-    LICENSE \
-    README.md \
-    .gitignore
+HEADERS += \
+    $$PWD/include/slotstoredialog.h
+
+SOURCES += \
+    $$PWD/src/slotstoredialog.cpp
+
+RESOURCES += \
+    $$PWD/resources/database.qrc
+
+FORMS += \
+    $$PWD/ui/slotstoredialog.ui
+
+TRANSLATIONS = \
+    $$PWD/translations/emm_slotstore_en.ts \
+    $$PWD/translations/emm_slotstore_de.ts

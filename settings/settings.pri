@@ -15,12 +15,23 @@
 # along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------------
 
-TEMPLATE = subdirs
-CONFIG += ordered
+INCLUDEPATH += $$PWD/include
 
-SUBDIRS = app
+HEADERS += \
+    $$PWD/include/configuration.h \
+    $$PWD/include/configurationdialog.h \
+    $$PWD/include/layerdata.h \
+    $$PWD/include/globaldata.h
 
-OTHER_FILES += \
-    LICENSE \
-    README.md \
-    .gitignore
+SOURCES += \
+    $$PWD/src/configuration.cpp \
+    $$PWD/src/configurationdialog.cpp \
+    $$PWD/src/layerdata.cpp \
+    $$PWD/src/globaldata.cpp
+
+FORMS += \
+    $$PWD/ui/configurationdialog.ui
+
+TRANSLATIONS = \
+    $$PWD/translations/emm_settings_en.ts \
+    $$PWD/translations/emm_settings_de.ts

@@ -15,12 +15,15 @@
 # along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------------
 
-TEMPLATE = subdirs
-CONFIG += ordered
+INCLUDEPATH += $$PWD/include
+INCLUDEPATH += $$PWD/lib/header
 
-SUBDIRS = app
+HEADERS += \
+    $$PWD/include/keyboardcontroller.h
 
-OTHER_FILES += \
-    LICENSE \
-    README.md \
-    .gitignore
+SOURCES += \
+    $$PWD/src/keyboardcontroller.cpp
+
+TRANSLATIONS = \
+    $$PWD/translations/emm_keyboard_en.ts \
+    $$PWD/translations/emm_keyboard_de.ts
