@@ -42,6 +42,7 @@
 #include "model/playlist.h"
 #include "playerwidget.h"
 #include "slotstoredialog.h"
+#include "slottablewidget.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -98,32 +99,15 @@ void MainWindow::createPlayers()
     int layers = config->getLayer();
     ui->layerSelector->setLayerCount(layers);
     int currentLayer = ui->layerSelector->getSelectedButton();
-    foreach(CartSlotWidget *cartSlotWidget,slotWidgets)
-    {
-        ui->slotLayout->removeWidget(cartSlotWidget);
-        cartSlotWidget->~CartSlotWidget();
-    }
-    slotWidgets.clear();
     foreach(PlayerWidget *playerWidget,playerWidgets)
     {
         ui->playerLayout->removeWidget(playerWidget);
         disconnect(playerWidget,0,0,0);
         playerWidget->~PlayerWidget();
     }
-    slotWidgets.clear();
     playerWidgets.clear();
 
-    int number=1+currentLayer*config->getVerticalSlots()*config->getHorizontalSlots();
-    for (int i=0;i<config->getVerticalSlots();i++)
-    {
-        for (int j=0;j<config->getHorizontalSlots();j++)
-        {
-            CartSlotWidget *newWidget = new CartSlotWidget(number);
-            ui->slotLayout->addWidget(newWidget,i,j);
-            slotWidgets.append(newWidget);
-            number++;
-        }
-    }
+    ui->slotTableWidget->updateSlots(currentLayer);
 
     for (int i=0;i<config->getPlayer();i++)
     {
@@ -138,17 +122,7 @@ void MainWindow::updateSlotAssignment()
 {
     Configuration *config = Configuration::getInstance();
     int currentLayer = ui->layerSelector->getSelectedButton();
-    int number=1+currentLayer*config->getVerticalSlots()*config->getHorizontalSlots();
-    for (int i=0;i<slotWidgets.size();i++) {
-        int displayNumber;
-        if (config->getLayerKeyboardSync()) {
-            displayNumber = i+1;
-        } else {
-            displayNumber = number;
-        }
-        slotWidgets.at(i)->setNewNumber(number,true,displayNumber);
-        number++;
-    }
+    ui->slotTableWidget->updateSlots(currentLayer);
 }
 
 void MainWindow::showConfigDialog()
@@ -305,12 +279,8 @@ void MainWindow::clearSlots() {
     connect(dia,SIGNAL(canceled()), clear, SLOT(quit()));
     clear->start();
     dia->exec();
-    foreach(CartSlotWidget *cartSlotWidget,slotWidgets)
-    {
-        cartSlotWidget->updateLength(0);
-        cartSlotWidget->updatePosition(0);
-        cartSlotWidget->showInfo();
-	}
+    int currentLayer = ui->layerSelector->getSelectedButton();
+    ui->slotTableWidget->updateSlots(currentLayer);
 }
 
 void MainWindow::setConfigDirectory()

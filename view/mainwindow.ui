@@ -63,11 +63,7 @@
          <widget class="LayerSelector" name="layerSelector" native="true"/>
         </item>
         <item>
-         <layout class="QGridLayout" name="slotLayout">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-         </layout>
+         <widget class="SlotTableWidget" name="slotTableWidget"/>
         </item>
        </layout>
       </widget>
@@ -524,6 +520,11 @@ font-weight:bold;</string>
    <extends>QWidget</extends>
    <header>view/layerselector.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SlotTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header>view/slottablewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

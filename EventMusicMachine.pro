@@ -78,7 +78,8 @@ SOURCES += main.cpp\
     view/splashscreen.cpp \
     model/copycolorsthread.cpp \
     model/clearlayerthread.cpp \
-    model/layerdata.cpp
+    model/layerdata.cpp \
+    view/slottablewidget.cpp
 
 HEADERS += view/mainwindow.h \
     view/configurationdialog.h \
@@ -118,7 +119,8 @@ HEADERS += view/mainwindow.h \
     view/splashscreen.h \
     model/copycolorsthread.h \
     model/clearlayerthread.h \
-    model/layerdata.h
+    model/layerdata.h \
+    view/slottablewidget.h
 
 FORMS += view/mainwindow.ui \
     view/configurationdialog.ui \

@@ -24,7 +24,6 @@
 namespace Ui {
     class MainWindow;
 }
-class CartSlotWidget;
 class PlayerWidget;
 class QFileSystemModel;
 class LoadSlotThread;
@@ -43,7 +42,6 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    QList<CartSlotWidget*> slotWidgets;
     QList<PlayerWidget*> playerWidgets;
     QFileSystemModel *fileModel;
     LoadSlotThread *slotThread;
