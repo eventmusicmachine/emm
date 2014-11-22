@@ -57,7 +57,7 @@ font-weight:bold;</string>
 font-size:12px;</string>
         </property>
         <property name="text">
-         <string notr="true">1.2.0</string>
+         <string notr="true">1.2.1</string>
         </property>
        </widget>
       </item>
