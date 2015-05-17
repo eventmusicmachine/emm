@@ -44,13 +44,6 @@ int main(int argc, char *argv[])
     s->show();
     s->showMessage("Event Music Machine starten...");
 
-    // m2: Allocate and init all slot counters (and pause info) to 0
-    MainWindow* currInstance = MainWindow::getInstance();
-    currInstance->numberOfSlots = currInstance->getTotalNumberOfSlots();
-    currInstance->playedCtr = (int*)calloc(currInstance->numberOfSlots, sizeof(int));
-    currInstance->pausedSlot = (int*)calloc(currInstance->numberOfSlots, sizeof(int));
-    //qDebug("main: currInstance %d", currInstance);
-
     QString path = Configuration::getStorageLocation();
     if (path == "") {
         QFileDialog dia(s);
@@ -124,7 +117,6 @@ int main(int argc, char *argv[])
     s->showMessage("Benutzeroberfläche initialisieren...");
     w.init();
     s->close();
-
 
     w.show();
     return a.exec();

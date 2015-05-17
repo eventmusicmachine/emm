@@ -60,6 +60,12 @@ public:
     // m2: reset pause info (when playing other slot)
     void resetPause();
 
+    // m2: change back to previously selected layer (when keyboard controls first layer)
+    void resetLayer();
+
+    // m2: layer that was shown before changing to layer 1 via keyboard
+    int prevLayer;
+
 protected:
     void wheelEvent(QWheelEvent *);
 
@@ -97,6 +103,9 @@ private slots:
     // m2: reset all slot counters to 0
     void resetCounters(bool);
     void resetCounters();
+
+    void gotoLayer(int);
+
 };
 
 #endif // MAINWINDOW_H

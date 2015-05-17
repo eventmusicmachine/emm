@@ -68,6 +68,16 @@ MainWindow::~MainWindow()
 void MainWindow::init() {
     ui->setupUi(this);
 
+    // m2: Point MainWindow::instance to correct location after initializing UI
+    this->instance = this;
+
+    // m2: Allocate and init all slot counters and pause info, init prevLayer (no layer)
+    numberOfSlots = getTotalNumberOfSlots();
+    playedCtr = (int*)calloc(numberOfSlots, sizeof(int));
+    pausedSlot = (int*)calloc(numberOfSlots, sizeof(int));
+    prevLayer = -1;
+
+    // m2: Disabled playlist
     //ui->menuWidget->addButton(ui->slotAction);
     //ui->menuWidget->addButton(ui->playlistAction);
     //connect(ui->menuWidget, SIGNAL(currentTabChanged(int)),ui->stackedWidget,SLOT(setCurrentIndex(int)));
@@ -224,12 +234,24 @@ void MainWindow::keyboardSignal(int key, int pressed)
             PlaylistPlayer::fadeOutAllPlayers();
         } else if (key<=(conf->getHorizontalSlots()*conf->getVerticalSlots())) {
             int key2 = key;
+            CartSlot *slot = AudioProcessor::getInstance()->getCartSlotWithNumber(key2);
             if (conf->getLayerKeyboardSync()) {
                 key2 += (conf->getHorizontalSlots()*conf->getVerticalSlots()*ui->layerSelector->getSelectedButton());
+                // m2: no need to jump back to previous layer (layer not changed)
+                prevLayer = -1;
             } else {
+                if (!slot->isPlaying()) {
+                    // m2: keep track of which layer was selected before jumping to layer 1
+                    prevLayer = ui->layerSelector->getSelectedButton() + 1;
+                    // if we are already on layer 1 we don't need to switch back to this layer
+                    if (prevLayer == 1)
+                        prevLayer = -1;
+                    //qDebug("Setting: %d", prevLayer);
+                }
                 ui->layerSelector->selectButtonAt(0);
             }
-            CartSlot *slot = AudioProcessor::getInstance()->getCartSlotWithNumber(key2);
+            // m2: moved up
+            //CartSlot *slot = AudioProcessor::getInstance()->getCartSlotWithNumber(key2);
             if (pauseModifier) {
                 slot->pause();
             } else {
@@ -286,13 +308,13 @@ void MainWindow::pauseSlots()
             // Resume title
             slot->pause();
             currInstance->pausedSlot[i] = 0;
-            qDebug("resumed %d", i);
+            //qDebug("resumed %d", i);
         }
         else if ( slot->isPlaying() && !slot->getPauseDisabled()) {
             // Pause title
             slot->pause();
             currInstance->pausedSlot[i] = 1;
-            qDebug("paused %d", i);
+            //qDebug("paused %d", i);
         }
     }
 }
@@ -410,21 +432,21 @@ void MainWindow::resetPause() {
             slot->stop();
             slot->stopped();
             currInstance->pausedSlot[i] = 0;
-            qDebug("stopped %d", i);
+            //qDebug("stopped %d", i);
         }
     }
+}
 
-    /*
-    int *tmp = NULL;
-    tmp = (int *) realloc((void*) currInstance->pausedSlot, currInstance->numberOfSlots * sizeof(int));
+// m2:
+void MainWindow::resetLayer() {
+    //qDebug("Restoring: %d", prevLayer);
+    if ( prevLayer > 0 )
+        gotoLayer(prevLayer);
+}
 
-    qDebug("numberOfSlots %d", currInstance->numberOfSlots);
-
-    if ( ! (tmp == NULL) ) {
-        currInstance->pausedSlot = tmp;
-        memset(currInstance->pausedSlot, 0, sizeof(*pausedSlot) * currInstance->numberOfSlots);
-    }
-    */
+// m2:
+void MainWindow::gotoLayer(int layer) {
+    this->ui->layerSelector->selectButtonAt(layer - 1);
 }
 
 // m2:

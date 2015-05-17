@@ -136,6 +136,26 @@ void CartSlotWidget::setColor(bool blink)
     t.setColor(QPalette::Foreground, QColor(fontColor));
     ui->text1Label->setPalette(t);
     ui->toPlayLabel->setPalette(t);
+
+    // m2: set colors of slot counter
+    ui->playedCounter->setStyleSheet("QLabel { background-color : " + color + "; color : " + fontColor + "; \
+                                        font: bold 11px; \
+                                        border-style: solid; \
+                                        border-width: 1px; \
+                                        border-radius: 4px; \
+                                        border-color: " + fontColor + "; \
+                                        padding-bottom: 1px; \
+                                    }");
+
+    // m2: also styling slot number to match (with colors fixed)
+    ui->editButton->setStyleSheet("QLabel { background-color : white; color : black; \
+                                    font: bold 11px; \
+                                    border-style: solid; \
+                                    border-width: 1px; \
+                                    border-radius: 4px; \
+                                    border-color: black; \
+                                    padding-bottom: 1px; \
+                                }");
 }
 
 void CartSlotWidget::editCartSlot()
@@ -144,7 +164,10 @@ void CartSlotWidget::editCartSlot()
     if (editDialog->exec()==1) {
         slot->fetchLength();
         showInfo();
-        this->stoppedPlaying();
+
+        // m2: set reallyStopped to false to avoid incrementing counter
+        // this->stoppedPlaying();
+        this->stoppedPlaying(false);
     }
 }
 
@@ -195,8 +218,11 @@ void CartSlotWidget::mousePressEvent(QMouseEvent *e)
             showInfo();
         }
     } else {
-        if (e->button() == Qt::LeftButton)
+        if (e->button() == Qt::LeftButton) {
+            // m2: Disable jumping back to previous layer if starting song with mouse
+            MainWindow::getInstance()->prevLayer = -1;
             slot->play();
+        }
         else
             editCartSlot();
     }
@@ -204,14 +230,26 @@ void CartSlotWidget::mousePressEvent(QMouseEvent *e)
 
 void CartSlotWidget::stoppedPlaying()
 {
+    stoppedPlaying(true);
+}
+
+void CartSlotWidget::stoppedPlaying(bool reallyStopped)
+{
     updateLength(slot->getLength());
     updatePosition(0);
     //ui->progressBar->setValue(ui->progressBar->maximum());
     this->setColor();
     ui->pauseButton->setVisible(false);
-    // Increase slot counter
-    MainWindow::getInstance()->increaseCounter(slot->getNumber() - 1);
-    updateSlotCounter(MainWindow::getInstance()->playedCtr[(slot->getNumber() - 1)]);
+
+    if (reallyStopped) {
+        // m2: increase slot counter
+        MainWindow::getInstance()->increaseCounter(slot->getNumber() - 1);
+        updateSlotCounter(MainWindow::getInstance()->playedCtr[(slot->getNumber() - 1)]);
+
+        // m2: change to previously selected layer (if keyboard controls layer 1 only)
+        if ( !(Configuration::getInstance()->getLayerKeyboardSync()) )
+                MainWindow::getInstance()->resetLayer();
+    }
 }
 
 // m2: this will be called when emitting signal pausedSignal
@@ -233,9 +271,12 @@ void CartSlotWidget::startedPlaying()
     MainWindow::getInstance()->resetPause();
 }
 
+// m2:
 void CartSlotWidget::updateSlotCounter(int newValue)
 {
-    ui->playedCounter->display(newValue);
+    // this when using a QLCDNumber instead of QLabel
+    // ui->playedCounter->display(newValue);
+    ui->playedCounter->setText(QString::number(newValue));
 }
 
 void CartSlotWidget::dragEnterEvent(QDragEnterEvent *e)

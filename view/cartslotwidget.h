@@ -63,6 +63,8 @@ protected:
 private slots:
     void editCartSlot();
     void stoppedPlaying();
+    // m2: Overload to escape stoppedPlaying called after editing slot
+    void stoppedPlaying(bool reallyStopped);
     void pauseSlot();
     void startedPlaying();
 
