@@ -50,6 +50,11 @@ ConfigurationDialog::ConfigurationDialog(QWidget *parent) :
     ui->slotTimeSpinBox->setValue(config->getSlotTimeSize());
     ui->pauseCheckBox->setChecked(config->getPauseButton());
 
+    // m2: remove this option for 2.2 (and set default to unchecked)
+    ui->pauseCheckBox->setVisible(false);
+    ui->pauseCheckBox->setChecked(false);
+    ui->label_9->setVisible(false);
+
     QTreeWidgetItem *layerItem = ui->menuTree->topLevelItem(1);
     for (int i=0;i<config->getLayer();i++) {
         QTreeWidgetItem *item = new QTreeWidgetItem();
