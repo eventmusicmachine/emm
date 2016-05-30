@@ -64,8 +64,9 @@ void CartSlotWidget::setNewNumber(int number, bool dis, int displayNumber)
     //ui->progressBar->setValue(100);
 
     //ui->pauseButton->setVisible(slot->isPlaying() || slot->isPaused());
-    // m2: also consider new checkbox disable pause
-    ui->pauseButton->setVisible( (slot->isPlaying() || slot->isPaused()) && !slot->getPauseDisabled() );
+    // m2: also consider new checkbox disable pause and "disable pause" checkbox in Settings
+    ui->pauseButton->setVisible( (slot->isPlaying() || slot->isPaused()) && !slot->getPauseDisabled() && Configuration::getInstance()->getPauseButton());
+   // Configuration::getInstance()->getPauseButton()
     connect(slot, SIGNAL(sendSongLength(double)), this, SLOT(updateLength(double)));
     connect(slot, SIGNAL(sendCurrentPosition(double)), this, SLOT(updatePosition(double)));
     connect(slot, SIGNAL(stopped()), this, SLOT(stoppedPlaying()));
