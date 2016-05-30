@@ -77,7 +77,23 @@ int main(int argc, char *argv[])
     KeyboardController *keyController = KeyboardController::getInstance();
     QObject::connect(keyController, SIGNAL(errorOccured(QString)), s, SLOT(showErrorMessage(QString)));
     QObject::connect(keyController, SIGNAL(keyPressed(int,int)), &w, SLOT(keyboardSignal(int,int)));
-    keyController->initializeKeyboardController();
+    //keyController->initializeKeyboardController();
+    bool retry = false;
+    do {
+        retry = false;
+        int keyErr = keyController->initializeKeyboardController();
+        if (keyErr == 1)
+            QMessageBox::information(s,QObject::tr("EMM"),QObject::tr("Der Treiber für die Preh-Tastatur ist nicht installiert. Die Steuerung durch die Preh-Tastatur wird deaktiviert."));
+        else if (keyErr == 2)
+            QMessageBox::warning(s,QObject::tr("EMM"),QObject::tr("Die Preh-Tastatur konnte nicht initialisiert werden. Die Steuerung durch die Preh-Tastatur wird deaktiviert."));
+        else if (keyErr == 3) {
+            //QMessageBox::warning(s,QObject::tr("EMM"),QObject::tr("Die Verbindung zur Preh-Tastatur konnte nicht hergestellt werden. Bitte vergewissern Sie sich, dass die Preh-Tastatur korrekt angeschlossen ist und starten Sie danach das Programm neu."));
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(s, QString::fromUtf8("Preh-Tastatur nicht gefunden"), "Es wurde keine Preh-Tastatur gefunden, soll nochmals gesucht werden?", QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::Yes)
+                retry = true;
+        }
+    } while (retry);
 
     s->showMessage("Audiogeräte initialisieren...");
 
