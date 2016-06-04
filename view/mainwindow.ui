@@ -150,13 +150,6 @@
            </widget>
           </item>
           <item>
-           <widget class="LayerSelector" name="layerSelector" native="true">
-            <property name="styleSheet">
-             <string notr="true">border:1px solid black;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QLabel" name="infoBox">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -179,6 +172,16 @@
             </property>
             <property name="text">
              <string>L1 00:00</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="LayerSelector" name="layerSelector" native="true">
+            <property name="styleSheet">
+             <string notr="true">border:1px solid black;</string>
             </property>
            </widget>
           </item>
