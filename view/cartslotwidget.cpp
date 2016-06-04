@@ -190,6 +190,10 @@ void CartSlotWidget::updatePosition(double pos)
     //ui->progressBar->setValue(length-pos);
     QString time = QString("%1:%2.%3").arg(mins2,2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2);
     ui->toPlayLabel->setText(time);
+    MainWindow::getInstance()->updateCurrSongLength(length);
+    //MainWindow::getInstance()->setInfoBox(time);
+    //MainWindow::getInstance()->playPosition = pos;
+
     if (secs2%2==0)
     {
         this->setColor(true);
@@ -250,6 +254,9 @@ void CartSlotWidget::stoppedPlaying(bool reallyStopped)
         // m2: change to previously selected layer (if keyboard controls layer 1 only)
         if ( !(Configuration::getInstance()->getLayerKeyboardSync()) )
                 MainWindow::getInstance()->resetLayer();
+
+        // m2: set position to length in infoBox (=> 0:00 shown)
+        MainWindow::getInstance()->updateCurrSongPosition(length);
     }
 }
 
@@ -270,6 +277,7 @@ void CartSlotWidget::startedPlaying()
 
     // m2: delete pause information (keyboard pause function)
     MainWindow::getInstance()->resetPause();
+    MainWindow::getInstance()->updateCurrSongLayer();
 }
 
 // m2:

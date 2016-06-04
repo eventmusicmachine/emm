@@ -66,6 +66,14 @@ public:
     // m2: layer that was shown before changing to layer 1 via keyboard
     int prevLayer;
 
+    // m2: set text to box right of layer bar
+    void setInfoBox(QString);
+
+    // m2: update song length/position while playing
+    void updateCurrSongLength(double);
+    void updateCurrSongPosition(double);
+    void updateCurrSongLayer();
+
 protected:
     void wheelEvent(QWheelEvent *);
 
@@ -80,6 +88,10 @@ private:
     static MainWindow* instance;
 
     SlotStoreDialog* ssdGlobal;
+
+    // m2: song being played now
+    double currSongLength;
+    int currSongLayer;
 
 private slots:
     void showConfigDialog();
@@ -99,6 +111,7 @@ private slots:
     void stopSlots();
     int getLayerFirstSlotId();
     int getLayerNumberOfSlots();
+    int getCurrentLayer();
 
     // m2: reset all slot counters to 0
     void resetCounters(bool);

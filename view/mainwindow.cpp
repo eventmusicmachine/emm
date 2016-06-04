@@ -113,6 +113,8 @@ void MainWindow::init() {
     connect(ui->pauseAllButton, SIGNAL(clicked()), this, SLOT(pauseSlots()));
     connect(ui->stopAllButton, SIGNAL(clicked()), this, SLOT(stopSlots()));
 
+    //connect(AudioProcessor::getInstance()->getCartSlotWithNumber(1), SIGNAL(sendCurrentPosition(double)), this, SLOT(updatePosition(double)));
+
     // m2: Slot-Store popup
     ssdGlobal = new SlotStoreDialog(this);
 
@@ -195,10 +197,12 @@ void MainWindow::keyboardSignal(int key, int pressed)
         //ui->lineEdit->setText(QString("Pressed key %1").arg(key, 0,'d',0));
         if ( key>=105 && key<=115) {
             int layer = key - 104;
-            ui->layerSelector->selectButtonAt(layer-1);
+            if (layer <= conf->getLayer())
+                ui->layerSelector->selectButtonAt(layer-1);
         } else if ( key>=117 && key<=120) {
             int layer = key - 105;
-            ui->layerSelector->selectButtonAt(layer-1);
+            if (layer <= conf->getLayer())
+                ui->layerSelector->selectButtonAt(layer-1);
         } else if (key==121) {
             // frei lassen Layer 16 wird nicht benötigt
         } else if (key==122) {
@@ -462,6 +466,12 @@ int MainWindow::getLayerFirstSlotId() {
 }
 
 // m2:
+int MainWindow::getCurrentLayer() {
+    // Layer number 1-based
+    return (ui->layerSelector->getSelectedButton() + 1);
+}
+
+// m2:
 int MainWindow::getLayerNumberOfSlots()
 {
     Configuration *conf = Configuration::getInstance();
@@ -530,3 +540,28 @@ void MainWindow::dropInstance()
     mutex.unlock();
 }
 
+void MainWindow::setInfoBox(QString text)
+{
+    ui->infoBox->setText(text);
+}
+
+void MainWindow::updateCurrSongPosition(double pos)
+{
+    //double length = 0;
+    double pos2 = (currSongLength - pos);
+    int mins2 = pos2/60;
+    int secs2 = floor(pos2-mins2*60);
+    int msecs2 = floor((pos2-mins2*60-secs2)*10);
+    QString time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(currSongLayer);
+    setInfoBox(time);
+}
+
+void MainWindow::updateCurrSongLength(double length)
+{
+    currSongLength = length;
+}
+
+void MainWindow::updateCurrSongLayer()
+{
+    currSongLayer = getCurrentLayer();
+}

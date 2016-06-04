@@ -24,6 +24,8 @@
 #include "model/audio/bassdevice.h"
 #include "model/keyboardcontroller.h"
 
+#include "view/mainwindow.h"
+
 AbstractAudioObject::AbstractAudioObject(int, QObject *parent) : QObject(parent)
 {
     playing = false;
@@ -211,6 +213,9 @@ void AbstractAudioObject::updatePosition()
     QWORD pos = BASS_ChannelGetPosition(stream,BASS_POS_BYTE);
     double pos2 = BASS_ChannelBytes2Seconds(stream,pos);
     emit sendCurrentPosition(pos2);
+    // m2: update position in main window (infoBox next to layer bar)
+    MainWindow::getInstance()->updateCurrSongPosition(pos2);
+
     if (BASS_ChannelGetPosition(stream,BASS_POS_BYTE)==BASS_ChannelGetLength(stream,BASS_POS_BYTE))
     {
         this->stop();
