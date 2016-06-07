@@ -241,6 +241,7 @@ void MainWindow::keyboardSignal(int key, int pressed)
             CartSlot *slot = AudioProcessor::getInstance()->getCartSlotWithNumber(key2);
             if (conf->getLayerKeyboardSync()) {
                 key2 += (conf->getHorizontalSlots()*conf->getVerticalSlots()*ui->layerSelector->getSelectedButton());
+                slot = AudioProcessor::getInstance()->getCartSlotWithNumber(key2);
                 // m2: no need to jump back to previous layer (layer not changed)
                 prevLayer = -1;
             } else {
