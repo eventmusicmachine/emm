@@ -210,11 +210,27 @@ QString AbstractAudioObject::getFontColor()
 
 void AbstractAudioObject::updatePosition()
 {
+    this->updatePosition(0, 0);
+}
+
+void AbstractAudioObject::updatePosition(int slotNo, int layerNo)
+{
     QWORD pos = BASS_ChannelGetPosition(stream,BASS_POS_BYTE);
     double pos2 = BASS_ChannelBytes2Seconds(stream,pos);
     emit sendCurrentPosition(pos2);
-    // m2: update position in main window (infoBox next to layer bar)
-    MainWindow::getInstance()->updateCurrSongPosition(pos2);
+
+    QWORD len = BASS_ChannelGetLength(stream, BASS_POS_BYTE);
+    double len2 = BASS_ChannelBytes2Seconds(stream, len);
+
+    double remTime = this->getTimeLeft();
+
+    MainWindow *win = MainWindow::getInstance();
+
+    int slotInBox = win->infoBoxGetLast();
+
+    if (slotNo == slotInBox)
+        // m2: update position in main window (infoBox next to layer bar)
+        win->updateCurrSongPosition(remTime, layerNo);
 
     if (BASS_ChannelGetPosition(stream,BASS_POS_BYTE)==BASS_ChannelGetLength(stream,BASS_POS_BYTE))
     {

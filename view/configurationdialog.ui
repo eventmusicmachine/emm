@@ -284,19 +284,25 @@
               <property name="bottomMargin">
                <number>0</number>
               </property>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_7">
+              <item row="1" column="0" colspan="3">
+               <widget class="QCheckBox" name="keyboardSyncCheckBox">
                 <property name="text">
-                 <string>Anzahl:</string>
+                 <string>Tastatur steuert immer aktuellen Layer</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QSpinBox" name="layerSpinBox">
-                <property name="minimum">
-                 <number>1</number>
+              <item row="4" column="0" colspan="3">
+               <spacer name="verticalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
                 </property>
-               </widget>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item row="0" column="2">
                <spacer name="horizontalSpacer_3">
@@ -311,25 +317,46 @@
                 </property>
                </spacer>
               </item>
-              <item row="1" column="0" colspan="3">
-               <widget class="QCheckBox" name="keyboardSyncCheckBox">
-                <property name="text">
-                 <string>Tastatur steuert immer aktuellen Layer</string>
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="layerSpinBox">
+                <property name="minimum">
+                 <number>1</number>
                 </property>
                </widget>
               </item>
-              <item row="2" column="0" colspan="3">
-               <spacer name="verticalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Anzahl:</string>
                 </property>
-                <property name="sizeHint" stdset="0">
+               </widget>
+              </item>
+              <item row="3" column="0" colspan="2">
+               <widget class="QComboBox" name="keyboardSyncComboBox">
+                <property name="minimumSize">
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>250</width>
+                  <height>0</height>
                  </size>
                 </property>
-               </spacer>
+                <item>
+                 <property name="text">
+                  <string>Tastatur steuert immer aktuellen Layer</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Tastatur steuert nur Layer 1</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>Preh-Tastatur:</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>

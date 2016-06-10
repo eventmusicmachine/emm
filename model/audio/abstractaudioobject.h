@@ -87,6 +87,7 @@ protected slots:
     virtual void readData()=0;
     virtual void saveData()=0;
     virtual void updatePosition();
+    virtual void updatePosition(int, int);
 
 };
 

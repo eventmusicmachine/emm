@@ -69,10 +69,11 @@ public:
     // m2: set text to box right of layer bar
     void setInfoBox(QString);
 
-    // m2: update song length/position while playing
-    void updateCurrSongLength(double);
-    void updateCurrSongPosition(double);
-    void updateCurrSongLayer();
+    // m2: methods for RLA
+    void updateCurrSongPosition(double, int);
+    void infoBoxAddToQueue(int);
+    void infoBoxRemoveFromQueue(int);
+    int infoBoxGetLast();
 
 protected:
     void wheelEvent(QWheelEvent *);
@@ -89,9 +90,8 @@ private:
 
     SlotStoreDialog* ssdGlobal;
 
-    // m2: song being played now
-    double currSongLength;
-    int currSongLayer;
+    // m2: managing RLA
+    QList<int> infoBoxQueue;
 
 private slots:
     void showConfigDialog();

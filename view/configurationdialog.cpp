@@ -40,7 +40,13 @@ ConfigurationDialog::ConfigurationDialog(QWidget *parent) :
     ui->playlistFadeSpinBox->setValue(config->getPlaylistFade());
     ui->slotFadeSpinBox->setValue(config->getSlotFade());
     ui->bufferSpinBox->setValue(config->getSlotBuffer());
-    ui->keyboardSyncCheckBox->setChecked(config->getLayerKeyboardSync());
+    // m2: replace checkbox with combobox, same function
+    ui->keyboardSyncCheckBox->setVisible(false);
+    //ui->keyboardSyncCheckBox->setChecked(config->getLayerKeyboardSync());
+    if (config->getLayerKeyboardSync())
+        ui->keyboardSyncComboBox->setCurrentIndex(0);
+    else
+        ui->keyboardSyncComboBox->setCurrentIndex(1);
     ui->playlistFadePosSpinBox->setValue(config->getPlaylistFPos());
     ui->layerSpinBox->setValue(config->getLayer());
     ui->deviceSelectWidget->setNewTitel(tr("PFL"));
@@ -87,7 +93,8 @@ void ConfigurationDialog::saveAndClose()
     config->setPlayer(ui->playerSpinBox->value());
     config->setPlaylistFade(ui->playlistFadeSpinBox->value());
     config->setSlotFade(ui->slotFadeSpinBox->value());
-    config->setLayerKeyboardSync(ui->keyboardSyncCheckBox->isChecked());
+    //config->setLayerKeyboardSync(ui->keyboardSyncCheckBox->isChecked());
+    config->setLayerKeyboardSync(ui->keyboardSyncComboBox->currentIndex() == 0);
     config->setPlaylistFPos(ui->playlistFadePosSpinBox->value());
     config->setLayer(ui->layerSpinBox->value());
     config->setPFLDevice(ui->deviceSelectWidget->getDevice());

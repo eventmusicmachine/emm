@@ -253,7 +253,8 @@ void MainWindow::keyboardSignal(int key, int pressed)
                         prevLayer = -1;
                     //qDebug("Setting: %d", prevLayer);
                 }
-                ui->layerSelector->selectButtonAt(0);
+                // m2: v2.3 do not jump to layer 1 anymore
+                //ui->layerSelector->selectButtonAt(0);
             }
             // m2: moved up
             //CartSlot *slot = AudioProcessor::getInstance()->getCartSlotWithNumber(key2);
@@ -494,9 +495,6 @@ int MainWindow::getTotalNumberOfSlots()
 // m2: Function to increase counter
 void MainWindow::increaseCounter(int counterNo)
 {
-    //qDebug("counterNo = %d", counterNo);
-    //qDebug("playedCtr[] = %d", playedCtr[counterNo]);
-    //qDebug("Instance: %d", instance);
     playedCtr[counterNo]++;
 }
 
@@ -546,23 +544,32 @@ void MainWindow::setInfoBox(QString text)
     ui->infoBox->setText(text);
 }
 
-void MainWindow::updateCurrSongPosition(double pos)
-{
-    //double length = 0;
-    double pos2 = (currSongLength - pos);
+// m2: updates the RLA (pos2 is the time left in song)
+void MainWindow::updateCurrSongPosition(double pos2, int layerNo)
+{    
     int mins2 = pos2/60;
     int secs2 = floor(pos2-mins2*60);
     int msecs2 = floor((pos2-mins2*60-secs2)*10);
-    QString time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(currSongLayer);
+    QString time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(layerNo);//.arg(currSongLayer);
     setInfoBox(time);
 }
 
-void MainWindow::updateCurrSongLength(double length)
+// m2: add/remove/get info about song to be in the RLA
+void MainWindow::infoBoxAddToQueue(int slotNo)
 {
-    currSongLength = length;
+    // add to array infoBoxQueue
+    infoBoxQueue.append(slotNo);
 }
 
-void MainWindow::updateCurrSongLayer()
+void MainWindow::infoBoxRemoveFromQueue(int slotNo)
 {
-    currSongLayer = getCurrentLayer();
+    // remove from array infoBoxQueue
+    //infoBoxQueue.removeOne(slotNo);
+    infoBoxQueue.removeAll(slotNo);
+}
+
+int MainWindow::infoBoxGetLast()
+{
+    // get last item added to the list
+    return infoBoxQueue.last();
 }

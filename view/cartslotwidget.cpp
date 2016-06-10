@@ -190,9 +190,6 @@ void CartSlotWidget::updatePosition(double pos)
     //ui->progressBar->setValue(length-pos);
     QString time = QString("%1:%2.%3").arg(mins2,2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2);
     ui->toPlayLabel->setText(time);
-    MainWindow::getInstance()->updateCurrSongLength(length);
-    //MainWindow::getInstance()->setInfoBox(time);
-    //MainWindow::getInstance()->playPosition = pos;
 
     if (secs2%2==0)
     {
@@ -252,11 +249,13 @@ void CartSlotWidget::stoppedPlaying(bool reallyStopped)
         updateSlotCounter(MainWindow::getInstance()->playedCtr[(slot->getNumber() - 1)]);
 
         // m2: change to previously selected layer (if keyboard controls layer 1 only)
-        if ( !(Configuration::getInstance()->getLayerKeyboardSync()) )
-                MainWindow::getInstance()->resetLayer();
+        // v2.3: disabled because now we don't change to layer 1 on hotkey press
+        //if ( !(Configuration::getInstance()->getLayerKeyboardSync()) )
+        //        MainWindow::getInstance()->resetLayer();
 
-        // m2: set position to length in infoBox (=> 0:00 shown)
-        MainWindow::getInstance()->updateCurrSongPosition(length);
+        // m2: set position/layer to 0 and remove song from queue
+        MainWindow::getInstance()->updateCurrSongPosition(0, 0);
+        MainWindow::getInstance()->infoBoxRemoveFromQueue(this->slotNumber);
     }
 }
 
@@ -277,7 +276,6 @@ void CartSlotWidget::startedPlaying()
 
     // m2: delete pause information (keyboard pause function)
     MainWindow::getInstance()->resetPause();
-    MainWindow::getInstance()->updateCurrSongLayer();
 }
 
 // m2:
