@@ -552,6 +552,11 @@ void MainWindow::updateCurrSongPosition(double pos2, int layerNo)
     int msecs2 = floor((pos2-mins2*60-secs2)*10);
     QString time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(layerNo);//.arg(currSongLayer);
     setInfoBox(time);
+
+    if (infoBoxQueue.length() > 1)
+        ui->infoBox->setStyleSheet("QLabel { color : red; }");
+    else
+        ui->infoBox->setStyleSheet("QLabel { color : black; }");
 }
 
 // m2: add/remove/get info about song to be in the RLA
