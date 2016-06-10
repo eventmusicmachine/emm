@@ -82,14 +82,14 @@ QVariant SlotTableModel::headerData(int section, Qt::Orientation orientation, in
         switch (section)
         {
         case 0: return "ID";
-        case 1: return "Name";
-        case 2: return "Datei";
+        case 3: return "Name";
+        case 5: return "Datei";
         // m2: changed labels
-        case 3: return "HF";
-        case 4: return "SF";
+        case 1: return "HF";
+        case 2: return "SF";
         //case 3: return "Farbe";
         //case 4: return "Textfarbe";
-        case 5: return "SlotID";
+        case 4: return "SlotID";
         }
     }
     return QVariant();
