@@ -96,6 +96,8 @@ EditCartSlotDialog::EditCartSlotDialog(int slotNumber,bool db, QWidget *parent) 
     connect(ui->loadSlotButton, SIGNAL(clicked()), this, SLOT(loadFromDB()));
     connect(ui->setStartPointButton, SIGNAL(clicked()), this, SLOT(setCurrentPosAsStartPos()));
     connect(ui->setStopPointButton, SIGNAL(clicked()), this, SLOT(setCurrentPosAsStopPos()));
+
+
 }
 
 EditCartSlotDialog::~EditCartSlotDialog()
@@ -118,6 +120,11 @@ void EditCartSlotDialog::loadData(CartSlot *slot, bool db)
         ui->deviceSelectWidget->selectDevice(slot->getType(),slot->getDeviceID(),slot->getChannel());
     setColor(slot->getColor());
     setFontColor(slot->getFontColor());
+
+    // m2: set SF to black if slot empty
+    if (slot->getFileName().isEmpty())
+        setFontColor("#000000");
+
     ui->letFadeCheckBox->setChecked(slot->getLetFade());
     ui->fadeOutCheckBox->setChecked(slot->getFadeOut());
     ui->disablePause->setChecked(slot->getPauseDisabled());
@@ -217,6 +224,7 @@ void EditCartSlotDialog::setColor(QString color)
     QString colorCode=GlobalData::getColorCode(color);
     ui->colorLabel->setStyleSheet("border:1px solid #000000; background-color: "+colorCode);
     this->color = colorCode;
+    //qDebug("Color code: " + colorCode);
 }
 
 void EditCartSlotDialog::setFontColor(QString color)

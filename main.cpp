@@ -44,6 +44,9 @@ int main(int argc, char *argv[])
     s->show();
     s->showMessage("Event Music Machine starten...");
 
+    // Make sure splash is drawn
+    a.processEvents();
+
     QString path = Configuration::getStorageLocation();
     if (path == "") {
         QFileDialog dia(s);

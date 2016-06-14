@@ -130,12 +130,24 @@ void AbstractAudioObject::play()
 
 void AbstractAudioObject::stop()
 {
+    this->stop(currSlotNo);
+}
+
+void AbstractAudioObject::stop(int slotNo)
+{
     if (!playing)
         return;
     KeyboardController::reducePlayerCount();
     BASS_ChannelStop(stream);
     BASS_Mixer_ChannelFlags(stream, BASS_MIXER_PAUSE, BASS_MIXER_PAUSE);
     playing = false;
+
+    // m2: set pos to 0 every time / if slot still running will be overwritten
+    if (slotNo > 0) {
+        MainWindow::getInstance()->infoBoxRemoveFromQueue(slotNo);
+    }
+    MainWindow::getInstance()->updateCurrSongPosition(0, 0);
+
     emit stopped();
     timer->stop();
     unloadStream();
@@ -182,8 +194,16 @@ void AbstractAudioObject::unloadStream()
     BASS_StreamFree(stream);
 }
 
+// m2
 void AbstractAudioObject::fadeOut(int ms)
 {
+    this->fadeOut(ms, currSlotNo);
+}
+
+void AbstractAudioObject::fadeOut(int ms, int slotNo)
+{
+    currSlotNo = slotNo;
+
     BASS_ChannelSlideAttribute(stream, BASS_ATTRIB_VOL, -1, ms);
     QTimer *test = new QTimer(this);
     test->singleShot(ms,this,SLOT(stop()));
@@ -215,13 +235,11 @@ void AbstractAudioObject::updatePosition()
 
 void AbstractAudioObject::updatePosition(int slotNo, int layerNo)
 {
+    currSlotNo = slotNo;
+
     QWORD pos = BASS_ChannelGetPosition(stream,BASS_POS_BYTE);
     double pos2 = BASS_ChannelBytes2Seconds(stream,pos);
     emit sendCurrentPosition(pos2);
-
-    QWORD len = BASS_ChannelGetLength(stream, BASS_POS_BYTE);
-    double len2 = BASS_ChannelBytes2Seconds(stream, len);
-
     double remTime = this->getTimeLeft();
 
     MainWindow *win = MainWindow::getInstance();
@@ -234,7 +252,7 @@ void AbstractAudioObject::updatePosition(int slotNo, int layerNo)
 
     if (BASS_ChannelGetPosition(stream,BASS_POS_BYTE)==BASS_ChannelGetLength(stream,BASS_POS_BYTE))
     {
-        this->stop();
+        this->stop(slotNo);
         //return 0;
     }
 }

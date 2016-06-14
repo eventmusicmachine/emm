@@ -41,6 +41,7 @@ void ClearLayerThread::run() {
             CartSlot *slot = CartSlot::getObjectWithNumber(number);
             slot->clearColor();
             slot->empty();
+            slot->setColorsAndSave("white", "white");
             number++;
             emit updateStatus(number-minus);
         }

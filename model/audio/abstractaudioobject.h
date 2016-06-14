@@ -39,6 +39,7 @@ public:
     bool isPlaying();
     bool isPaused();
     void fadeOut(int ms);
+    void fadeOut(int ms, int slotNo);
     void fadeOutPause(int ms);
     bool isMissing();
     double getTimeLeft();
@@ -69,6 +70,9 @@ protected:
     void initDevice();
     static double DBToLevel(double db);
 
+private:
+    int currSlotNo;
+
 signals:
     void sendSongLength(double length);
     void sendCurrentPosition(double pos);
@@ -80,6 +84,7 @@ signals:
 public slots:
     virtual void play();
     virtual void stop();
+    virtual void stop(int);
     // m2: redeclared as slot to call it asynchronously
     void pause();
 

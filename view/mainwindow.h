@@ -75,6 +75,8 @@ public:
     void infoBoxRemoveFromQueue(int);
     int infoBoxGetLast();
 
+    bool isSlotShown(int);
+
 protected:
     void wheelEvent(QWheelEvent *);
 
@@ -112,6 +114,7 @@ private slots:
     int getLayerFirstSlotId();
     int getLayerNumberOfSlots();
     int getCurrentLayer();
+    int getSlotLayer(int);
 
     // m2: reset all slot counters to 0
     void resetCounters(bool);

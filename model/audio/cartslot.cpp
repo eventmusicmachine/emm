@@ -15,6 +15,7 @@
  * along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
  * ************************************************************************* */
 
+#include <QDebug>
 #include <QSettings>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -65,11 +66,7 @@ void CartSlot::play()
         this->cartStop();
     else
     {
-        // m2: Send title to RLA?
-        // Slot stoppable? (check haken)
-        // wenn ja (normaler Titel) --> in die RLA
-        // wenn nicht
-
+        // m2: add to RLA
         MainWindow::getInstance()->infoBoxAddToQueue(this->getNumber());
 
         this->loadStream(db);
@@ -94,12 +91,11 @@ void CartSlot::cartStop()
 {
     int fadeMs = Configuration::getInstance()->getSlotFade();
     if (this->fadeOutFlag)
-        AbstractAudioObject::fadeOut(fadeMs);
+        AbstractAudioObject::fadeOut(fadeMs, this->getNumber());
     else
-        AbstractAudioObject::stop();
+        AbstractAudioObject::stop(this->getNumber());
 
-    // crashed...
-    //MainWindow::getInstance()->infoBoxRemoveFromQueue(this->getNumber());
+    //qDebug() << QString("Stopped slot: %1").arg(this->getNumber());
 }
 
 // m2: overwriting parent method to add fading

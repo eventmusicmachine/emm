@@ -254,6 +254,8 @@ void CartSlotWidget::stoppedPlaying(bool reallyStopped)
         //        MainWindow::getInstance()->resetLayer();
 
         // m2: set position/layer to 0 and remove song from queue
+        //     also method stop in AbstractAudioObject does the same,
+        //     because this here is not called when slot layer is not shown
         MainWindow::getInstance()->updateCurrSongPosition(0, 0);
         MainWindow::getInstance()->infoBoxRemoveFromQueue(this->slotNumber);
     }

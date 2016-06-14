@@ -45,12 +45,13 @@ QVariant SlotTableModel::data(const QModelIndex &index, int role) const
         CartSlot* s = slot.at(row);
         switch (index.column())
         {
+        // m2: changed order
         case 0: return s->getNumber();
-        case 1: return s->getText1();
-        case 2: return s->getFileName();
-        case 3: return s->getColor();
-        case 4: return s->getFontColor();
-        case 5: {
+        case 3: return s->getText1();
+        case 5: return s->getFileName();
+        case 1: return s->getColor();
+        case 2: return s->getFontColor();
+        case 4: {
             int usedId = CartSlot::isUsed(s->getFileName());
             if (usedId == -1) {
                 return "X";
@@ -61,13 +62,15 @@ QVariant SlotTableModel::data(const QModelIndex &index, int role) const
     }
     else if (role == Qt::BackgroundRole || role == Qt::ForegroundRole)
     {
-        if (index.column() > 2)
+        // m2: changed order
+        //if (index.column() > 2)
+        if ( index.column() == 1 || index.column() == 2 )
         {
             CartSlot* s = slot.at(index.row());
             switch (index.column())
             {
-            case 3: return QColor(s->getColor());
-            case 4: return QColor(s->getFontColor());
+            case 1: return QColor(s->getColor());
+            case 2: return QColor(s->getFontColor());
             }
         }
 
@@ -81,6 +84,7 @@ QVariant SlotTableModel::headerData(int section, Qt::Orientation orientation, in
     {
         switch (section)
         {
+        // m2: changed order
         case 0: return "ID";
         case 3: return "Name";
         case 5: return "Datei";

@@ -15,6 +15,7 @@
  * along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
  * ************************************************************************* */
 
+#include <QDebug>
 #include <QFileDialog>
 #include <QFileSystemModel>
 #include <QMessageBox>
@@ -329,6 +330,9 @@ void MainWindow::pauseSlots()
 void MainWindow::stopSlots()
 {
     CartSlot::fadeOutAllSlots(NULL,true);
+
+    // Clear RLA queue on stop all (normally redundant)
+    //this->infoBoxQueue.clear();
 }
 
 void MainWindow::wheelEvent(QWheelEvent *e)
@@ -435,7 +439,7 @@ void MainWindow::resetPause() {
         slot = AudioProcessor::getInstance()->getCartSlotWithNumber(i);
 
         if (currInstance->pausedSlot[i] > 0) {
-            slot->stop();
+            slot->stop(slot->getNumber());
             slot->stopped();
             currInstance->pausedSlot[i] = 0;
             //qDebug("stopped %d", i);
@@ -471,6 +475,18 @@ int MainWindow::getLayerFirstSlotId() {
 int MainWindow::getCurrentLayer() {
     // Layer number 1-based
     return (ui->layerSelector->getSelectedButton() + 1);
+}
+
+// m2:
+int MainWindow::getSlotLayer(int slotNo) {
+    // Layer number 1-based
+    //qDebug() << QString("Slot is in layer: %1").arg((int)(slotNo / this->getLayerNumberOfSlots()) + 1);
+    return ((int)(slotNo / this->getLayerNumberOfSlots()) + 1);
+}
+
+// m2:
+bool MainWindow::isSlotShown(int slotNo) {
+    return (this->getSlotLayer(slotNo) == this->getCurrentLayer());
 }
 
 // m2:
@@ -550,10 +566,11 @@ void MainWindow::updateCurrSongPosition(double pos2, int layerNo)
     int mins2 = pos2/60;
     int secs2 = floor(pos2-mins2*60);
     int msecs2 = floor((pos2-mins2*60-secs2)*10);
-    QString time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(layerNo);//.arg(currSongLayer);
+    QString time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(layerNo);//.arg(infoBoxQueue.size());
     setInfoBox(time);
+    //qDebug("" + QString("%1").arg(infoBoxQueue));
 
-    if (infoBoxQueue.length() > 1)
+    if (infoBoxQueue.size() > 1)
         ui->infoBox->setStyleSheet("QLabel { color : red; }");
     else
         ui->infoBox->setStyleSheet("QLabel { color : black; }");
@@ -564,17 +581,28 @@ void MainWindow::infoBoxAddToQueue(int slotNo)
 {
     // add to array infoBoxQueue
     infoBoxQueue.append(slotNo);
+    //qDebug() << QString("Added: %1").arg(slotNo);
+    //qDebug() << QString("Queue size: %1").arg(infoBoxQueue.size());
 }
 
 void MainWindow::infoBoxRemoveFromQueue(int slotNo)
 {
     // remove from array infoBoxQueue
-    //infoBoxQueue.removeOne(slotNo);
-    infoBoxQueue.removeAll(slotNo);
+    if ( !(infoBoxQueue.isEmpty()) && infoBoxQueue.contains(slotNo) ) {
+        //for (int i = 0; i < infoBoxQueue.size(); i++)
+            //qDebug() << QString("Queue[%1]: %2").arg(i).arg(infoBoxQueue.at(i));
+
+        infoBoxQueue.removeAll(slotNo);
+        //qDebug() << QString("Removed: %1").arg(slotNo);
+    }
+    //qDebug() << QString("Queue size: %1").arg(infoBoxQueue.size());
 }
 
 int MainWindow::infoBoxGetLast()
 {
     // get last item added to the list
-    return infoBoxQueue.last();
+    if ( !(infoBoxQueue.isEmpty()) )
+        return infoBoxQueue.last();
+    else
+        return -1;
 }

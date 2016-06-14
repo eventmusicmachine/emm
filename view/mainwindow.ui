@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Event Music Machine 2.2</string>
+   <string>Event Music Machine 2.3</string>
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
@@ -171,7 +171,7 @@
              </font>
             </property>
             <property name="text">
-             <string>L1 00:00</string>
+             <string>L0 00:00.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
