@@ -40,6 +40,17 @@ TFControlBar::TFControlBar(QWidget *parent) :
     removeButton->setIconSize(QSize(20,20));
     removeButton->setIcon(QIcon(":/icons/delete.png"));
 
+    // m2: Vorhör-Funktion im Slotspeicher
+    playButton = new QPushButton(this);
+    playButton->setFixedSize(30,30);
+    playButton->setIconSize(QSize(20,20));
+    playButton->setIcon(QIcon(":/icons/control_play_blue.png"));
+
+    stopButton = new QPushButton(this);
+    stopButton->setFixedSize(30,30);
+    stopButton->setIconSize(QSize(20,20));
+    stopButton->setIcon(QIcon(":/icons/control_stop_blue.png"));
+
     spacer = new QSpacerItem(0,0,QSizePolicy::Expanding);
 
     mainLayout = new QHBoxLayout(this);
@@ -48,6 +59,8 @@ TFControlBar::TFControlBar(QWidget *parent) :
     mainLayout->addWidget(addButton);
     mainLayout->addWidget(editButton);
     mainLayout->addWidget(removeButton);
+    mainLayout->addWidget(playButton);
+    mainLayout->addWidget(stopButton);
     mainLayout->addSpacerItem(spacer);
 
     setLayout(mainLayout);
@@ -57,6 +70,8 @@ TFControlBar::TFControlBar(QWidget *parent) :
     connect(addButton, SIGNAL(clicked()), this, SLOT(progessAdd()));
     connect(editButton,SIGNAL(clicked()),this,SLOT(progressEdit()));
     connect(removeButton,SIGNAL(clicked()), this, SLOT(progessRemove()));
+    connect(playButton,SIGNAL(clicked()), this, SLOT(processPlay()));
+    connect(stopButton,SIGNAL(clicked()), this, SLOT(processStop()));
 
     setStyleSheet(" \
            QWidget#controlBar { \
@@ -98,4 +113,14 @@ void TFControlBar::progressEdit()
 void TFControlBar::progessRemove()
 {
     emit removeClicked();
+}
+
+void TFControlBar::processPlay()
+{
+    emit playClicked();
+}
+
+void TFControlBar::processStop()
+{
+    emit stopClicked();
 }

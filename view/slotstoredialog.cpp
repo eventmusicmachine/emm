@@ -15,6 +15,7 @@
  * along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
  * ************************************************************************* */
 
+#include <QDebug>
 #include <QFile>
 #include <QMessageBox>
 #include <QSortFilterProxyModel>
@@ -23,10 +24,19 @@
 #include "slotstoredialog.h"
 #include "ui_slotstoredialog.h"
 
+#include "model/audio/audioprocessor.h"
+#include "model/audio/bassasiodevice.h"
+#include "model/audio/bassdevice.h"
+#include "model/audio/cartslot.h"
+#include "model/audio/pflplayer.h"
+
 SlotStoreDialog::SlotStoreDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SlotStoreDialog)
 {
+
+    player = AudioProcessor::getInstance()->getPFLPlayer();
+
     ui->setupUi(this);
     this->setWindowFlags(Qt::Tool);
     model = new SlotTableModel();
@@ -46,7 +56,13 @@ SlotStoreDialog::SlotStoreDialog(QWidget *parent) :
     connect(ui->controlBar, SIGNAL(addClicked()), this, SLOT(addSlot()));
     connect(ui->controlBar, SIGNAL(editClicked()), this, SLOT(editSlot()));
     connect(ui->controlBar, SIGNAL(removeClicked()), this, SLOT(removeSlot()));
+    connect(ui->controlBar, SIGNAL(playClicked()), this, SLOT(playSlot()));
+    connect(ui->controlBar, SIGNAL(stopClicked()), this, SLOT(stopSlot()));
+    //connect(ui->controlBar, SIGNAL(playClicked()), player, SLOT(play()));
+    //connect(ui->controlBar, SIGNAL(stopClicked()), player, SLOT(stop()));
     connect(ui->storeTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editSlot(QModelIndex)));
+
+
 }
 
 SlotStoreDialog::~SlotStoreDialog()
@@ -93,4 +109,50 @@ void SlotStoreDialog::removeSlot()
     int id = model->data(index,Qt::DisplayRole).toInt();
     model->removeWithId(id);
     model->loadData();
+}
+
+// m2: Play title currently selected
+void SlotStoreDialog::playSlot()
+{
+    // Get ID field (0) of selected row
+    QModelIndex index = sortModel->index(ui->storeTable->currentIndex().row(), 0);
+
+    // Get SlotID field (4) of selected row
+    QModelIndex indexSlotID = sortModel->index(ui->storeTable->currentIndex().row(), 4);
+
+    // Get Filename field (5) of selected row
+    QModelIndex indexFilename = sortModel->index(ui->storeTable->currentIndex().row(), 5);
+
+    if (!index.isValid())
+        return;
+
+    index = sortModel->mapToSource(index);
+    int id = model->data(index, Qt::DisplayRole).toInt();
+
+    QString filename = model->data(indexFilename, Qt::DisplayRole).toString();
+
+    // If SlotID = "X" => id = 0
+
+    qDebug() << QString("Selected slot: %1").arg(id);
+
+
+    id = ui->storeTable->currentIndex().row();
+    model->playWithId(id);
+
+    //player->setFilename(filename);
+    //player->analyse();
+    //player->setDB(ui->volSpinBox->value());
+    //visualWidget->updateVolume(ui->volSpinBox->value());
+    //player->play();
+    //player->stop();
+
+    //model->loadData();
+}
+
+
+// m2: Stop title currently selected
+void SlotStoreDialog::stopSlot()
+{
+    int id = ui->storeTable->currentIndex().row();
+    model->stopWithId(id);
 }

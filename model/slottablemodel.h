@@ -29,6 +29,8 @@ public:
     explicit SlotTableModel(QObject *parent = 0);
     void loadData();
     void removeWithId(int id);
+    void playWithId(int id);
+    void stopWithId(int id);
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QMimeData* mimeData(const QModelIndexList &indexes) const;
     int rowCount(const QModelIndex &parent) const;

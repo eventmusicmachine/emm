@@ -143,3 +143,17 @@ void SlotTableModel::removeWithId(int id)
     query.bindValue(0,id);
     query.exec();
 }
+
+void SlotTableModel::playWithId(int id)
+{
+    CartSlot* s = slot.at(id);
+
+    s->play();
+}
+
+void SlotTableModel::stopWithId(int id)
+{
+    CartSlot* s = slot.at(id);
+
+    s->stop();
+}

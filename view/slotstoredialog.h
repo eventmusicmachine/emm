@@ -27,6 +27,7 @@ namespace Ui {
 
 class SlotTableModel;
 class QSortFilterProxyModel;
+class PFLPlayer;
 
 class SlotStoreDialog : public QDialog
 {
@@ -40,12 +41,15 @@ private:
     Ui::SlotStoreDialog *ui;
     SlotTableModel *model;
     QSortFilterProxyModel *sortModel;
+    PFLPlayer* player;
 
 private slots:
     void addSlot();
     void editSlot();
     void editSlot(QModelIndex);
     void removeSlot();
+    void playSlot();
+    void stopSlot();
 };
 
 #endif // SLOTSTOREDIALOG_H
