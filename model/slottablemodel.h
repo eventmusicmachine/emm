@@ -21,6 +21,7 @@
 #include <QAbstractTableModel>
 
 class CartSlot;
+class PFLPlayer;
 
 class SlotTableModel : public QAbstractTableModel
 {
@@ -41,6 +42,9 @@ public:
 
 private:
     QList<CartSlot*> slot;
+
+    // m2
+    PFLPlayer* player;
 
 signals:
 

@@ -85,6 +85,14 @@ void PFLPlayer::playCue(QTime time,bool end) {
     BASS_ChannelSetPosition(stream,BASS_ChannelSeconds2Bytes(stream,startPos),BASS_POS_BYTE);
 }
 
+// m2:
+void PFLPlayer::playCue(double startPos, bool end) {
+    this->play();
+    if (end)
+        startPos = BASS_ChannelBytes2Seconds(stream,BASS_ChannelGetLength(stream,BASS_POS_BYTE)) - startPos;
+    BASS_ChannelSetPosition(stream,BASS_ChannelSeconds2Bytes(stream,startPos),BASS_POS_BYTE);
+}
+
 void PFLPlayer::setPosition(double pos) {
     if (!this->playing)
         return;

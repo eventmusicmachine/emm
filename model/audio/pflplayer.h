@@ -52,6 +52,8 @@ public slots:
     void play();
     void setDB(double db);
     void playCue(QTime,bool end=false);
+    // m2: provide double directly instead of converting
+    void playCue(double, bool end=false);
     void setPosition(double pos);
 
 private slots:

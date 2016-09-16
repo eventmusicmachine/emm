@@ -22,9 +22,14 @@
 #include "model/audio/cartslot.h"
 #include "slottablemodel.h"
 
+#include "model/audio/audioprocessor.h"
+#include "model/audio/pflplayer.h"
+
 SlotTableModel::SlotTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
+    // m2: Init player to be used to play preview
+    player = AudioProcessor::getInstance()->getPFLPlayer();
 }
 
 int SlotTableModel::rowCount(const QModelIndex &parent) const
@@ -128,7 +133,9 @@ void SlotTableModel::loadData()
     QList<CartSlot*> slotList;
     while (query.next())
     {
+        //int jj = query.value(0).toInt();
         CartSlot* s = CartSlot::getObjectWithNumber(query.value(0).toInt(),true);
+        //CartSlot* s2 = AudioProcessor::getInstance()->getCartSlotWithNumber(query.value(0).toInt());
         slotList.append(s);
     }
     slot = slotList;
@@ -147,13 +154,14 @@ void SlotTableModel::removeWithId(int id)
 void SlotTableModel::playWithId(int id)
 {
     CartSlot* s = slot.at(id);
-
-    s->play();
+    // m2: get start position and play preview from there
+    player->setFilename(s->getFileName());
+    player->analyse();
+    player->playCue(s->getStartPos());
 }
 
 void SlotTableModel::stopWithId(int id)
 {
-    CartSlot* s = slot.at(id);
-
-    s->stop();
+    // m2: id is not used right now, leaving it for future use
+    player->stop();
 }
