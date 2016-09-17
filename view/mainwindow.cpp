@@ -79,10 +79,10 @@ void MainWindow::init() {
     prevLayer = -1;
 
     // m2: Disabled playlist
-    //ui->menuWidget->addButton(ui->slotAction);
-    //ui->menuWidget->addButton(ui->playlistAction);
-    //connect(ui->menuWidget, SIGNAL(currentTabChanged(int)),ui->stackedWidget,SLOT(setCurrentIndex(int)));
-    //ui->menuWidget->selectFirstButton();
+//    ui->menuWidget->addButton(ui->slotAction);
+//    ui->menuWidget->addButton(ui->playlistAction);
+//    connect(ui->menuWidget, SIGNAL(currentTabChanged(int)),ui->stackedWidget,SLOT(setCurrentIndex(int)));
+//    ui->menuWidget->selectFirstButton();
 
     createPlayers();
 
@@ -205,7 +205,11 @@ void MainWindow::keyboardSignal(int key, int pressed)
             if (layer <= conf->getLayer())
                 ui->layerSelector->selectButtonAt(layer-1);
         } else if (key==121) {
-            // frei lassen Layer 16 wird nicht benötigt
+            // Switch to Playlist
+            if (ui->stackedWidget->currentIndex() == 0)
+                ui->stackedWidget->setCurrentIndex(1);
+            else
+                ui->stackedWidget->setCurrentIndex(0);
         } else if (key==122) {
             // Layer up
             int layer = ui->layerSelector->getSelectedButton();
@@ -228,12 +232,13 @@ void MainWindow::keyboardSignal(int key, int pressed)
             pauseSlots();
 
             //ui->autoPlayCheckBox->setChecked(!ui->autoPlayCheckBox->isChecked());
-        } else if (key==126) {
-            // frei
-            // Playlist::getInstance()->fadeNext();
         } else if (key==127) {
             // frei
+            Playlist::getInstance()->fadeNext();
+        } else if (key==126) {
+            // frei
             // this->pauseModifier = true;
+            Playlist::getInstance()->doAutoPlay(0);
         } else if (key==128) {
             CartSlot::fadeOutAllSlots(NULL,true);
             PlaylistPlayer::fadeOutAllPlayers();
