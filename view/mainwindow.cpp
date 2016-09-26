@@ -47,6 +47,8 @@
 #include "slottablewidget.h"
 #include "ui_mainwindow.h"
 
+#include <QCloseEvent>
+
 #include <QMutex>
 
 MainWindow* MainWindow::instance = 0;
@@ -78,11 +80,11 @@ void MainWindow::init() {
     pausedSlot = (int*)calloc(numberOfSlots, sizeof(int));
     prevLayer = -1;
 
-    // m2: Disabled playlist
-//    ui->menuWidget->addButton(ui->slotAction);
-//    ui->menuWidget->addButton(ui->playlistAction);
-//    connect(ui->menuWidget, SIGNAL(currentTabChanged(int)),ui->stackedWidget,SLOT(setCurrentIndex(int)));
-//    ui->menuWidget->selectFirstButton();
+    // m2: Removed switch bar slots/playlist
+    //ui->menuWidget->addButton(ui->slotAction);
+    //ui->menuWidget->addButton(ui->playlistAction);
+    //connect(ui->menuWidget, SIGNAL(currentTabChanged(int)),ui->stackedWidget,SLOT(setCurrentIndex(int)));
+    //ui->menuWidget->selectFirstButton();
 
     createPlayers();
 
@@ -114,7 +116,8 @@ void MainWindow::init() {
     connect(ui->pauseAllButton, SIGNAL(clicked()), this, SLOT(pauseSlots()));
     connect(ui->stopAllButton, SIGNAL(clicked()), this, SLOT(stopSlots()));
 
-    //connect(AudioProcessor::getInstance()->getCartSlotWithNumber(1), SIGNAL(sendCurrentPosition(double)), this, SLOT(updatePosition(double)));
+    connect(ui->switchToPlayer, SIGNAL(clicked()), this, SLOT(showPlayer()));
+    connect(ui->switchToSlots, SIGNAL(clicked()), this, SLOT(showSlots()));
 
     // m2: Slot-Store popup
     ssdGlobal = new SlotStoreDialog(this);
@@ -233,12 +236,11 @@ void MainWindow::keyboardSignal(int key, int pressed)
 
             //ui->autoPlayCheckBox->setChecked(!ui->autoPlayCheckBox->isChecked());
         } else if (key==127) {
-            // frei
+            // Playlist NEXT
             Playlist::getInstance()->fadeNext();
         } else if (key==126) {
-            // frei
-            // this->pauseModifier = true;
-            Playlist::getInstance()->doAutoPlay(0);
+            // Playlist PLAY (player 1)
+            Playlist::getInstance()->playPlayer(1);
         } else if (key==128) {
             CartSlot::fadeOutAllSlots(NULL,true);
             PlaylistPlayer::fadeOutAllPlayers();
@@ -610,4 +612,29 @@ int MainWindow::infoBoxGetLast()
         return infoBoxQueue.last();
     else
         return -1;
+}
+
+// m2: Confirm exit when closing window with X
+void MainWindow::closeEvent (QCloseEvent *event)
+{
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Wirklich beenden?",
+                                                                tr("Soll das Programm wirklich beendet werden?\n"),
+                                                                QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::No);
+    if (resBtn != QMessageBox::Yes) {
+        event->ignore();
+    } else {
+        event->accept();
+    }
+}
+
+// m2: switch between Slots and Player view
+void MainWindow::showPlayer()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::showSlots()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }

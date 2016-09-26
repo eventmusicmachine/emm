@@ -203,6 +203,26 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="switchToPlayer">
+            <property name="maximumSize">
+             <size>
+              <width>28</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>P</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -312,6 +332,26 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="switchToSlots">
+             <property name="maximumSize">
+              <size>
+               <width>28</width>
+               <height>28</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

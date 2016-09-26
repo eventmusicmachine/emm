@@ -32,7 +32,16 @@
    <string notr="true"/>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -40,6 +49,7 @@
      <property name="styleSheet">
       <string notr="true">QWidget#contentWidget {
 border:1px solid #000000;
+background-color: #AAAAAA
 }</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
@@ -74,7 +84,16 @@ font-weight:bold;</string>
       <item row="3" column="0" colspan="3">
        <widget class="QWidget" name="widget_2" native="true">
         <layout class="QGridLayout" name="gridLayout_2">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item row="0" column="0">

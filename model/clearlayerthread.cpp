@@ -39,7 +39,8 @@ void ClearLayerThread::run() {
         for (int j=0;j<config->getHorizontalSlots();j++)
         {
             CartSlot *slot = CartSlot::getObjectWithNumber(number);
-            slot->clearColor();
+            // m2: this happens inside empty() now
+            // slot->clearColor();
             slot->empty();
             slot->setColorsAndSave("white", "white");
             number++;

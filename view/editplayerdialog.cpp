@@ -27,6 +27,9 @@ EditPlayerDialog::EditPlayerDialog(int playerNumber,QWidget *parent) :
         ui(new Ui::EditPlayerDialog)
 {
     ui->setupUi(this);
+
+    this->setWindowTitle("Player " + QString::number(playerNumber));
+
     this->playerNumber = playerNumber;
 
     PlaylistPlayer *player = PlaylistPlayer::getObjectWithNumber(playerNumber);

@@ -95,6 +95,8 @@ private:
     // m2: managing RLA
     QList<int> infoBoxQueue;
 
+    void closeEvent (QCloseEvent *);
+
 private slots:
     void showConfigDialog();
     void showErrorMessage(QString);
@@ -121,6 +123,9 @@ private slots:
     void resetCounters();
 
     void gotoLayer(int);
+
+    void showPlayer();
+    void showSlots();
 
 };
 

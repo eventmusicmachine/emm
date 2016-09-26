@@ -37,6 +37,8 @@ SlotStoreDialog::SlotStoreDialog(QWidget *parent) :
 
     player = AudioProcessor::getInstance()->getPFLPlayer();
 
+    this->title = "";
+
     ui->setupUi(this);
     this->setWindowFlags(Qt::Tool);
     model = new SlotTableModel();
@@ -62,7 +64,10 @@ SlotStoreDialog::SlotStoreDialog(QWidget *parent) :
     //connect(ui->controlBar, SIGNAL(stopClicked()), player, SLOT(stop()));
     connect(ui->storeTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editSlot(QModelIndex)));
 
+    connect(player, SIGNAL(sendName(QString)), this, SLOT(setTitle(QString)));
 
+    // m2: allow drag and drop files
+    setAcceptDrops(true);
 }
 
 SlotStoreDialog::~SlotStoreDialog()
@@ -138,15 +143,6 @@ void SlotStoreDialog::playSlot()
 
     id = ui->storeTable->currentIndex().row();
     model->playWithId(id);
-
-    //player->setFilename(filename);
-    //player->analyse();
-    //player->setDB(ui->volSpinBox->value());
-    //visualWidget->updateVolume(ui->volSpinBox->value());
-    //player->play();
-    //player->stop();
-
-    //model->loadData();
 }
 
 
@@ -156,3 +152,92 @@ void SlotStoreDialog::stopSlot()
     int id = ui->storeTable->currentIndex().row();
     model->stopWithId(id);
 }
+
+// m2: drag & drop files
+void SlotStoreDialog::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls()) {
+        e->acceptProposedAction();
+    }
+}
+
+// m2: drag & drop files
+void SlotStoreDialog::dropEvent(QDropEvent *e)
+{
+    // TODO do it in a parallel thread with progress bar and possibility to stop
+    //ClearLayerThread *clear = new ClearLayerThread(ui->layerSelector->getSelectedButton());
+    //QProgressDialog *dia = new QProgressDialog(this);
+    //dia->setCancelButton(NULL);
+    //dia->setLabelText(tr("Layer löschen...."));
+    //dia->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+    //connect(clear,SIGNAL(updateStatus(int)), dia, SLOT(setValue(int)));
+    //connect(clear,SIGNAL(updateMax(int)), dia, SLOT(setMaximum(int)));
+    //connect(dia,SIGNAL(canceled()), clear, SLOT(quit()));
+    //clear->start();
+    //dia->exec();
+
+    // Add slots from dragged&dropped files
+    foreach (const QUrl &url, e->mimeData()->urls()) {
+        QString fileName = url.toLocalFile();
+        qDebug() << "Dropped file:" << fileName;
+        this->addSlotAuto(fileName);
+    }
+}
+
+void SlotStoreDialog::addSlotAuto(QString filename)
+{
+
+    player->setFilename(filename);
+    player->analyse(true);
+
+    CartSlot *slot = CartSlot::getObjectWithNumber(-1, true);
+
+    int type = 0;
+    int device = 0;
+    int channel = 1;
+    QString color = "#FFFFFF";
+    QString fontColor = "#000000";
+    bool fadeOut = true;
+    bool letFade = true;
+    bool fadeOthers = true;
+    bool loop = false;
+    double startPos = 0;
+    double stopPos = 0;
+    int pitch = 0;
+    int fontSize = 14;
+    int db = 0;
+    bool eqActive = false;
+    QString eqConfig = "0;0;0;0;0;0;0;0;0;0";
+    bool pauseDisabled = false;
+
+    slot->setDataAndSave(
+        filename,
+        this->title,
+        type,
+        device,
+        channel,
+        color,
+        fontColor,
+        fadeOut,
+        letFade,
+        fadeOthers,
+        loop,
+        startPos,
+        stopPos,
+        pitch,
+        fontSize,
+        db,
+        eqActive,
+        eqConfig,
+        // m2: new checkbox disable pause
+        pauseDisabled
+    );
+
+    model->loadData();
+}
+
+void SlotStoreDialog::setTitle(QString name)
+{
+    this->title = name;
+}
+

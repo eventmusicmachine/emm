@@ -23,6 +23,17 @@
 
 Playlist* Playlist::instance = 0;
 
+
+
+//PlaylistPlayer *player = PlaylistPlayer::getObjectWithNumber(playerNumber);
+//player->setDataAndSave(
+//        ui->deviceSelectWidget->getDriver(),
+//        ui->deviceSelectWidget->getDevice(),
+//        ui->deviceSelectWidget->getChannel(),
+//        color,
+//        fontColor
+//        );
+
 PlaylistEntry* Playlist::addEntry(QString filename, int pos)
 {
     PlaylistEntry *newEntry = new PlaylistEntry(filename);
@@ -113,6 +124,12 @@ void Playlist::doAutoPlay(int player)
         }
     }
 
+}
+
+// m2: play one player directly (without fading or stopping the other)
+void Playlist::playPlayer(int player)
+{
+    PlaylistPlayer::getObjectWithNumber(player)->play();
 }
 
 void Playlist::fadeNext()

@@ -26,8 +26,9 @@ PlaylistEntry::PlaylistEntry(QString filename, QObject *parent) :
 {
     BASS_SetDevice(1);
     HSTREAM stream = BASS_StreamCreateFile(false,filename.toLatin1(),0,0,0);
-    artist = TAGS_Read(stream,"%ARTI");
-    title = TAGS_Read(stream,"%TITL");
+    // m2: added UTF8 encoding
+    artist = TAGS_Read(stream,"%UTF8(%ARTI)");
+    title = TAGS_Read(stream,"%UTF8(%TITL)");
     if (artist == "" && title == "")
         artist = QFileInfo(filename).fileName().toLatin1();
     length = BASS_ChannelBytes2Seconds(stream,BASS_ChannelGetLength(stream,BASS_POS_BYTE));

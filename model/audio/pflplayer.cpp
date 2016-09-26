@@ -60,7 +60,12 @@ void PFLPlayer::analyse(bool readName)
     if (readName) {
         BASS_SetDevice(1);
         HSTREAM stream = BASS_StreamCreateFile(false,filename.toLatin1(),0,0,0);
-        QString title = TAGS_Read(stream,"%TITL");
+        // m2: added UTF8 option to read äöüå in title
+        QString title = TAGS_Read(stream,"%UTF8(%TITL)");
+        // m2: Use file name as title if no meaningful title tag
+        QString title_s = title.toLower();
+        if ( title_s.startsWith("Titel") || title_s.startsWith("Title") || title_s.startsWith("Lied") || title_s.startsWith("Track") )
+            title = filename;
         if (title != "")
             emit sendName(title);
         BASS_StreamFree(stream);

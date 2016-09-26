@@ -24,6 +24,8 @@
 #include "model/playlist.h"
 #include "playlistplayer.h"
 
+#include "view/editplayerdialog.h"
+
 QMap<int,PlaylistPlayer*> PlaylistPlayer::audioObjects = QMap<int,PlaylistPlayer*>();
 
 PlaylistPlayer::PlaylistPlayer(int number, QObject *parent) :
@@ -51,12 +53,29 @@ void PlaylistPlayer::setDataAndSave(int type, int device, int channel, QString c
 
 void PlaylistPlayer::readData()
 {
+    // m2: Default colors when no entry in slots.ini
+
+    QString fontColorDef = "#000000";
+    QString colorDef = "#FFFFFF";
+
+    // PLAYER 1
+    if (this->number == 1) {
+        fontColorDef = "#000000";
+        colorDef = "#FFFFFF";
+    }
+
+    // PLAYER 2
+    else if (this->number == 2) {
+        fontColorDef = "#FFFFFF";
+        colorDef = "#000000";
+    }
+
     QSettings settings(Configuration::getStorageLocation() + "/slots.ini", QSettings::IniFormat);
     type = settings.value("Player"+QString::number(number)+"/Type",0).toInt();
     device = settings.value("Player"+QString::number(number)+"/Device",1).toInt();
     channel = settings.value("Player"+QString::number(number)+"/Channel",1).toInt();
-    color = settings.value("Player"+QString::number(number)+"/Color",0).toString();
-    fontColor = settings.value("Player"+QString::number(number)+"/FontColor",0).toString();
+    color = settings.value("Player"+QString::number(number)+"/Color",colorDef).toString();
+    fontColor = settings.value("Player"+QString::number(number)+"/FontColor",fontColorDef).toString();
 }
 
 void PlaylistPlayer::saveData()
