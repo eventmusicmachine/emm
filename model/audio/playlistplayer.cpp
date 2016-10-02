@@ -42,7 +42,6 @@ PlaylistPlayer::PlaylistPlayer(int number, QObject *parent) :
     connect(this, SIGNAL(stopped(PlaylistEntry*)), Playlist::getInstance(), SLOT(removeItemFromPlaylist(PlaylistEntry*)));
     connect(this, SIGNAL(reachedFadePosition(int)), Playlist::getInstance(), SLOT(doAutoPlay(int)));
 
-    playerQueue.append(-1000);
 }
 
 void PlaylistPlayer::setDataAndSave(int type, int device, int channel, QString color, QString fontColor)

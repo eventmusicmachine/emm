@@ -39,8 +39,6 @@ private:
     PlaylistEntry *loadedEntry;
     static QMap<int,PlaylistPlayer*> audioObjects;
 
-    QList<int> playerQueue;
-
 public slots:
     void play();
     void stop();
