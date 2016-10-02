@@ -746,7 +746,7 @@ font-weight:bold;</string>
      <normaloff>:/icons/server_components.png</normaloff>:/icons/server_components.png</iconset>
    </property>
    <property name="text">
-    <string>Slot-Speicher</string>
+    <string>Slot-Store</string>
    </property>
   </action>
   <action name="colorAction">

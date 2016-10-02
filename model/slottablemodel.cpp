@@ -131,6 +131,7 @@ void SlotTableModel::loadData()
     this->beginResetModel();
     QSqlQuery query("SELECT slot_id FROM slots");
     QList<CartSlot*> slotList;
+    idList.clear();
     while (query.next())
     {
         int id = query.value(0).toInt();

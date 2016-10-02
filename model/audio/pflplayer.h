@@ -56,6 +56,8 @@ public slots:
     void playCue(double, bool end=false);
     void setPosition(double pos);
 
+    void stopCue();
+
 private slots:
     void readData();
     void saveData(){}

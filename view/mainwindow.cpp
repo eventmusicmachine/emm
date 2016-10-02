@@ -47,6 +47,8 @@
 #include "slottablewidget.h"
 #include "ui_mainwindow.h"
 
+#include "model/audio/pflplayer.h"
+
 #include <QCloseEvent>
 
 #include <QMutex>
@@ -244,6 +246,7 @@ void MainWindow::keyboardSignal(int key, int pressed)
         } else if (key==128) {
             CartSlot::fadeOutAllSlots(NULL,true);
             PlaylistPlayer::fadeOutAllPlayers();
+            PFLPlayer::getInstance()->stopCue();
         } else if (key<=(conf->getHorizontalSlots()*conf->getVerticalSlots())) {
             int key2 = key;
             CartSlot *slot = AudioProcessor::getInstance()->getCartSlotWithNumber(key2);

@@ -148,3 +148,9 @@ void PFLPlayer::dropInstance()
     instance = 0;
     mutex.unlock();
 }
+
+// m2: Used to stop SS preview from preh
+void PFLPlayer::stopCue()
+{
+    BASS_ChannelStop(stream);
+}

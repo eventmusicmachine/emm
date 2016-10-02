@@ -139,6 +139,9 @@ void SlotStoreDialog::playSlot()
 
     qDebug() << QString("Selected slot: %1").arg(id);
 
+    // Stopping other running titles (id is not used in this function - all stop)
+    model->stopWithId(-1);
+    // Starting preview of current title
     model->playWithId(id);
 }
 
