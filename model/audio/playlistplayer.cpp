@@ -26,6 +26,8 @@
 
 #include "view/editplayerdialog.h"
 
+#include "view/mainwindow.h"
+
 QMap<int,PlaylistPlayer*> PlaylistPlayer::audioObjects = QMap<int,PlaylistPlayer*>();
 
 PlaylistPlayer::PlaylistPlayer(int number, QObject *parent) :
@@ -39,6 +41,8 @@ PlaylistPlayer::PlaylistPlayer(int number, QObject *parent) :
     connect(this, SIGNAL(started(PlaylistEntry*)), Playlist::getInstance(), SLOT(addItemToPlaying(PlaylistEntry*)));
     connect(this, SIGNAL(stopped(PlaylistEntry*)), Playlist::getInstance(), SLOT(removeItemFromPlaylist(PlaylistEntry*)));
     connect(this, SIGNAL(reachedFadePosition(int)), Playlist::getInstance(), SLOT(doAutoPlay(int)));
+
+    playerQueue.append(-1000);
 }
 
 void PlaylistPlayer::setDataAndSave(int type, int device, int channel, QString color, QString fontColor)
@@ -98,6 +102,9 @@ PlaylistPlayer* PlaylistPlayer::getObjectWithNumber(int number)
 
 void PlaylistPlayer::play()
 {
+    // m2: add to RLA (Playlist players have number -1001 and -1002)
+    MainWindow::getInstance()->infoBoxAddToQueue(-1000 - this->number);
+
     AbstractAudioObject::play();
     fading = false;
     emit started(loadedEntry);
@@ -106,6 +113,11 @@ void PlaylistPlayer::play()
 
 void PlaylistPlayer::stop()
 {
+    //AbstractAudioObject::stop();
+
+    // m2: remove from RLA (Playlist players have number -1001 and -1002)
+    MainWindow::getInstance()->infoBoxRemoveFromQueue(-1000 - this->number);
+
     AbstractAudioObject::stop();
     if (loadedEntry != NULL)
         emit stopped(loadedEntry);
@@ -129,7 +141,12 @@ void PlaylistPlayer::loadEntry(PlaylistEntry *entry)
 
 void PlaylistPlayer::updatePosition()
 {
-    AbstractAudioObject::updatePosition();
+    //AbstractAudioObject::updatePosition();
+
+    // m2: Update RLA (Playlist players have number -1001 and -1002)
+    int currPlayerNo = -1000 - this->number;
+    AbstractAudioObject::updatePosition(currPlayerNo, currPlayerNo);
+
     int ms = Configuration::getInstance()->getPlaylistFPos();
     if (!fading && BASS_ChannelBytes2Seconds(stream,BASS_ChannelGetLength(stream,BASS_POS_BYTE)-BASS_ChannelGetPosition(stream,BASS_POS_BYTE))*1000 <= ms)
     {

@@ -565,6 +565,7 @@ void MainWindow::dropInstance()
 void MainWindow::setInfoBox(QString text)
 {
     ui->infoBox->setText(text);
+    ui->infoBoxPL->setText(text);
 }
 
 // m2: updates the RLA (pos2 is the time left in song)
@@ -573,14 +574,29 @@ void MainWindow::updateCurrSongPosition(double pos2, int layerNo)
     int mins2 = pos2/60;
     int secs2 = floor(pos2-mins2*60);
     int msecs2 = floor((pos2-mins2*60-secs2)*10);
-    QString time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(layerNo);//.arg(infoBoxQueue.size());
-    setInfoBox(time);
+    QString time = "";
+    if (layerNo > -1000)
+        // Slot in RLA
+        time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(layerNo);//.arg(infoBoxQueue.size());
+    else {
+        // Playlist in RLA
+        if (layerNo == -1001)
+            time = QString("P1 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2);
+        else if (layerNo == -1002)
+            time = QString("P2 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2);
+    }
+    if (time.size() > 0)
+        setInfoBox(time);
     //qDebug("" + QString("%1").arg(infoBoxQueue));
 
-    if (infoBoxQueue.size() > 1)
+    if (infoBoxQueue.size() > 1) {
         ui->infoBox->setStyleSheet("QLabel { color : red; }");
-    else
+        ui->infoBoxPL->setStyleSheet("QLabel { color : red; }");
+    }
+    else {
         ui->infoBox->setStyleSheet("QLabel { color : black; }");
+        ui->infoBoxPL->setStyleSheet("QLabel { color : black; }");
+    }
 }
 
 // m2: add/remove/get info about song to be in the RLA

@@ -133,10 +133,12 @@ void SlotTableModel::loadData()
     QList<CartSlot*> slotList;
     while (query.next())
     {
-        //int jj = query.value(0).toInt();
-        CartSlot* s = CartSlot::getObjectWithNumber(query.value(0).toInt(),true);
+        int id = query.value(0).toInt();
+        CartSlot* s = CartSlot::getObjectWithNumber(id, true);
+        //CartSlot* s = CartSlot::getObjectWithNumber(query.value(0).toInt(),true);
         //CartSlot* s2 = AudioProcessor::getInstance()->getCartSlotWithNumber(query.value(0).toInt());
         slotList.append(s);
+        idList.append(id);
     }
     slot = slotList;
 
@@ -164,4 +166,9 @@ void SlotTableModel::stopWithId(int id)
 {
     // m2: id is not used right now, leaving it for future use
     player->stop();
+}
+
+int SlotTableModel::getIdPos(int id)
+{
+    return idList.indexOf(id);
 }

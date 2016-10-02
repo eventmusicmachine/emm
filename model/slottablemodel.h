@@ -40,11 +40,15 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     Qt::DropActions supportedDragActions() const;
 
+    int getIdPos(int);
+
 private:
     QList<CartSlot*> slot;
 
     // m2
     PFLPlayer* player;
+
+    QList<int> idList;
 
 signals:
 

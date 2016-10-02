@@ -21,6 +21,8 @@
 #include "playlistentry.h"
 #include "playlist.h"
 
+#include "view/mainwindow.h"
+
 Playlist* Playlist::instance = 0;
 
 
@@ -141,8 +143,9 @@ void Playlist::fadeNext()
         if (!players2.value()->isPlaying())
         {
             started = players2.key();
-            if (players2.value()->getLoadedEntry() != NULL)
-            players2.value()->play();
+            if (players2.value()->getLoadedEntry() != NULL) {
+                players2.value()->play();
+            }
             break;
         }
     }
@@ -152,8 +155,9 @@ void Playlist::fadeNext()
         players.next();
         if (players.key() == started)
             continue;
-        if (players.value()->isPlaying())
+        if (players.value()->isPlaying()) {
             players.value()->fadeOut(ms);
+        }
     }
 }
 

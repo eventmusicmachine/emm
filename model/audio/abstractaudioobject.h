@@ -83,6 +83,7 @@ signals:
 
 public slots:
     virtual void play();
+    virtual void play(int);
     virtual void stop();
     virtual void stop(int);
     // m2: redeclared as slot to call it asynchronously

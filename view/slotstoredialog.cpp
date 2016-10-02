@@ -123,10 +123,10 @@ void SlotStoreDialog::playSlot()
     QModelIndex index = sortModel->index(ui->storeTable->currentIndex().row(), 0);
 
     // Get SlotID field (4) of selected row
-    QModelIndex indexSlotID = sortModel->index(ui->storeTable->currentIndex().row(), 4);
+    //QModelIndex indexSlotID = sortModel->index(ui->storeTable->currentIndex().row(), 4);
 
     // Get Filename field (5) of selected row
-    QModelIndex indexFilename = sortModel->index(ui->storeTable->currentIndex().row(), 5);
+    //QModelIndex indexFilename = sortModel->index(ui->storeTable->currentIndex().row(), 5);
 
     if (!index.isValid())
         return;
@@ -134,14 +134,11 @@ void SlotStoreDialog::playSlot()
     index = sortModel->mapToSource(index);
     int id = model->data(index, Qt::DisplayRole).toInt();
 
-    QString filename = model->data(indexFilename, Qt::DisplayRole).toString();
-
-    // If SlotID = "X" => id = 0
+    // Get original position in the list (e.g. after reordering columns)
+    id = model->getIdPos(id);
 
     qDebug() << QString("Selected slot: %1").arg(id);
 
-
-    id = ui->storeTable->currentIndex().row();
     model->playWithId(id);
 }
 
@@ -180,7 +177,8 @@ void SlotStoreDialog::dropEvent(QDropEvent *e)
     foreach (const QUrl &url, e->mimeData()->urls()) {
         QString fileName = url.toLocalFile();
         qDebug() << "Dropped file:" << fileName;
-        this->addSlotAuto(fileName);
+        if (fileName.contains("\."))
+            this->addSlotAuto(fileName);
     }
 }
 
