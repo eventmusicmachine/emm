@@ -179,8 +179,8 @@ void SlotStoreDialog::dropEvent(QDropEvent *e)
     // Add slots from dragged&dropped files
     foreach (const QUrl &url, e->mimeData()->urls()) {
         QString fileName = url.toLocalFile();
-        qDebug() << "Dropped file:" << fileName;
-        if (fileName.contains("\."))
+        //qDebug() << "Dropped file:" << fileName;
+        if (fileName.contains("."))
             this->addSlotAuto(fileName);
     }
 }

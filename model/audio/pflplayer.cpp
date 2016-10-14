@@ -64,10 +64,11 @@ void PFLPlayer::analyse(bool readName)
         QString title = TAGS_Read(stream,"%UTF8(%TITL)");
         // m2: Use file name as title if no meaningful title tag
         QString title_s = title.toLower();
-        if ( title_s.startsWith("Titel") || title_s.startsWith("Title") || title_s.startsWith("Lied") || title_s.startsWith("Track") )
-            title = filename;
-        if (title != "")
-            emit sendName(title);
+        if ( title_s.startsWith("Titel") || title_s.startsWith("Title") || title_s.startsWith("Lied") || title_s.startsWith("Track") || title_s.isEmpty() ) {
+            QStringList parts = filename.split("/");
+            title = parts.at(parts.size() - 1);
+        }
+        emit sendName(title);
         BASS_StreamFree(stream);
     }
 }

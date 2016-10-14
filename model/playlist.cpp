@@ -128,10 +128,19 @@ void Playlist::doAutoPlay(int player)
 
 }
 
-// m2: play one player directly (without fading or stopping the other)
+// m2: play one player if no player playing (otherwise just stop the playing player)
 void Playlist::playPlayer(int player)
 {
-    PlaylistPlayer::getObjectWithNumber(player)->play();
+    bool stoppedNow = false;
+    for (int i = 1; i <= PlaylistPlayer::getPlayers().size(); i++) {
+        if (PlaylistPlayer::getObjectWithNumber(i)->isPlaying()) {
+            int fadeMs = Configuration::getInstance()->getPlaylistFade();
+            PlaylistPlayer::getObjectWithNumber(i)->fadeOut(fadeMs);
+            stoppedNow = true;
+        }
+    }
+    if (!stoppedNow)
+        PlaylistPlayer::getObjectWithNumber(player)->play();
 }
 
 void Playlist::fadeNext()

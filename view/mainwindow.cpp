@@ -243,6 +243,7 @@ void MainWindow::keyboardSignal(int key, int pressed)
         } else if (key==126) {
             // Playlist PLAY (player 1)
             Playlist::getInstance()->playPlayer(1);
+            //Playlist::getInstance()->doAutoPlay(1);
         } else if (key==128) {
             CartSlot::fadeOutAllSlots(NULL,true);
             PlaylistPlayer::fadeOutAllPlayers();
