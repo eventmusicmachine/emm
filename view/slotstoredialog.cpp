@@ -45,6 +45,8 @@ SlotStoreDialog::SlotStoreDialog(QWidget *parent) :
     model->loadData();
     sortModel = new QSortFilterProxyModel();
     sortModel->setSourceModel(model);
+    // m2: Treat TITLE and Title the same when ordering by Title in SlotStore
+    sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->storeTable->setModel(sortModel);
     ui->storeTable->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
     ui->storeTable->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Stretch);

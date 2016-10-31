@@ -30,6 +30,7 @@ SlotTableModel::SlotTableModel(QObject *parent) :
 {
     // m2: Init player to be used to play preview
     player = AudioProcessor::getInstance()->getPFLPlayer();
+
 }
 
 int SlotTableModel::rowCount(const QModelIndex &parent) const

@@ -124,6 +124,10 @@ void MainWindow::init() {
     // m2: Slot-Store popup
     ssdGlobal = new SlotStoreDialog(this);
 
+    // m2: Set "crossed arrows" always on and disable it to avoid bug #21
+    ui->autoPlayCheckBox->setChecked(true);
+    ui->autoPlayCheckBox->setDisabled(true);
+
     // m2: !!!! DEBUG !!!!
     // to re-enable create a lineEdit text entry widget in main gui
     // int key = 999;
