@@ -21,6 +21,8 @@
 #include "model/layerdata.h"
 #include "ui_configurationdialog.h"
 
+#include <QDebug>
+
 ConfigurationDialog::ConfigurationDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConfigurationDialog)
@@ -137,6 +139,8 @@ void ConfigurationDialog::updateLayerCount(int count) {
     Configuration *config = Configuration::getInstance();
     config->updateLayerCount(count);
     int preCount = layerItem->childCount();
+
+    qDebug() << QString("Updated layer count: %1").arg(count);
     if (count > preCount) {
         QTreeWidgetItem *item = new QTreeWidgetItem();
         item->setText(0,"Layer "+QString::number(count));

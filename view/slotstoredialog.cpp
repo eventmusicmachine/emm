@@ -15,6 +15,7 @@
  * along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
  * ************************************************************************* */
 
+#include <QDebug>
 #include <QFile>
 #include <QMessageBox>
 #include <QSortFilterProxyModel>
@@ -23,16 +24,29 @@
 #include "slotstoredialog.h"
 #include "ui_slotstoredialog.h"
 
+#include "model/audio/audioprocessor.h"
+#include "model/audio/bassasiodevice.h"
+#include "model/audio/bassdevice.h"
+#include "model/audio/cartslot.h"
+#include "model/audio/pflplayer.h"
+
 SlotStoreDialog::SlotStoreDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SlotStoreDialog)
 {
+
+    player = AudioProcessor::getInstance()->getPFLPlayer();
+
+    this->title = "";
+
     ui->setupUi(this);
     this->setWindowFlags(Qt::Tool);
     model = new SlotTableModel();
     model->loadData();
     sortModel = new QSortFilterProxyModel();
     sortModel->setSourceModel(model);
+    // m2: Treat TITLE and Title the same when ordering by Title in SlotStore
+    sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->storeTable->setModel(sortModel);
     ui->storeTable->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
     ui->storeTable->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Stretch);
@@ -46,7 +60,16 @@ SlotStoreDialog::SlotStoreDialog(QWidget *parent) :
     connect(ui->controlBar, SIGNAL(addClicked()), this, SLOT(addSlot()));
     connect(ui->controlBar, SIGNAL(editClicked()), this, SLOT(editSlot()));
     connect(ui->controlBar, SIGNAL(removeClicked()), this, SLOT(removeSlot()));
+    connect(ui->controlBar, SIGNAL(playClicked()), this, SLOT(playSlot()));
+    connect(ui->controlBar, SIGNAL(stopClicked()), this, SLOT(stopSlot()));
+    //connect(ui->controlBar, SIGNAL(playClicked()), player, SLOT(play()));
+    //connect(ui->controlBar, SIGNAL(stopClicked()), player, SLOT(stop()));
     connect(ui->storeTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editSlot(QModelIndex)));
+
+    connect(player, SIGNAL(sendName(QString)), this, SLOT(setTitle(QString)));
+
+    // m2: allow drag and drop files
+    setAcceptDrops(true);
 }
 
 SlotStoreDialog::~SlotStoreDialog()
@@ -94,3 +117,130 @@ void SlotStoreDialog::removeSlot()
     model->removeWithId(id);
     model->loadData();
 }
+
+// m2: Play title currently selected
+void SlotStoreDialog::playSlot()
+{
+    // Get ID field (0) of selected row
+    QModelIndex index = sortModel->index(ui->storeTable->currentIndex().row(), 0);
+
+    // Get SlotID field (4) of selected row
+    //QModelIndex indexSlotID = sortModel->index(ui->storeTable->currentIndex().row(), 4);
+
+    // Get Filename field (5) of selected row
+    //QModelIndex indexFilename = sortModel->index(ui->storeTable->currentIndex().row(), 5);
+
+    if (!index.isValid())
+        return;
+
+    index = sortModel->mapToSource(index);
+    int id = model->data(index, Qt::DisplayRole).toInt();
+
+    // Get original position in the list (e.g. after reordering columns)
+    id = model->getIdPos(id);
+
+    qDebug() << QString("Selected slot: %1").arg(id);
+
+    // Stopping other running titles (id is not used in this function - all stop)
+    model->stopWithId(-1);
+    // Starting preview of current title
+    model->playWithId(id);
+}
+
+
+// m2: Stop title currently selected
+void SlotStoreDialog::stopSlot()
+{
+    int id = ui->storeTable->currentIndex().row();
+    model->stopWithId(id);
+}
+
+// m2: drag & drop files
+void SlotStoreDialog::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls()) {
+        e->acceptProposedAction();
+    }
+}
+
+// m2: drag & drop files
+void SlotStoreDialog::dropEvent(QDropEvent *e)
+{
+    // TODO do it in a parallel thread with progress bar and possibility to stop
+    //ClearLayerThread *clear = new ClearLayerThread(ui->layerSelector->getSelectedButton());
+    //QProgressDialog *dia = new QProgressDialog(this);
+    //dia->setCancelButton(NULL);
+    //dia->setLabelText(tr("Layer löschen...."));
+    //dia->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+    //connect(clear,SIGNAL(updateStatus(int)), dia, SLOT(setValue(int)));
+    //connect(clear,SIGNAL(updateMax(int)), dia, SLOT(setMaximum(int)));
+    //connect(dia,SIGNAL(canceled()), clear, SLOT(quit()));
+    //clear->start();
+    //dia->exec();
+
+    // Add slots from dragged&dropped files
+    foreach (const QUrl &url, e->mimeData()->urls()) {
+        QString fileName = url.toLocalFile();
+        //qDebug() << "Dropped file:" << fileName;
+        if (fileName.contains("."))
+            this->addSlotAuto(fileName);
+    }
+}
+
+void SlotStoreDialog::addSlotAuto(QString filename)
+{
+
+    player->setFilename(filename);
+    player->analyse(true);
+
+    CartSlot *slot = CartSlot::getObjectWithNumber(-1, true);
+
+    int type = 0;
+    int device = 0;
+    int channel = 1;
+    QString color = "#FFFFFF";
+    QString fontColor = "#000000";
+    bool fadeOut = true;
+    bool letFade = true;
+    bool fadeOthers = true;
+    bool loop = false;
+    double startPos = 0;
+    double stopPos = 0;
+    int pitch = 0;
+    int fontSize = 14;
+    int db = 0;
+    bool eqActive = false;
+    QString eqConfig = "0;0;0;0;0;0;0;0;0;0";
+    bool pauseDisabled = false;
+
+    slot->setDataAndSave(
+        filename,
+        this->title,
+        type,
+        device,
+        channel,
+        color,
+        fontColor,
+        fadeOut,
+        letFade,
+        fadeOthers,
+        loop,
+        startPos,
+        stopPos,
+        pitch,
+        fontSize,
+        db,
+        eqActive,
+        eqConfig,
+        // m2: new checkbox disable pause
+        pauseDisabled
+    );
+
+    model->loadData();
+}
+
+void SlotStoreDialog::setTitle(QString name)
+{
+    this->title = name;
+}
+

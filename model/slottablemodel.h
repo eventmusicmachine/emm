@@ -21,6 +21,7 @@
 #include <QAbstractTableModel>
 
 class CartSlot;
+class PFLPlayer;
 
 class SlotTableModel : public QAbstractTableModel
 {
@@ -29,6 +30,8 @@ public:
     explicit SlotTableModel(QObject *parent = 0);
     void loadData();
     void removeWithId(int id);
+    void playWithId(int id);
+    void stopWithId(int id);
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QMimeData* mimeData(const QModelIndexList &indexes) const;
     int rowCount(const QModelIndex &parent) const;
@@ -37,8 +40,15 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     Qt::DropActions supportedDragActions() const;
 
+    int getIdPos(int);
+
 private:
     QList<CartSlot*> slot;
+
+    // m2
+    PFLPlayer* player;
+
+    QList<int> idList;
 
 signals:
 

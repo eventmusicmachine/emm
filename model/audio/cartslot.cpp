@@ -229,6 +229,8 @@ void CartSlot::readData()
     {
         Configuration *config = Configuration::getInstance();
         QSettings settings(Configuration::getStorageLocation() + "/slots.ini", QSettings::IniFormat);
+        // m2: set UTF8 (for äöüå)
+        settings.setIniCodec("UTF-8");
         device = settings.value("Slot"+QString::number(number)+"/Device",config->getDefaultDevice()).toInt();
         channel = settings.value("Slot"+QString::number(number)+"/Channel",config->getDefaultChannel()).toInt();
         type = settings.value("Slot"+QString::number(number)+"/Type",config->getDefaultDriver()).toInt();
@@ -449,6 +451,8 @@ void CartSlot::empty() {
     this->stopPos = 0;
     this->length = 0;
     this->text1 = "";
+    // m2: also reset colors
+    this->clearColor();
     this->loadStream();
     this->saveData();
     this->updatePosition();

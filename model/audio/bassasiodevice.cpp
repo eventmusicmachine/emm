@@ -98,6 +98,8 @@ void BassAsioDevice::initialize(MainWindow *mw)
     BASS_Init(0, 48000, 0, 0, 0);
     BASS_SetDevice(0);
     BASS_SetConfig(BASS_CONFIG_BUFFER,Configuration::getInstance()->getSlotBuffer());
+    // m2: Read device names in UTF8 (for äöü)
+    BASS_SetConfig(BASS_CONFIG_UNICODE, true);
 
     int a;
     BASS_ASIO_DEVICEINFO info;

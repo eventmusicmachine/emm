@@ -24,6 +24,10 @@
 #include "model/playlist.h"
 #include "playlistplayer.h"
 
+#include "view/editplayerdialog.h"
+
+#include "view/mainwindow.h"
+
 QMap<int,PlaylistPlayer*> PlaylistPlayer::audioObjects = QMap<int,PlaylistPlayer*>();
 
 PlaylistPlayer::PlaylistPlayer(int number, QObject *parent) :
@@ -37,6 +41,7 @@ PlaylistPlayer::PlaylistPlayer(int number, QObject *parent) :
     connect(this, SIGNAL(started(PlaylistEntry*)), Playlist::getInstance(), SLOT(addItemToPlaying(PlaylistEntry*)));
     connect(this, SIGNAL(stopped(PlaylistEntry*)), Playlist::getInstance(), SLOT(removeItemFromPlaylist(PlaylistEntry*)));
     connect(this, SIGNAL(reachedFadePosition(int)), Playlist::getInstance(), SLOT(doAutoPlay(int)));
+
 }
 
 void PlaylistPlayer::setDataAndSave(int type, int device, int channel, QString color, QString fontColor)
@@ -51,12 +56,29 @@ void PlaylistPlayer::setDataAndSave(int type, int device, int channel, QString c
 
 void PlaylistPlayer::readData()
 {
+    // m2: Default colors when no entry in slots.ini
+
+    QString fontColorDef = "#000000";
+    QString colorDef = "#FFFFFF";
+
+    // PLAYER 1
+    if (this->number == 1) {
+        fontColorDef = "#000000";
+        colorDef = "#FFFFFF";
+    }
+
+    // PLAYER 2
+    else if (this->number == 2) {
+        fontColorDef = "#FFFFFF";
+        colorDef = "#000000";
+    }
+
     QSettings settings(Configuration::getStorageLocation() + "/slots.ini", QSettings::IniFormat);
     type = settings.value("Player"+QString::number(number)+"/Type",0).toInt();
     device = settings.value("Player"+QString::number(number)+"/Device",1).toInt();
     channel = settings.value("Player"+QString::number(number)+"/Channel",1).toInt();
-    color = settings.value("Player"+QString::number(number)+"/Color",0).toString();
-    fontColor = settings.value("Player"+QString::number(number)+"/FontColor",0).toString();
+    color = settings.value("Player"+QString::number(number)+"/Color",colorDef).toString();
+    fontColor = settings.value("Player"+QString::number(number)+"/FontColor",fontColorDef).toString();
 }
 
 void PlaylistPlayer::saveData()
@@ -79,6 +101,9 @@ PlaylistPlayer* PlaylistPlayer::getObjectWithNumber(int number)
 
 void PlaylistPlayer::play()
 {
+    // m2: add to RLA (Playlist players have number -1001 and -1002)
+    MainWindow::getInstance()->infoBoxAddToQueue(-1000 - this->number);
+
     AbstractAudioObject::play();
     fading = false;
     emit started(loadedEntry);
@@ -87,6 +112,11 @@ void PlaylistPlayer::play()
 
 void PlaylistPlayer::stop()
 {
+    //AbstractAudioObject::stop();
+
+    // m2: remove from RLA (Playlist players have number -1001 and -1002)
+    MainWindow::getInstance()->infoBoxRemoveFromQueue(-1000 - this->number);
+
     AbstractAudioObject::stop();
     if (loadedEntry != NULL)
         emit stopped(loadedEntry);
@@ -110,7 +140,12 @@ void PlaylistPlayer::loadEntry(PlaylistEntry *entry)
 
 void PlaylistPlayer::updatePosition()
 {
-    AbstractAudioObject::updatePosition();
+    //AbstractAudioObject::updatePosition();
+
+    // m2: Update RLA (Playlist players have number -1001 and -1002)
+    int currPlayerNo = -1000 - this->number;
+    AbstractAudioObject::updatePosition(currPlayerNo, currPlayerNo);
+
     int ms = Configuration::getInstance()->getPlaylistFPos();
     if (!fading && BASS_ChannelBytes2Seconds(stream,BASS_ChannelGetLength(stream,BASS_POS_BYTE)-BASS_ChannelGetPosition(stream,BASS_POS_BYTE))*1000 <= ms)
     {

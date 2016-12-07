@@ -47,6 +47,7 @@ private:
 public slots:
     void assignEntriesToPlayers();
     void doAutoPlay(int player);
+    void playPlayer(int player);
     void addItemToPlaying(PlaylistEntry* entry);
     void removeItemFromPlaylist(PlaylistEntry* entry);
     void removeItemFromPlaylist(int pos);

@@ -21,7 +21,20 @@
 #include "playlistentry.h"
 #include "playlist.h"
 
+#include "view/mainwindow.h"
+
 Playlist* Playlist::instance = 0;
+
+
+
+//PlaylistPlayer *player = PlaylistPlayer::getObjectWithNumber(playerNumber);
+//player->setDataAndSave(
+//        ui->deviceSelectWidget->getDriver(),
+//        ui->deviceSelectWidget->getDevice(),
+//        ui->deviceSelectWidget->getChannel(),
+//        color,
+//        fontColor
+//        );
 
 PlaylistEntry* Playlist::addEntry(QString filename, int pos)
 {
@@ -115,6 +128,21 @@ void Playlist::doAutoPlay(int player)
 
 }
 
+// m2: play one player if no player playing (otherwise just stop the playing player)
+void Playlist::playPlayer(int player)
+{
+    bool stoppedNow = false;
+    for (int i = 1; i <= PlaylistPlayer::getPlayers().size(); i++) {
+        if (PlaylistPlayer::getObjectWithNumber(i)->isPlaying()) {
+            int fadeMs = Configuration::getInstance()->getPlaylistFade();
+            PlaylistPlayer::getObjectWithNumber(i)->fadeOut(fadeMs);
+            stoppedNow = true;
+        }
+    }
+    if (!stoppedNow)
+        PlaylistPlayer::getObjectWithNumber(player)->play();
+}
+
 void Playlist::fadeNext()
 {
     int started;
@@ -124,8 +152,9 @@ void Playlist::fadeNext()
         if (!players2.value()->isPlaying())
         {
             started = players2.key();
-            if (players2.value()->getLoadedEntry() != NULL)
-            players2.value()->play();
+            if (players2.value()->getLoadedEntry() != NULL) {
+                players2.value()->play();
+            }
             break;
         }
     }
@@ -135,8 +164,9 @@ void Playlist::fadeNext()
         players.next();
         if (players.key() == started)
             continue;
-        if (players.value()->isPlaying())
+        if (players.value()->isPlaying()) {
             players.value()->fadeOut(ms);
+        }
     }
 }
 

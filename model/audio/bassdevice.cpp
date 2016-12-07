@@ -104,6 +104,8 @@ void BassDevice::initialize(MainWindow *mw)
     int a;
     BASS_DEVICEINFO info;
     BASS_SetConfig(BASS_CONFIG_BUFFER,Configuration::getInstance()->getSlotBuffer());
+    // m2: Read device names in UTF8 (for äöü)
+    BASS_SetConfig(BASS_CONFIG_UNICODE, true);
 
     for (a=0; BASS_GetDeviceInfo(a, &info); a++) {
         if (info.flags&BASS_DEVICE_ENABLED) {

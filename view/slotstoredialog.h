@@ -21,12 +21,18 @@
 #include <QDialog>
 #include <QModelIndex>
 
+#include <QDropEvent>
+#include <QUrl>
+#include <QDebug>
+#include <QMimeData>
+
 namespace Ui {
     class SlotStoreDialog;
 }
 
 class SlotTableModel;
 class QSortFilterProxyModel;
+class PFLPlayer;
 
 class SlotStoreDialog : public QDialog
 {
@@ -40,12 +46,24 @@ private:
     Ui::SlotStoreDialog *ui;
     SlotTableModel *model;
     QSortFilterProxyModel *sortModel;
+    PFLPlayer* player;
+
+    QString title;
+    void addSlotAuto(QString);
 
 private slots:
     void addSlot();
     void editSlot();
     void editSlot(QModelIndex);
     void removeSlot();
+    void playSlot();
+    void stopSlot();
+    void setTitle(QString);
+
+protected:
+    // m2: drag & drop files to window
+    void dropEvent(QDropEvent *ev);
+    void dragEnterEvent(QDragEnterEvent *ev);
 };
 
 #endif // SLOTSTOREDIALOG_H

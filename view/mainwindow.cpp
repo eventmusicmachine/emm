@@ -47,6 +47,10 @@
 #include "slottablewidget.h"
 #include "ui_mainwindow.h"
 
+#include "model/audio/pflplayer.h"
+
+#include <QCloseEvent>
+
 #include <QMutex>
 
 MainWindow* MainWindow::instance = 0;
@@ -78,7 +82,7 @@ void MainWindow::init() {
     pausedSlot = (int*)calloc(numberOfSlots, sizeof(int));
     prevLayer = -1;
 
-    // m2: Disabled playlist
+    // m2: Removed switch bar slots/playlist
     //ui->menuWidget->addButton(ui->slotAction);
     //ui->menuWidget->addButton(ui->playlistAction);
     //connect(ui->menuWidget, SIGNAL(currentTabChanged(int)),ui->stackedWidget,SLOT(setCurrentIndex(int)));
@@ -114,10 +118,15 @@ void MainWindow::init() {
     connect(ui->pauseAllButton, SIGNAL(clicked()), this, SLOT(pauseSlots()));
     connect(ui->stopAllButton, SIGNAL(clicked()), this, SLOT(stopSlots()));
 
-    //connect(AudioProcessor::getInstance()->getCartSlotWithNumber(1), SIGNAL(sendCurrentPosition(double)), this, SLOT(updatePosition(double)));
+    connect(ui->switchToPlayer, SIGNAL(clicked()), this, SLOT(showPlayer()));
+    connect(ui->switchToSlots, SIGNAL(clicked()), this, SLOT(showSlots()));
 
     // m2: Slot-Store popup
     ssdGlobal = new SlotStoreDialog(this);
+
+    // m2: Set "crossed arrows" always on and disable it to avoid bug #21
+    ui->autoPlayCheckBox->setChecked(true);
+    ui->autoPlayCheckBox->setDisabled(true);
 
     // m2: !!!! DEBUG !!!!
     // to re-enable create a lineEdit text entry widget in main gui
@@ -205,7 +214,11 @@ void MainWindow::keyboardSignal(int key, int pressed)
             if (layer <= conf->getLayer())
                 ui->layerSelector->selectButtonAt(layer-1);
         } else if (key==121) {
-            // frei lassen Layer 16 wird nicht benötigt
+            // Switch to Playlist
+            if (ui->stackedWidget->currentIndex() == 0)
+                ui->stackedWidget->setCurrentIndex(1);
+            else
+                ui->stackedWidget->setCurrentIndex(0);
         } else if (key==122) {
             // Layer up
             int layer = ui->layerSelector->getSelectedButton();
@@ -228,15 +241,17 @@ void MainWindow::keyboardSignal(int key, int pressed)
             pauseSlots();
 
             //ui->autoPlayCheckBox->setChecked(!ui->autoPlayCheckBox->isChecked());
-        } else if (key==126) {
-            // frei
-            // Playlist::getInstance()->fadeNext();
         } else if (key==127) {
-            // frei
-            // this->pauseModifier = true;
+            // Playlist NEXT
+            Playlist::getInstance()->fadeNext();
+        } else if (key==126) {
+            // Playlist PLAY (player 1)
+            Playlist::getInstance()->playPlayer(1);
+            //Playlist::getInstance()->doAutoPlay(1);
         } else if (key==128) {
             CartSlot::fadeOutAllSlots(NULL,true);
             PlaylistPlayer::fadeOutAllPlayers();
+            PFLPlayer::getInstance()->stopCue();
         } else if (key<=(conf->getHorizontalSlots()*conf->getVerticalSlots())) {
             int key2 = key;
             CartSlot *slot = AudioProcessor::getInstance()->getCartSlotWithNumber(key2);
@@ -558,6 +573,7 @@ void MainWindow::dropInstance()
 void MainWindow::setInfoBox(QString text)
 {
     ui->infoBox->setText(text);
+    ui->infoBoxPL->setText(text);
 }
 
 // m2: updates the RLA (pos2 is the time left in song)
@@ -566,14 +582,29 @@ void MainWindow::updateCurrSongPosition(double pos2, int layerNo)
     int mins2 = pos2/60;
     int secs2 = floor(pos2-mins2*60);
     int msecs2 = floor((pos2-mins2*60-secs2)*10);
-    QString time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(layerNo);//.arg(infoBoxQueue.size());
-    setInfoBox(time);
+    QString time = "";
+    if (layerNo > -1000)
+        // Slot in RLA
+        time = QString("L%4 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2).arg(layerNo);//.arg(infoBoxQueue.size());
+    else {
+        // Playlist in RLA
+        if (layerNo == -1001)
+            time = QString("P1 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2);
+        else if (layerNo == -1002)
+            time = QString("P2 %1:%2.%3").arg(mins2, 2, 10, QChar('0')).arg(secs2,2,10, QChar('0')).arg(msecs2);
+    }
+    if (time.size() > 0)
+        setInfoBox(time);
     //qDebug("" + QString("%1").arg(infoBoxQueue));
 
-    if (infoBoxQueue.size() > 1)
+    if (infoBoxQueue.size() > 1) {
         ui->infoBox->setStyleSheet("QLabel { color : red; }");
-    else
+        ui->infoBoxPL->setStyleSheet("QLabel { color : red; }");
+    }
+    else {
         ui->infoBox->setStyleSheet("QLabel { color : black; }");
+        ui->infoBoxPL->setStyleSheet("QLabel { color : black; }");
+    }
 }
 
 // m2: add/remove/get info about song to be in the RLA
@@ -605,4 +636,29 @@ int MainWindow::infoBoxGetLast()
         return infoBoxQueue.last();
     else
         return -1;
+}
+
+// m2: Confirm exit when closing window with X
+void MainWindow::closeEvent (QCloseEvent *event)
+{
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Wirklich beenden?",
+                                                                tr("Soll das Programm wirklich beendet werden?\n"),
+                                                                QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::No);
+    if (resBtn != QMessageBox::Yes) {
+        event->ignore();
+    } else {
+        event->accept();
+    }
+}
+
+// m2: switch between Slots and Player view
+void MainWindow::showPlayer()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::showSlots()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }

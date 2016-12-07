@@ -122,7 +122,7 @@ void EditCartSlotDialog::loadData(CartSlot *slot, bool db)
     setFontColor(slot->getFontColor());
 
     // m2: set SF to black if slot empty
-    if (slot->getFileName().isEmpty())
+    if (slot->getFileName().isEmpty() && slot->getText1().isEmpty())
         setFontColor("#000000");
 
     ui->letFadeCheckBox->setChecked(slot->getLetFade());

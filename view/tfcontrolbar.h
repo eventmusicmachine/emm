@@ -33,6 +33,8 @@ private:
     QPushButton *addButton;
     QPushButton *editButton;
     QPushButton *removeButton;
+    QPushButton *playButton;
+    QPushButton *stopButton;
 
     QHBoxLayout *mainLayout;
 
@@ -40,11 +42,15 @@ private slots:
     void progessAdd();
     void progressEdit();
     void progessRemove();
+    void processPlay();
+    void processStop();
 
 signals:
     void addClicked();
     void editClicked();
     void removeClicked();
+    void playClicked();
+    void stopClicked();
 };
 
 #endif // TFCONTROLBAR_H

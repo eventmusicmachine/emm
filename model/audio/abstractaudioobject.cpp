@@ -117,12 +117,21 @@ DWORD AbstractAudioObject::getSpeakerFlag()
 
 void AbstractAudioObject::play()
 {
+    // m2: default -1 so to not interfere with RLA slots function
+    this->play(-1);
+}
+
+void AbstractAudioObject::play(int slotNo)
+{
     KeyboardController::increasePlayerCount();
     BASS_Mixer_ChannelFlags(stream, 0, BASS_MIXER_PAUSE);
     BASS_ChannelSetAttribute(stream,BASS_ATTRIB_VOL,1);
     timer->start(100);
     BASS_ChannelPlay(stream,true);
     emit sendSongLength(BASS_ChannelBytes2Seconds(stream,BASS_ChannelGetLength(stream,BASS_POS_BYTE)));
+    if (slotNo > 0 || slotNo < -1000) {
+        MainWindow::getInstance()->infoBoxAddToQueue(slotNo);
+    }
     playing = true;
     paused = false;
     emit started();
@@ -143,7 +152,7 @@ void AbstractAudioObject::stop(int slotNo)
     playing = false;
 
     // m2: set pos to 0 every time / if slot still running will be overwritten
-    if (slotNo > 0) {
+    if (slotNo > 0 || slotNo < -1000) {
         MainWindow::getInstance()->infoBoxRemoveFromQueue(slotNo);
     }
     MainWindow::getInstance()->updateCurrSongPosition(0, 0);

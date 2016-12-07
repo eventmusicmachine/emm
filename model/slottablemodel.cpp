@@ -22,9 +22,15 @@
 #include "model/audio/cartslot.h"
 #include "slottablemodel.h"
 
+#include "model/audio/audioprocessor.h"
+#include "model/audio/pflplayer.h"
+
 SlotTableModel::SlotTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
+    // m2: Init player to be used to play preview
+    player = AudioProcessor::getInstance()->getPFLPlayer();
+
 }
 
 int SlotTableModel::rowCount(const QModelIndex &parent) const
@@ -126,10 +132,15 @@ void SlotTableModel::loadData()
     this->beginResetModel();
     QSqlQuery query("SELECT slot_id FROM slots");
     QList<CartSlot*> slotList;
+    idList.clear();
     while (query.next())
     {
-        CartSlot* s = CartSlot::getObjectWithNumber(query.value(0).toInt(),true);
+        int id = query.value(0).toInt();
+        CartSlot* s = CartSlot::getObjectWithNumber(id, true);
+        //CartSlot* s = CartSlot::getObjectWithNumber(query.value(0).toInt(),true);
+        //CartSlot* s2 = AudioProcessor::getInstance()->getCartSlotWithNumber(query.value(0).toInt());
         slotList.append(s);
+        idList.append(id);
     }
     slot = slotList;
 
@@ -142,4 +153,24 @@ void SlotTableModel::removeWithId(int id)
     query.prepare("DELETE FROM slots WHERE slot_id=?");
     query.bindValue(0,id);
     query.exec();
+}
+
+void SlotTableModel::playWithId(int id)
+{
+    CartSlot* s = slot.at(id);
+    // m2: get start position and play preview from there
+    player->setFilename(s->getFileName());
+    player->analyse();
+    player->playCue(s->getStartPos());
+}
+
+void SlotTableModel::stopWithId(int id)
+{
+    // m2: id is not used right now, leaving it for future use
+    player->stop();
+}
+
+int SlotTableModel::getIdPos(int id)
+{
+    return idList.indexOf(id);
 }
