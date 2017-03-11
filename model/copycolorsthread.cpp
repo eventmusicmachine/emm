@@ -45,7 +45,7 @@ void CopyColorsThread::run() {
             number++;
         }
     }
-    number = 0;
+    number = 1;
     for (int l=0;l<config->getLayer();l++)
     {
         int pos = 0;
