@@ -55,9 +55,10 @@ void CopyColorsThread::run() {
             {
                 CartSlot *slot = CartSlot::getObjectWithNumber(number);
                 slot->setColorsAndSave(backgroundColors.at(pos),fontColors.at(pos));
-                number++;
+                //number++;
                 pos++;
                 emit updateStatus(number);
+                number++;
             }
         }
     }
