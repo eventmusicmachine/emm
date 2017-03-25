@@ -43,7 +43,7 @@ public:
     void empty();
     void clearColor();
 	void fetchLength();
-    void setDataAndSave(QString filename, QString text1, int type, int device, int channel, QString color, QString fontColor, bool fadeOut, bool letFade, bool fadeOthers, bool loop, double startPos, double stopPos, int pitch, int fontSize, double db, bool eqActive, QString eqConfig, bool pauseDisabled);
+    void setDataAndSave(QString filename, QString text1, int type, int device, int channel, QString color, QString fontColor, bool fadeOut, bool letFade, bool fadeOthers, bool loop, double startPos, double stopPos, int pitch, int fontSize, double db, bool eqActive, QString eqConfig, bool pauseDisabled, bool cupEnabled);
     void setColorsAndSave(QString color, QString fontColor);
     void saveInDatabase();
     void loadEqualizer();
@@ -56,6 +56,9 @@ public:
 
     // m2: new checkbox disable pause
     bool getPauseDisabled();
+
+    // m2: new checkbox enable CUP
+    bool getCupEnabled();
 
     // m2: get layer the slot belongs to (1-based)
     int getLayer();
@@ -79,6 +82,8 @@ private:
     static QMap<int,CartSlot*> audioObjects;
     // m2: new flag disable pause
     bool pauseDisabled;
+    // m2: new flag enable CUP
+    bool cupEnabled;
 
 private slots:
     void readData();

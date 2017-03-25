@@ -201,6 +201,16 @@ void CartSlotWidget::updatePosition(double pos)
     }
 }
 
+void CartSlotWidget::mouseReleaseEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton) {
+        if (slot->getCupEnabled()) {
+            slot->stop();
+            //slot->play();
+        }
+    }
+}
+
 void CartSlotWidget::mousePressEvent(QMouseEvent *e)
 {
     if (e->modifiers() == Qt::ShiftModifier) {

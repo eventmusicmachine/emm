@@ -65,6 +65,7 @@ private slots:
     void saveToDB();
     void setCurrentPosAsStartPos();
     void setCurrentPosAsStopPos();
+    void swapColors();
 };
 
 #endif // EDITCARTSLOTDIALOG_H
