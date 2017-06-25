@@ -15,6 +15,7 @@
  * along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
  * ************************************************************************* */
 
+#include <QDebug>
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -96,6 +97,7 @@ EditCartSlotDialog::EditCartSlotDialog(int slotNumber,bool db, QWidget *parent) 
     connect(ui->loadSlotButton, SIGNAL(clicked()), this, SLOT(loadFromDB()));
     connect(ui->setStartPointButton, SIGNAL(clicked()), this, SLOT(setCurrentPosAsStartPos()));
     connect(ui->setStopPointButton, SIGNAL(clicked()), this, SLOT(setCurrentPosAsStopPos()));
+    connect(ui->swapColorsButton, SIGNAL(clicked()), this, SLOT(swapColors()));
 
 
 }
@@ -130,6 +132,7 @@ void EditCartSlotDialog::loadData(CartSlot *slot, bool db)
     ui->disablePause->setChecked(slot->getPauseDisabled());
     ui->fadeOthersCheckBox->setChecked(slot->getFadeOthers());
     ui->loopCheckBox->setChecked(slot->getLoop());
+    ui->enableCup->setChecked(slot->getCupEnabled());
     int minStart = floor(slot->getStartPos()/60);
     int secsStart = floor(slot->getStartPos()-minStart*60);
     int msecsStart = (slot->getStartPos()-secsStart-minStart*60)*1000;
@@ -187,8 +190,9 @@ void EditCartSlotDialog::setData()
         ui->volSpinBox->value(),
         ui->eqActiveCheckBox->isChecked(),
         QString::number(ui->eqCh1->value())+';'+QString::number(ui->eqCh2->value())+';'+QString::number(ui->eqCh3->value())+';'+QString::number(ui->eqCh4->value())+';'+QString::number(ui->eqCh5->value())+';'+QString::number(ui->eqCh6->value())+';'+QString::number(ui->eqCh7->value())+';'+QString::number(ui->eqCh8->value())+';'+QString::number(ui->eqCh9->value())+';'+QString::number(ui->eqCh10->value()),
-        // m2: new checkbox disable pause
-        ui->disablePause->isChecked()
+        // m2: new checkboxes disable pause / enable CUP
+        ui->disablePause->isChecked(),
+        ui->enableCup->isChecked()
     );
 }
 
@@ -224,7 +228,7 @@ void EditCartSlotDialog::setColor(QString color)
     QString colorCode=GlobalData::getColorCode(color);
     ui->colorLabel->setStyleSheet("border:1px solid #000000; background-color: "+colorCode);
     this->color = colorCode;
-    //qDebug("Color code: " + colorCode);
+    //qDebug("SET Color code: " + colorCode.toUtf8());
 }
 
 void EditCartSlotDialog::setFontColor(QString color)
@@ -341,4 +345,17 @@ void EditCartSlotDialog::loadFromDB()
             loadData(slot,true);
         }
     }
+}
+
+void EditCartSlotDialog::swapColors()
+{
+    //QString ftSS = ui->fontColorLabel->styleSheet();
+    //QString bgSS = ui->colorLabel->styleSheet();
+    QString ftColor = this->fontColor;
+    QString bgColor = this->color;
+
+    setColor(ftColor);
+    setFontColor(bgColor);
+    //ui->fontColorLabel->setStyleSheet(bgSS);
+    //ui->colorLabel->setStyleSheet(ftSS);
 }

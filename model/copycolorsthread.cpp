@@ -45,7 +45,7 @@ void CopyColorsThread::run() {
             number++;
         }
     }
-    number = 0;
+    number = 1;
     for (int l=0;l<config->getLayer();l++)
     {
         int pos = 0;
@@ -55,9 +55,10 @@ void CopyColorsThread::run() {
             {
                 CartSlot *slot = CartSlot::getObjectWithNumber(number);
                 slot->setColorsAndSave(backgroundColors.at(pos),fontColors.at(pos));
-                number++;
+                //number++;
                 pos++;
                 emit updateStatus(number);
+                number++;
             }
         }
     }

@@ -212,6 +212,7 @@ void SlotStoreDialog::addSlotAuto(QString filename)
     bool eqActive = false;
     QString eqConfig = "0;0;0;0;0;0;0;0;0;0";
     bool pauseDisabled = false;
+    bool cupEnabled = false;
 
     slot->setDataAndSave(
         filename,
@@ -232,8 +233,9 @@ void SlotStoreDialog::addSlotAuto(QString filename)
         db,
         eqActive,
         eqConfig,
-        // m2: new checkbox disable pause
-        pauseDisabled
+        // m2: new checkboxes disable pause / enable CUP
+        pauseDisabled,
+        cupEnabled
     );
 
     model->loadData();

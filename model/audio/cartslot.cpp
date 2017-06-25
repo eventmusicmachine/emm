@@ -15,7 +15,7 @@
  * along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
  * ************************************************************************* */
 
-#include <QDebug>
+//#include <QDebug>
 #include <QSettings>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -137,6 +137,12 @@ bool CartSlot::getPauseDisabled()
     return this->pauseDisabled;
 }
 
+// m2: new checkbox enable CUP (play when mouse down / stop on release)
+bool CartSlot::getCupEnabled()
+{
+    return this->cupEnabled;
+}
+
 bool CartSlot::getLoop()
 {
     return this->loop;
@@ -186,7 +192,7 @@ double CartSlot::getLength() {
     return this->length;
 }
 
-void CartSlot::setDataAndSave(QString filename, QString text1, int type, int device, int channel, QString color, QString fontColor, bool fadeOut, bool letFade, bool fadeOthers, bool loop, double startPos, double stopPos, int pitch, int fontSize, double db, bool eqActive, QString eqConfig, bool disablePause)
+void CartSlot::setDataAndSave(QString filename, QString text1, int type, int device, int channel, QString color, QString fontColor, bool fadeOut, bool letFade, bool fadeOthers, bool loop, double startPos, double stopPos, int pitch, int fontSize, double db, bool eqActive, QString eqConfig, bool disablePause, bool enableCup)
 {
     this->filename = filename;
     this->text1 = text1;
@@ -206,8 +212,9 @@ void CartSlot::setDataAndSave(QString filename, QString text1, int type, int dev
     this->db = db;
     this->eqActive = eqActive;
     this->eqConfig = eqConfig;
-    // m2: new checkbox disable pause
+    // m2: new checkboxes disable pause / enable CUP
     this->pauseDisabled = disablePause;
+    this->cupEnabled = enableCup;
     this->saveData();
     if (!database)
     {
@@ -249,8 +256,9 @@ void CartSlot::readData()
         db = settings.value("Slot"+QString::number(number)+"/DB",0).toDouble();
         eqActive = settings.value("Slot"+QString::number(number)+"/EqualizerActive",false).toBool();
         eqConfig = settings.value("Slot"+QString::number(number)+"/EqualizerConfig","").toString();
-        // m2: new checkbox disable pause (default false)
+        // m2: new checkboxes disable pause / enable CUP (default false)
         pauseDisabled = settings.value("Slot"+QString::number(number)+"/PauseDisabled",false).toBool();
+        cupEnabled = settings.value("Slot"+QString::number(number)+"/CupEnabled",false).toBool();
     }
     else
     {
@@ -264,6 +272,14 @@ void CartSlot::readData()
             query.exec();
         }
 
+        // m2: Check if field cup_enabled exists, if not create it
+        query.prepare("SELECT cup_enabled FROM slots");
+        if (!query.exec()) {
+            // No field => create it
+            query.prepare("ALTER TABLE slots ADD COLUMN cup_enabled INTEGER DEFAULT 0");
+            query.exec();
+        }
+
         query.prepare("SELECT * FROM slots WHERE slot_id=?");
         query.bindValue(0,this->number);
         query.exec();
@@ -271,19 +287,23 @@ void CartSlot::readData()
         filename = query.value(1).toString();
         text1 = query.value(2).toString();
         color = query.value(3).toString();
-        fontColor = query.value(13).toString();
-        letFade = query.value(6).toBool();
         fadeOutFlag = query.value(4).toBool();
         fadeOthers = query.value(5).toBool();
+        letFade = query.value(6).toBool();
         loop = query.value(7).toBool();
         startPos = query.value(8).toDouble();
         stopPos = query.value(9).toDouble();
         pitch = query.value(10).toDouble();
         fontSize = query.value(11).toInt();
         db = query.value(12).toDouble();
+        fontColor = query.value(13).toString();
 
         // m2: adding pause_disabled ("4th checkbox")
         pauseDisabled = query.value(14).toBool();
+
+        // m2: adding cup_enabled ("5th checkbox")
+        cupEnabled = query.value(15).toBool();
+
         eqActive = false;
         eqConfig = "";
     }
@@ -312,8 +332,9 @@ void CartSlot::saveData()
         settings.setValue("Slot"+QString::number(number)+"/DB",db);
         settings.setValue("Slot"+QString::number(number)+"/EqualizerActive",eqActive);
         settings.setValue("Slot"+QString::number(number)+"/EqualizerConfig",eqConfig);
-        // m2: new checkbox disable pause
+        // m2: new checkboxes disable pause / enable CUP
         settings.setValue("Slot"+QString::number(number)+"/PauseDisabled",pauseDisabled);
+        settings.setValue("Slot"+QString::number(number)+"/CupEnabled",cupEnabled);
     }
     else
     {
@@ -327,19 +348,27 @@ void CartSlot::saveData()
             query.exec();
         }
 
+        // m2: Check if field cup_enabled exists, if not create it
+        query.prepare("SELECT cup_enabled FROM slots");
+        if (!query.exec()) {
+            // No field => create it
+            query.prepare("ALTER TABLE slots ADD COLUMN cup_enabled INTEGER DEFAULT 0");
+            query.exec();
+        }
+
         if (this->number == -1)
         {
             //query.prepare("INSERT INTO slots (filename,desc,color,fade_out,fade_others,let_fade,loop,start_pos,stop_pos,pitch,font_size,db,font_color) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            // m2: adding pause_disabled
-            query.prepare("INSERT INTO slots (filename,desc,color,fade_out,fade_others,let_fade,loop,start_pos,stop_pos,pitch,font_size,db,font_color,pause_disabled) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            // m2: adding pause_disabled / cup_enabled
+            query.prepare("INSERT INTO slots (filename,desc,color,fade_out,fade_others,let_fade,loop,start_pos,stop_pos,pitch,font_size,db,font_color,pause_disabled,cup_enabled) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         }
         else
         {
             //query.prepare("UPDATE slots SET filename=?,desc=?,color=?,fade_out=?,fade_others=?,let_fade=?,loop=?,start_pos=?,stop_pos=?,pitch=?,font_size=?,db=?,font_color=? WHERE slot_id=?");
             //query.bindValue(13,number);
-            // m2: adding pause_disabled
-            query.prepare("UPDATE slots SET filename=?,desc=?,color=?,fade_out=?,fade_others=?,let_fade=?,loop=?,start_pos=?,stop_pos=?,pitch=?,font_size=?,db=?,font_color=?,pause_disabled=? WHERE slot_id=?");
-            query.bindValue(14,number);
+            // m2: adding pause_disabled / cup_enabled
+            query.prepare("UPDATE slots SET filename=?,desc=?,color=?,fade_out=?,fade_others=?,let_fade=?,loop=?,start_pos=?,stop_pos=?,pitch=?,font_size=?,db=?,font_color=?,pause_disabled=?,cup_enabled=? WHERE slot_id=?");
+            query.bindValue(15,number);
         }
         query.bindValue(0,filename);
         query.bindValue(1,text1);
@@ -354,8 +383,9 @@ void CartSlot::saveData()
         query.bindValue(10,fontSize);
         query.bindValue(11,db);
         query.bindValue(12,fontColor);
-        // m2: adding pause_disabled
+        // m2: adding pause_disabled / cup_enabled
         query.bindValue(13,pauseDisabled);
+        query.bindValue(14,cupEnabled);
         query.exec();
     }
 }
