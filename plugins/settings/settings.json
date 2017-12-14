@@ -1,0 +1,15 @@
+{
+    "Name": "Settings",
+    "Version": "3.0.0",
+    "Required": true,
+    "HiddenByDefault": false,
+    "Vendor": "Event Music Machine",
+    "Category": "EMM",
+    "Description": "Settings Management for the EMM",
+    "Dependencies": [
+        {
+            "Name": "Core",
+            "Version": "3.0.0"
+        }
+    ]
+}

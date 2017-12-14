@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/playlist">
-        <file>icons/control_play_blue.png</file>
-        <file>icons/control_stop_blue.png</file>
-    </qresource>
-</RCC>

@@ -1,0 +1,9 @@
+{
+    "Name": "Core",
+    "Version": "3.0.0",
+    "Required": true,
+    "HiddenByDefault": true,
+    "Vendor": "Event Music Machine",
+    "Category": "EMM",
+    "Description": "Core of the EMM"
+}
