@@ -1,5 +1,4 @@
-include($$replace(_PRO_FILE_PWD_, ([^/]+$), \\1/\\1_dependencies.pri))
-
+include($$replace(_PRO_FILE_PWD_, (emm-plugin-)?([^/]+)$, \\1\\2/\\2_dependencies.pri))
 TARGET = $$qtLibraryTarget($$EMM_PLUGIN_NAME)
 
 include(emm.pri)
