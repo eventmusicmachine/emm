@@ -1,25 +1,12 @@
-Event Music Machine
-===================
+# Event Music Machine
 
-The Event Music Machine is a tool to play audio during events.
+> An open source extensible music player for events
 
-Build
------
+## Documentation
 
-To build this project, you need to have Qt installed.
+The documentation can be found in the [emm-docs](https://github.com/eventmusicmachine/emm-docs)
+repository.
 
-License
--------
+## License
 
-Event Music Machine is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Event Music Machine is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
+This software is released under the GPLv3 license.

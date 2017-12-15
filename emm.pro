@@ -7,3 +7,7 @@ SUBDIRS = \
     libs \
     app \
     plugins
+
+DISTFILES += \
+    README.md \
+    LICENSE
