@@ -25,7 +25,6 @@ AudioPlugin::AudioPlugin()
 {
 }
 
-
 AudioPlugin::~AudioPlugin()
 {
 

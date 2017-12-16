@@ -16,7 +16,8 @@ HEADERS += \
     core_global.h \
     mainwindow.h \
     aboutdialog.h \
-    icore.h
+    icore.h \
+    icentralcomponentfactory.h
 
 DISTFILES += \
     core.json

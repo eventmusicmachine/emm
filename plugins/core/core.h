@@ -38,7 +38,6 @@ public:
 
     bool initialize(const QStringList &arguments, QString *errorMessage = 0);
     void extensionsInitialized();
-    bool delayedInitialize();
 
 private:
     MainWindow* m_mainWindow;

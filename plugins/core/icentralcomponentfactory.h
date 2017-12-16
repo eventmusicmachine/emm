@@ -16,48 +16,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef ICENTRALCOMPONENTFACTORY_H
+#define ICENTRALCOMPONENTFACTORY_H
 
-#include <QMainWindow>
+#include <QObject>
 
-#include "icore.h"
+#include "core_global.h"
 
-QT_BEGIN_NAMESPACE
-class QToolBar;
-class QButtonGroup;
-class QStackedWidget;
-QT_END_NAMESPACE
-
-namespace Core {
-
-namespace Internal {
-
-class AboutDialog;
-
-class MainWindow : public QMainWindow
+class CORE_EXPORT ICentralComponentFactory : public QObject
 {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-    bool init(QString *errorMessage);
-    void extensionsInitialized();
-
-private:
-    void about();
-    void destroyAboutDialog();
-
-    ICore *m_coreImpl = nullptr;
-    AboutDialog *m_aboutDialog = nullptr;
-    QToolBar *m_toolBar = nullptr;
-    QButtonGroup *m_toolBarButtons = nullptr;
-    QStackedWidget *m_componentStack = nullptr;
+    virtual QString displayName() const = 0;
+    virtual QWidget *createComponent(QWidget *parent) = 0;
 };
 
-} // namespace Internal
-} // namespace Core
-
-#endif // MAINWINDOW_H
+#endif // ICENTRALCOMPONENTFACTORY_H

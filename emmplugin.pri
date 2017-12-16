@@ -9,3 +9,7 @@ TEMPLATE = lib
 CONFIG += plugin
 
 DESTDIR = $$EMM_PLUGIN_PATH
+
+HEADERS +=
+
+SOURCES +=

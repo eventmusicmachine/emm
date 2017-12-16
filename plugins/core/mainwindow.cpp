@@ -17,21 +17,35 @@
  **************************************************************************/
 
 #include <QAction>
+#include <QButtonGroup>
 #include <QMenuBar>
+#include <QStackedWidget>
+#include <QToolBar>
+#include <QToolButton>
+
 #include <actionmanager/actionmanager.h>
 #include <actionmanager/actioncontainer.h>
 #include <extensionsystem/pluginerroroverview.h>
+#include <extensionsystem/pluginmanager.h>
 
 #include "mainwindow.h"
 #include "aboutdialog.h"
+#include "icentralcomponentfactory.h"
 
 using namespace Core;
 using namespace Core::Internal;
 using namespace Actions;
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), m_coreImpl(new ICore(this))
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    m_coreImpl(new ICore(this)),
+    m_toolBar(new QToolBar(this)),
+    m_toolBarButtons(new QButtonGroup(this)),
+    m_componentStack(new QStackedWidget(this))
 {
     setWindowTitle("Event Music Machine");
+    setCentralWidget(m_componentStack);
+    addToolBar(Qt::LeftToolBarArea, m_toolBar);
 
     ActionContainer *menuBar = ActionManager::createMenuBar("MAIN_MENU");
     setMenuBar(menuBar->menuBar());
@@ -57,11 +71,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), m_coreImpl(new IC
     Action *e2 = ActionManager::registerAction(aboutAction, "ABOUT");
     helpMenu->addAction(e2);
     connect(aboutAction, &QAction::triggered, this, &MainWindow::about);
+
+    connect(m_toolBarButtons, SIGNAL(buttonPressed(int)), m_componentStack, SLOT(setCurrentIndex(int)));
 }
 
 MainWindow::~MainWindow()
 {
+    delete m_coreImpl;
+    m_coreImpl = nullptr;
 
+    delete m_toolBarButtons;
+    m_toolBarButtons = nullptr;
+
+    delete m_toolBar;
+    m_toolBar = nullptr;
+
+    delete m_componentStack;
+    m_componentStack = nullptr;
 }
 
 bool MainWindow::init(QString *errorMessage)
@@ -73,6 +99,20 @@ bool MainWindow::init(QString *errorMessage)
 
 void MainWindow::extensionsInitialized()
 {
+    // Create central components
+    QList<ICentralComponentFactory*> components = ExtensionSystem::PluginManager::getObjects<ICentralComponentFactory>();
+    foreach (ICentralComponentFactory *component, components) {
+        QToolButton *button = new QToolButton(this);
+        button->setText(component->displayName());
+        button->setCheckable(true);
+        m_toolBar->addWidget(button);
+        m_toolBarButtons->addButton(button);
+        m_componentStack->addWidget(component->createComponent(this));
+    }
+
+    // Automatically activate first button
+    m_toolBarButtons->buttons().first()->setChecked(true);
+
     showMaximized();
 }
 
