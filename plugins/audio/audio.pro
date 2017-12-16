@@ -2,7 +2,7 @@ include(../../emmplugin.pri)
 
 DEFINES += AUDIO_LIBRARY
 
-LIBS += -lExtensionSystem
+LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0)
 
 SOURCES += \
     audioplugin.cpp

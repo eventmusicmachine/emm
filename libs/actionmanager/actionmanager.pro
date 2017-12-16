@@ -1,4 +1,4 @@
-DEFINES += UTILS_LIBRARY
+DEFINES += ACTIONMANAGER_LIBRARY
 include(../../emmlibrary.pri)
 
 QT += widgets

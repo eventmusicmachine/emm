@@ -35,6 +35,9 @@ CorePlugin::~CorePlugin()
 
 bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage)
 {
+    Q_UNUSED(arguments)
+    Q_UNUSED(errorMessage)
+
     ActionManager::initialize(this);
     m_mainWindow = new MainWindow;
     const bool success = m_mainWindow->init(errorMessage);

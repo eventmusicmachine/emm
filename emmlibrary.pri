@@ -3,7 +3,6 @@ TARGET = $$qtLibraryTarget($$EMM_LIB_NAME)
 
 include(emm.pri)
 
-
 win32 {
     DLLDESTDIR = $$EMM_APP_PATH
 }

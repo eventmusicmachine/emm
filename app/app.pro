@@ -7,7 +7,7 @@ VERSION = $$EMM_VERSION
 QT -= testlib
 QT += widgets
 
-LIBS += -lExtensionSystem -lUtils
+LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0) -l$$qtLibraryName(Utils, 4.5.0)
 
 DEFINES += EMM_VERSION=\\\"$$EMM_VERSION\\\"
 DEFINES += RELATIVE_PLUGIN_PATH_STR=\\\"$$RELATIVE_PLUGIN_PATH\\\"

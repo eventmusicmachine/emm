@@ -33,7 +33,7 @@ namespace Actions {
 
 class Action;
 
-class ACTIONMANAGERSHARED_EXPORT ActionContainer : public QObject
+class ACTIONMANAGER_EXPORT ActionContainer : public QObject
 {
     Q_OBJECT
 public:

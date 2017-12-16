@@ -29,7 +29,7 @@ QT_END_NAMESPACE
 
 namespace Actions {
 
-class ACTIONMANAGERSHARED_EXPORT Action : public QObject
+class ACTIONMANAGER_EXPORT Action : public QObject
 {
     Q_OBJECT
 public:

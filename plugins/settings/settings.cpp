@@ -41,6 +41,9 @@ SettingsPlugin::~SettingsPlugin()
 
 bool SettingsPlugin::initialize(const QStringList &arguments, QString *errorMessage)
 {
+    Q_UNUSED(arguments)
+    Q_UNUSED(errorMessage)
+
     Actions::ActionContainer *fileMenu = Actions::ActionManager::actionContainer("FILE_MENU");
 
     QAction *settingsAction = new QAction(tr("Settings..."), this);

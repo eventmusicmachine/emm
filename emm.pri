@@ -4,6 +4,29 @@ EMM_PRI_INCLUDED = 1
 EMM_VERSION = 3.0.0
 VERSION = $$EMM_VERSION
 
+defineReplace(qtLibraryTargetName) {
+   unset(LIBRARY_NAME)
+   LIBRARY_NAME = $$1
+   CONFIG(debug, debug|release) {
+      !debug_and_release|build_pass {
+          mac:RET = $$member(LIBRARY_NAME, 0)_debug
+              else:win32:RET = $$member(LIBRARY_NAME, 0)d
+      }
+   }
+   isEmpty(RET):RET = $$LIBRARY_NAME
+   return($$RET)
+}
+
+defineReplace(qtLibraryName) {
+   RET = $$qtLibraryTargetName($$1)
+   LIB_VERSION = $$2
+   win32 {
+      VERSION_LIST = $$split(LIB_VERSION, .)
+      RET = $$RET$$first(VERSION_LIST)
+   }
+   return($$RET)
+}
+
 isEmpty(EMM_LIBRARY_BASENAME) {
     EMM_LIBRARY_BASENAME = lib
 }
@@ -57,6 +80,10 @@ for(dir, EMM_PLUGIN_DIRS) {
     INCLUDEPATH += $$dir
 }
 
+msvc {
+    DEFINES += _CRT_SECURE_NO_WARNINGS
+}
+
 !isEmpty(EMM_PLUGIN_DEPENDS) {
     LIBS *= -L$$EMM_PLUGIN_PATH
     LIBS *= -L$$LINK_PLUGIN_PATH
@@ -79,7 +106,7 @@ for(ever) {
         isEmpty(dependencies_file): \
             error("Plugin dependency $$dep not found")
         include($$dependencies_file)
-        LIBS += -l$$EMM_PLUGIN_NAME
+        LIBS *= -l$$qtLibraryName($$EMM_PLUGIN_NAME, $$EMM_VERSION)
     }
     EMM_PLUGIN_DEPENDS = $$unique(EMM_PLUGIN_DEPENDS)
     EMM_PLUGIN_DEPENDS -= $$unique(done_plugins)
@@ -93,7 +120,7 @@ for(ever) {
     done_libs += $$EMM_LIB_DEPENDS
     for(dep, EMM_LIB_DEPENDS) {
         include($$PWD/libs/$$dep/$${dep}_dependencies.pri)
-        LIBS *= -l$$EMM_LIB_NAME
+        LIBS *= -l$$qtLibraryName($$EMM_LIB_NAME, $$EMM_VERSION)
     }
     EMM_LIB_DEPENDS = $$unique(EMM_LIB_DEPENDS)
     EMM_LIB_DEPENDS -= $$unique(done_libs)

@@ -10,4 +10,5 @@ SUBDIRS = \
 
 DISTFILES += \
     README.md \
-    LICENSE
+    LICENSE \
+    .gitignore

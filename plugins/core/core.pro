@@ -3,7 +3,7 @@ include(../../emmplugin.pri)
 DEFINES += CORE_LIBRARY
 
 QT += widgets
-LIBS += -lExtensionSystem
+LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0)
 
 SOURCES += \
     core.cpp \
