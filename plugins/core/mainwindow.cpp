@@ -111,7 +111,9 @@ void MainWindow::extensionsInitialized()
     }
 
     // Automatically activate first button
-    m_toolBarButtons->buttons().first()->setChecked(true);
+    if (m_toolBarButtons->buttons().length() > 0) {
+        m_toolBarButtons->buttons().first()->setChecked(true);
+    }
 
     showMaximized();
 }
