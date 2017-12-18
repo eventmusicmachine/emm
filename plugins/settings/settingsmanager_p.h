@@ -16,38 +16,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef SETTINGSMANAGER_P_H
+#define SETTINGSMANAGER_P_H
 
-#include <QDialog>
+#include <QObject>
+#include <QHash>
 
 namespace Settings {
 
+class NavigationTreeItem;
+
 namespace Internal {
 
-class NavigationTreeModel;
-
-namespace Ui {
-
-class SettingsDialog;
-
-} // namespace Ui
-
-class SettingsDialog : public QDialog
+class SettingsManagerPrivate : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit SettingsDialog(QWidget *parent = 0);
-    ~SettingsDialog();
+    typedef QHash<QString, NavigationTreeItem *> IdNavigationNodeMap;
 
-private:
-    Ui::SettingsDialog *m_ui;
-    NavigationTreeModel *m_model;
+    ~SettingsManagerPrivate();
+
+    IdNavigationNodeMap m_idNodeMap;
 };
 
-} // namespace Insternal
+} // namespace Internal
 } // namespace Settings
 
-
-#endif // SETTINGSDIALOG_H
+#endif // SETTINGSMANAGER_P_H

@@ -6,13 +6,21 @@ QT += widgets
 LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0)
 
 SOURCES += \
-        settings.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    navigationtreemodel.cpp \
+    navigationtreeitem.cpp \
+    settingsmanager.cpp \
+    settingsplugin.cpp
 
 HEADERS += \
-        settings.h \
-        settings_global.h \ 
-    settingsdialog.h
+    settings_global.h \
+    settingsdialog.h \
+    navigationtreemodel.h \
+    navigationtreeitem.h \
+    settingsmanager.h \
+    settingsmanager_p.h \
+    settingsplugin.h \
+    navigationtreeitem_p.h
 
 DISTFILES += \
     settings.json

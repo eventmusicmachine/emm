@@ -16,36 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include "core.h"
-#include "mainwindow.h"
-#include "actionmanager/actionmanager.h"
+#ifndef NAVIGATIONTREEITEM_H
+#define NAVIGATIONTREEITEM_H
 
-using namespace Core;
-using namespace Core::Internal;
-using namespace Actions;
+#include <QVariant>
 
-CorePlugin::CorePlugin() : m_mainWindow(0)
+#include "settings_global.h"
+
+namespace Settings {
+
+class SETTINGS_EXPORT NavigationTreeItem
 {
-}
+public:
+    virtual void addChild(NavigationTreeItem *child) = 0;
 
-CorePlugin::~CorePlugin()
-{
-    delete m_mainWindow;
-}
+    virtual NavigationTreeItem *child(int row) = 0;
+    virtual int childCount() const = 0;
+    virtual int columnCount() const = 0;
+    virtual QVariant data(int column) const = 0;
+    virtual int row() const = 0;
+    virtual NavigationTreeItem *parentItem() = 0;
 
-bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage)
-{
-    Q_UNUSED(arguments)
-    Q_UNUSED(errorMessage)
+};
 
-    ActionManager::initialize(this);
-    m_mainWindow = new MainWindow;
-    const bool success = m_mainWindow->init(errorMessage);
+} // namespace Settings
 
-    return success;
-}
-
-void CorePlugin::extensionsInitialized()
-{
-    m_mainWindow->extensionsInitialized();
-}
+#endif // NAVIGATIONTREEITEM_H

@@ -8,7 +8,7 @@ SUBDIRS = \
     app \
     plugins
 
-DISTFILES += \
+OTHER_FILES += \
     README.md \
     LICENSE \
     .gitignore

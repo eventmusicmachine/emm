@@ -16,38 +16,37 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef SETTINGSMANAGER_H
+#define SETTINGSMANAGER_H
 
-#include <QDialog>
+#include <QObject>
+
+#include "settings_global.h"
 
 namespace Settings {
 
 namespace Internal {
+    class SettingsPlugin;
+}
 
-class NavigationTreeModel;
+class NavigationTreeItem;
 
-namespace Ui {
-
-class SettingsDialog;
-
-} // namespace Ui
-
-class SettingsDialog : public QDialog
+class SETTINGS_EXPORT SettingsManager : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit SettingsDialog(QWidget *parent = 0);
-    ~SettingsDialog();
+    static SettingsManager *instance();
+
+    static NavigationTreeItem *createNavigationNode(QString id, QString text);
+    static NavigationTreeItem *navigationNode(QString id);
 
 private:
-    Ui::SettingsDialog *m_ui;
-    NavigationTreeModel *m_model;
+    SettingsManager(QObject *parent = 0);
+    ~SettingsManager();
+
+    friend class Internal::SettingsPlugin;
 };
 
-} // namespace Insternal
-} // namespace Settings
+} // namespacee Settings
 
-
-#endif // SETTINGSDIALOG_H
+#endif // SETTINGSMANAGER_H

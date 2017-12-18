@@ -22,11 +22,10 @@
 #include <actionmanager/action.h>
 #include <core/icore.h>
 
-#include "settings.h"
+#include "settingsplugin.h"
 #include "settingsdialog.h"
+#include "settingsmanager.h"
 
-
-using namespace Settings;
 using namespace Settings::Internal;
 
 SettingsPlugin::SettingsPlugin()
@@ -43,6 +42,8 @@ bool SettingsPlugin::initialize(const QStringList &arguments, QString *errorMess
 {
     Q_UNUSED(arguments)
     Q_UNUSED(errorMessage)
+
+    new SettingsManager(this);
 
     Actions::ActionContainer *fileMenu = Actions::ActionManager::actionContainer("FILE_MENU");
 

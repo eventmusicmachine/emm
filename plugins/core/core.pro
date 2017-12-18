@@ -6,18 +6,18 @@ QT += widgets
 LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0)
 
 SOURCES += \
-    core.cpp \
     mainwindow.cpp \
     aboutdialog.cpp \
-    icore.cpp
+    icore.cpp \
+    coreplugin.cpp
 
 HEADERS += \
-    core.h \
     core_global.h \
     mainwindow.h \
     aboutdialog.h \
     icore.h \
-    icentralcomponentfactory.h
+    icentralcomponentfactory.h \
+    coreplugin.h
 
 DISTFILES += \
     core.json

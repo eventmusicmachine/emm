@@ -19,15 +19,26 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 
-using namespace Settings;
+#include "navigationtreemodel.h"
+
 using namespace Settings::Internal;
 
-SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), m_ui(new Ui::SettingsDialog)
+SettingsDialog::SettingsDialog(QWidget *parent) :
+    QDialog(parent),
+    m_model(new NavigationTreeModel),
+    m_ui(new Ui::SettingsDialog)
 {
     m_ui->setupUi(this);
+
+    QList<int> splitterSizes;
+    splitterSizes << 200 << 500;
+    m_ui->splitter->setSizes(splitterSizes);
+
+    m_ui->navigationTree->setModel(m_model);
 }
 
 SettingsDialog::~SettingsDialog()
 {
     delete m_ui;
+    delete m_model;
 }

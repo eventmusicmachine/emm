@@ -16,38 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef NAVIGATIONTREEMODEL_H
+#define NAVIGATIONTREEMODEL_H
 
-#include <QDialog>
+#include <QAbstractItemModel>
 
 namespace Settings {
 
+class NavigationTreeItem;
+
 namespace Internal {
 
-class NavigationTreeModel;
-
-namespace Ui {
-
-class SettingsDialog;
-
-} // namespace Ui
-
-class SettingsDialog : public QDialog
+class NavigationTreeModel : public QAbstractItemModel
 {
-    Q_OBJECT
-
 public:
-    explicit SettingsDialog(QWidget *parent = 0);
-    ~SettingsDialog();
+    explicit NavigationTreeModel(QObject *parent = 0);
+    ~NavigationTreeModel() {}
+
+    QVariant data(const QModelIndex &index, int role) const override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex &index) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
 private:
-    Ui::SettingsDialog *m_ui;
-    NavigationTreeModel *m_model;
+    NavigationTreeItem *m_rootItem = nullptr;
 };
 
-} // namespace Insternal
+} // namespace Internal
 } // namespace Settings
 
-
-#endif // SETTINGSDIALOG_H
+#endif // NAVIGATIONTREEMODEL_H

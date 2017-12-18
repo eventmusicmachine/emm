@@ -16,38 +16,43 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef NAVIGATIONTREEITEM_P_H
+#define NAVIGATIONTREEITEM_P_H
 
-#include <QDialog>
+#include <QList>
+
+#include "navigationtreeitem.h"
 
 namespace Settings {
 
+class NavigationTreeItem;
+
 namespace Internal {
 
-class NavigationTreeModel;
-
-namespace Ui {
-
-class SettingsDialog;
-
-} // namespace Ui
-
-class SettingsDialog : public QDialog
-{
-    Q_OBJECT
+class NavigationTreeItemPrivate : public NavigationTreeItem {
 
 public:
-    explicit SettingsDialog(QWidget *parent = 0);
-    ~SettingsDialog();
+    NavigationTreeItemPrivate(QString id, QString text, NavigationTreeItemPrivate *parent = 0);
+    ~NavigationTreeItemPrivate();
+
+    void addChild(NavigationTreeItem *child);
+
+    NavigationTreeItem *child(int row);
+    int childCount() const;
+    int columnCount() const;
+    QVariant data(int column) const;
+    int row() const;
+    NavigationTreeItem *parentItem();
 
 private:
-    Ui::SettingsDialog *m_ui;
-    NavigationTreeModel *m_model;
+    QString m_id;
+    QString m_text;
+    QList<NavigationTreeItemPrivate*> m_childItems;
+    NavigationTreeItemPrivate *m_parentItem;
+
 };
 
-} // namespace Insternal
+} // namespace Internal
 } // namespace Settings
 
-
-#endif // SETTINGSDIALOG_H
+#endif // NAVIGATIONTREEITEM_P_H

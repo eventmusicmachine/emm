@@ -22,9 +22,9 @@
 #include <QtCore/qglobal.h>
 
 #if defined(SETTINGS_LIBRARY)
-#  define SETTINGSSHARED_EXPORT Q_DECL_EXPORT
+#  define SETTINGS_EXPORT Q_DECL_EXPORT
 #else
-#  define SETTINGSSHARED_EXPORT Q_DECL_IMPORT
+#  define SETTINGS_EXPORT Q_DECL_IMPORT
 #endif
 
 #endif // SETTINGS_GLOBAL_H

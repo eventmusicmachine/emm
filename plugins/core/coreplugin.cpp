@@ -16,38 +16,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#include "coreplugin.h"
+#include "mainwindow.h"
+#include "actionmanager/actionmanager.h"
 
-#include <QDialog>
+using namespace Core;
+using namespace Core::Internal;
+using namespace Actions;
 
-namespace Settings {
-
-namespace Internal {
-
-class NavigationTreeModel;
-
-namespace Ui {
-
-class SettingsDialog;
-
-} // namespace Ui
-
-class SettingsDialog : public QDialog
+CorePlugin::CorePlugin() : m_mainWindow(0)
 {
-    Q_OBJECT
+}
 
-public:
-    explicit SettingsDialog(QWidget *parent = 0);
-    ~SettingsDialog();
+CorePlugin::~CorePlugin()
+{
+    delete m_mainWindow;
+}
 
-private:
-    Ui::SettingsDialog *m_ui;
-    NavigationTreeModel *m_model;
-};
+bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage)
+{
+    Q_UNUSED(arguments)
+    Q_UNUSED(errorMessage)
 
-} // namespace Insternal
-} // namespace Settings
+    ActionManager::initialize(this);
+    m_mainWindow = new MainWindow;
+    const bool success = m_mainWindow->init(errorMessage);
 
+    return success;
+}
 
-#endif // SETTINGSDIALOG_H
+void CorePlugin::extensionsInitialized()
+{
+    m_mainWindow->extensionsInitialized();
+}
