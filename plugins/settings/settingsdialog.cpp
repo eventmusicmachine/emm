@@ -38,7 +38,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     m_ui->navigationTree->setModel(m_model);
 
-    connect(m_ui->navigationTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(showSettingsWidget(QModelIndex)));
+    connect(m_ui->navigationTree->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &SettingsDialog::showSettingsWidget);
+    connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &SettingsDialog::accept);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -53,6 +54,8 @@ void SettingsDialog::showSettingsWidget(const QModelIndex &selected)
         ISettingsPageFactory *factory = m_model->factory(selected);
         if (factory) {
             ISettingsPage *page = factory->createPage();
+            page->load();
+            m_visitedPages.append(page);
             if (m_page) {
                 QLayoutItem *item = m_ui->contentLayout->replaceWidget(m_page->widget(), page->widget());
                 delete item;
@@ -64,4 +67,12 @@ void SettingsDialog::showSettingsWidget(const QModelIndex &selected)
             }
         }
     }
+}
+
+void SettingsDialog::accept()
+{
+    foreach (ISettingsPage *page, m_visitedPages) {
+        page->apply();
+    }
+    done(QDialog::Accepted);
 }

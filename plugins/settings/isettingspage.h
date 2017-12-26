@@ -36,9 +36,9 @@ public:
     virtual QString id() const = 0;
     virtual QWidget *widget() = 0;
 
-public slots:
+public:
+    virtual void load() = 0;
     virtual void apply() = 0;
-    virtual void accept() = 0;
 };
 
 } //namespace Settings

@@ -52,8 +52,11 @@ private:
     NavigationTreeModel *m_model;
     ISettingsPage *m_page = nullptr;
 
+    QList<ISettingsPage*> m_visitedPages;
+
 private slots:
     void showSettingsWidget(const QModelIndex &selected);
+    void accept();
 };
 
 } // namespace Insternal
