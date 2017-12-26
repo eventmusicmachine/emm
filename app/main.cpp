@@ -16,6 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
+#include <QApplication>
 #include <QDebug>
 #include <QDir>
 #include <QMessageBox>
@@ -25,7 +26,6 @@
 #include <extensionsystem/pluginspec.h>
 #include <utils/hostosinfo.h>
 
-#include "application.h"
 #include "app_version.h"
 
 using namespace ExtensionSystem;
@@ -37,7 +37,7 @@ typedef QList<PluginSpec *> PluginSpecSet;
 static void displayError(const QString &t)
 {
     if (Utils::HostOsInfo::isWindowsHost()) {
-        QMessageBox::critical(0, QLatin1String('Event Music Machine'), t);
+        QMessageBox::critical(0, QLatin1String("Event Music Machine"), t);
     } else {
         qCritical("%s", qPrintable(t));
     }
@@ -60,7 +60,7 @@ static inline QStringList getPluginPaths()
     if (Utils::HostOsInfo::isAnyUnixHost() && !Utils::HostOsInfo::isMacHost()) {
         pluginPath += QLatin1String("/data");
     }
-    pluginPath += QLatin1Char('/') + QLatin1String('EMM') + QLatin1Char('/');
+    pluginPath += QLatin1Char('/') + QLatin1String("EMM") + QLatin1Char('/');
     pluginPath += QLatin1String(Utils::HostOsInfo::isMacHost() ? "Event Music Machine" : "EMM");
     pluginPath += QLatin1String("/plugins/");
     pluginPath += QLatin1String(Core::Constants::EMM_VERSION_LONG);
@@ -70,7 +70,7 @@ static inline QStringList getPluginPaths()
 
 int main(int argc, char *argv[])
 {
-    Core::Application app((QLatin1String("Event Music Machine")), argc, argv);
+    QApplication app(argc, argv);
 
     QSettings::setDefaultFormat(QSettings::IniFormat);
     QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "EMM", "emm");
