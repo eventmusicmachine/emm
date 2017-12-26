@@ -26,11 +26,11 @@
 #include <extensionsystem/pluginspec.h>
 #include <utils/hostosinfo.h>
 
-#include "app_version.h"
-
 using namespace ExtensionSystem;
 
 const char corePluginName[] = "Core";
+const char * const EMM_VERSION_LONG = EMM_VERSION;
+const char * const RELATIVE_PLUGIN_PATH = RELATIVE_PLUGIN_PATH_STR;
 
 typedef QList<PluginSpec *> PluginSpecSet;
 
@@ -50,7 +50,7 @@ static inline QString msgCoreLoadFailure(const QString &why)
 
 static inline QStringList getPluginPaths()
 {
-    QStringList rc(QDir::cleanPath(QApplication::applicationDirPath() + '/' + Core::Constants::RELATIVE_PLUGIN_PATH));
+    QStringList rc(QDir::cleanPath(QApplication::applicationDirPath() + '/' + RELATIVE_PLUGIN_PATH));
     // Local plugin path: <localappdata>/plugins/<ideversion>
     //    where <localappdata> is e.g.
     //    "%LOCALAPPDATA%\EMM\emm" on Windows Vista and later
@@ -63,7 +63,7 @@ static inline QStringList getPluginPaths()
     pluginPath += QLatin1Char('/') + QLatin1String("EMM") + QLatin1Char('/');
     pluginPath += QLatin1String(Utils::HostOsInfo::isMacHost() ? "Event Music Machine" : "EMM");
     pluginPath += QLatin1String("/plugins/");
-    pluginPath += QLatin1String(Core::Constants::EMM_VERSION_LONG);
+    pluginPath += QLatin1String(EMM_VERSION_LONG);
     rc.push_back(pluginPath);
     return rc;
 }

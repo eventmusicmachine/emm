@@ -14,5 +14,4 @@ DEFINES += RELATIVE_PLUGIN_PATH_STR=\\\"$$RELATIVE_PLUGIN_PATH\\\"
 
 SOURCES += main.cpp
 
-HEADERS += \
-    app_version.h
+HEADERS +=
