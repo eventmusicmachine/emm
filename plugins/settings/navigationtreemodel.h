@@ -24,6 +24,7 @@
 namespace Settings {
 
 class NavigationTreeItem;
+class ISettingsPageFactory;
 
 namespace Internal {
 
@@ -39,6 +40,8 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+
+    ISettingsPageFactory *factory(const QModelIndex &index) const;
 
 private:
     NavigationTreeItem *m_rootItem = nullptr;

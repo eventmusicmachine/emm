@@ -16,48 +16,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef ISETTINGSPAGE_H
+#define ISETTINGSPAGE_H
 
-#include <QDialog>
+#include <QObject>
+
+#include "settings_global.h"
 
 QT_BEGIN_NAMESPACE
-class QItemSelection;
+class QWidget;
 QT_END_NAMESPACE
 
 namespace Settings {
 
-class ISettingsPage;
-
-namespace Internal {
-
-class NavigationTreeModel;
-
-namespace Ui {
-
-class SettingsDialog;
-
-} // namespace Ui
-
-class SettingsDialog : public QDialog
+class SETTINGS_EXPORT ISettingsPage : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit SettingsDialog(QWidget *parent = 0);
-    ~SettingsDialog();
+    virtual QString id() const = 0;
+    virtual QWidget *widget() = 0;
 
-private:
-    Ui::SettingsDialog *m_ui;
-    NavigationTreeModel *m_model;
-    ISettingsPage *m_page = nullptr;
-
-private slots:
-    void showSettingsWidget(const QModelIndex &selected);
+public slots:
+    virtual void apply() = 0;
+    virtual void accept() = 0;
 };
 
-} // namespace Insternal
-} // namespace Settings
+} //namespace Settings
 
-
-#endif // SETTINGSDIALOG_H
+#endif // ISETTINGSPAGE_H

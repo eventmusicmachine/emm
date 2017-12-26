@@ -114,3 +114,14 @@ int NavigationTreeModel::columnCount(const QModelIndex &parent) const
         return m_rootItem->columnCount();
     }
 }
+
+ISettingsPageFactory *NavigationTreeModel::factory(const QModelIndex &index) const
+{
+    if (!index.isValid()) {
+        return 0;
+    }
+
+    NavigationTreeItem *item = static_cast<NavigationTreeItem*>(index.internalPointer());
+
+    return item->factory();
+}

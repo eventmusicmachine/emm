@@ -19,6 +19,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QMessageBox>
+#include <QSettings>
 #include <QStandardPaths>
 #include <extensionsystem/pluginmanager.h>
 #include <extensionsystem/pluginspec.h>
@@ -36,7 +37,7 @@ typedef QList<PluginSpec *> PluginSpecSet;
 static void displayError(const QString &t)
 {
     if (Utils::HostOsInfo::isWindowsHost()) {
-        QMessageBox::critical(0, QLatin1String(Core::Constants::EMM_DISPLAY_NAME), t);
+        QMessageBox::critical(0, QLatin1String('Event Music Machine'), t);
     } else {
         qCritical("%s", qPrintable(t));
     }
@@ -52,15 +53,15 @@ static inline QStringList getPluginPaths()
     QStringList rc(QDir::cleanPath(QApplication::applicationDirPath() + '/' + Core::Constants::RELATIVE_PLUGIN_PATH));
     // Local plugin path: <localappdata>/plugins/<ideversion>
     //    where <localappdata> is e.g.
-    //    "%LOCALAPPDATA%\QtProject\qtcreator" on Windows Vista and later
-    //    "$XDG_DATA_HOME/data/QtProject/qtcreator" or "~/.local/share/data/QtProject/qtcreator" on Linux
-    //    "~/Library/Application Support/QtProject/Qt Creator" on Mac
+    //    "%LOCALAPPDATA%\EMM\emm" on Windows Vista and later
+    //    "$XDG_DATA_HOME/data/EMM/emm" or "~/.local/share/data/EMM/emm" on Linux
+    //    "~/Library/Application Support/EMM/Event Music Machine" on Mac
     QString pluginPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     if (Utils::HostOsInfo::isAnyUnixHost() && !Utils::HostOsInfo::isMacHost()) {
         pluginPath += QLatin1String("/data");
     }
-    pluginPath += QLatin1Char('/') + QLatin1String(Core::Constants::EMM_SETTINGSVARIANT_STR) + QLatin1Char('/');
-    pluginPath += QLatin1String(Utils::HostOsInfo::isMacHost() ? Core::Constants::EMM_DISPLAY_NAME : Core::Constants::EMM_ID);
+    pluginPath += QLatin1Char('/') + QLatin1String('EMM') + QLatin1Char('/');
+    pluginPath += QLatin1String(Utils::HostOsInfo::isMacHost() ? "Event Music Machine" : "EMM");
     pluginPath += QLatin1String("/plugins/");
     pluginPath += QLatin1String(Core::Constants::EMM_VERSION_LONG);
     rc.push_back(pluginPath);
@@ -69,10 +70,14 @@ static inline QStringList getPluginPaths()
 
 int main(int argc, char *argv[])
 {
-    Core::Application app((QLatin1String(Core::Constants::EMM_DISPLAY_NAME)), argc, argv);
+    Core::Application app((QLatin1String("Event Music Machine")), argc, argv);
 
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+    QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "EMM", "emm");
+    
     PluginManager pluginManager;
     PluginManager::setPluginIID(QLatin1String("de.eventmusicmachine.EmmPlugin"));
+    PluginManager::setSettings(settings);
 
     // Load
     const QStringList pluginPaths = getPluginPaths();

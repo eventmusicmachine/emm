@@ -25,6 +25,8 @@
 
 namespace Settings {
 
+class ISettingsPageFactory;
+
 class SETTINGS_EXPORT NavigationTreeItem
 {
 public:
@@ -37,6 +39,8 @@ public:
     virtual int row() const = 0;
     virtual NavigationTreeItem *parentItem() = 0;
 
+    virtual ISettingsPageFactory *factory() const = 0;
+    virtual void setFactory(ISettingsPageFactory *factory) = 0;
 };
 
 } // namespace Settings

@@ -20,7 +20,9 @@ HEADERS += \
     settingsmanager.h \
     settingsmanager_p.h \
     settingsplugin.h \
-    navigationtreeitem_p.h
+    navigationtreeitem_p.h \
+    isettingspagefactory.h \
+    isettingspage.h
 
 DISTFILES += \
     settings.json

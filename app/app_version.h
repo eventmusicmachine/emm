@@ -22,25 +22,9 @@
 namespace Core {
 namespace Constants {
 
-    #define STRINGIFY_INTERNAL(x) #x
-    #define STRINGIFY(x) STRINGIFY_INTERNAL(x)
-
-    const char EMM_DISPLAY_NAME[] = "Event Music Machine";
-    const char EMM_ID[] = "emm";
-
     const char * const EMM_VERSION_LONG = EMM_VERSION;
-
-    // changes the path where the settings are saved to
-    #ifdef EMM_SETTINGSVARIANT
-    const char * const EMM_SETTINGSVARIANT_STR = STRINGIFY(EMM_SETTINGSVARIANT);
-    #else
-    const char * const EMM_SETTINGSVARIANT_STR = "EMM";
-    #endif
-
     const char * const RELATIVE_PLUGIN_PATH = RELATIVE_PLUGIN_PATH_STR;
 
-    #undef STRINGIFY
-    #undef STRINGIFY_INTERNAL
 }
 }
 

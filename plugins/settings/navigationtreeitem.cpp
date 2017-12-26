@@ -33,6 +33,7 @@ NavigationTreeItemPrivate::NavigationTreeItemPrivate(QString id, QString text, N
 NavigationTreeItemPrivate::~NavigationTreeItemPrivate()
 {
     qDeleteAll(m_childItems);
+    delete m_factory;
 }
 
 void NavigationTreeItemPrivate::addChild(NavigationTreeItem *item)
@@ -69,8 +70,19 @@ NavigationTreeItem *NavigationTreeItemPrivate::parentItem()
 
 int NavigationTreeItemPrivate::row() const
 {
-    if (m_parentItem)
+    if (m_parentItem) {
         return m_parentItem->m_childItems.indexOf(const_cast<NavigationTreeItemPrivate*>(this));
+    }
 
     return 0;
+}
+
+ISettingsPageFactory *NavigationTreeItemPrivate::factory() const
+{
+    return m_factory;
+}
+
+void NavigationTreeItemPrivate::setFactory(ISettingsPageFactory *factory)
+{
+    m_factory = factory;
 }

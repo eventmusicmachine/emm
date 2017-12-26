@@ -18,9 +18,11 @@
 
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
-
 #include "navigationtreemodel.h"
+#include "isettingspagefactory.h"
+#include "isettingspage.h"
 
+using namespace Settings;
 using namespace Settings::Internal;
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
@@ -35,10 +37,31 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_ui->splitter->setSizes(splitterSizes);
 
     m_ui->navigationTree->setModel(m_model);
+
+    connect(m_ui->navigationTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this, SLOT(showSettingsWidget(QModelIndex)));
 }
 
 SettingsDialog::~SettingsDialog()
 {
     delete m_ui;
     delete m_model;
+}
+
+void SettingsDialog::showSettingsWidget(const QModelIndex &selected)
+{
+    if (selected.isValid()) {
+        ISettingsPageFactory *factory = m_model->factory(selected);
+        if (factory) {
+            ISettingsPage *page = factory->createPage();
+            if (m_page) {
+                QLayoutItem *item = m_ui->contentLayout->replaceWidget(m_page->widget(), page->widget());
+                delete item;
+                delete m_page;
+                m_page = page;
+            } else {
+                m_ui->contentLayout->addWidget(page->widget());
+                m_page = page;
+            }
+        }
+    }
 }
