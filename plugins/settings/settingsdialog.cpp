@@ -54,7 +54,6 @@ void SettingsDialog::showSettingsWidget(const QModelIndex &selected)
         ISettingsPageFactory *factory = m_model->factory(selected);
         if (factory) {
             ISettingsPage *page = factory->createPage();
-            page->load();
             m_visitedPages.append(page);
             if (m_page) {
                 QLayoutItem *item = m_ui->contentLayout->replaceWidget(m_page->widget(), page->widget());
@@ -65,6 +64,7 @@ void SettingsDialog::showSettingsWidget(const QModelIndex &selected)
                 m_ui->contentLayout->addWidget(page->widget());
                 m_page = page;
             }
+            m_page->load();
         }
     }
 }
