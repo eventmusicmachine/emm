@@ -19,7 +19,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <windows.h>
 
 namespace Ui {
     class MainWindow;
@@ -43,7 +42,6 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    QList<CartSlotWidget*> slotWidgets;
     QList<PlayerWidget*> playerWidgets;
     QFileSystemModel *fileModel;
     LoadSlotThread *slotThread;

@@ -35,9 +35,6 @@
      <number>2</number>
     </property>
     <item>
-     <widget class="TFSelectionBar" name="menuWidget" native="true"/>
-    </item>
-    <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -59,9 +56,6 @@
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item>
-         <widget class="LayerSelector" name="layerSelector" native="true"/>
-        </item>
         <item>
          <layout class="QGridLayout" name="slotLayout">
           <property name="spacing">
@@ -115,7 +109,7 @@
               </sizepolicy>
              </property>
              <property name="icon">
-              <iconset resource="../resources/icons.qrc">
+              <iconset>
                <normaloff>:/app/icons/folder.png</normaloff>:/app/icons/folder.png</iconset>
              </property>
              <property name="iconSize">
@@ -135,7 +129,7 @@
               </sizepolicy>
              </property>
              <property name="icon">
-              <iconset resource="../resources/icons.qrc">
+              <iconset>
                <normaloff>:/app/icons/save_as.png</normaloff>:/app/icons/save_as.png</iconset>
              </property>
              <property name="iconSize">
@@ -274,7 +268,7 @@
                    </sizepolicy>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/icons.qrc">
+                   <iconset>
                     <normaloff>:/app/icons/save_as.png</normaloff>:/app/icons/save_as.png</iconset>
                   </property>
                  </widget>
@@ -301,7 +295,7 @@
                <item>
                 <widget class="QCheckBox" name="autoPlayCheckBox">
                  <property name="icon">
-                  <iconset resource="../resources/icons.qrc">
+                  <iconset>
                    <normaloff>:/app/icons/arrow_switch.png</normaloff>:/app/icons/arrow_switch.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -341,7 +335,7 @@ font-weight:bold;</string>
                   <string>NEXT</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../resources/icons.qrc">
+                  <iconset>
                    <normaloff>:/app/icons/document_page_next.png</normaloff>:/app/icons/document_page_next.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -405,7 +399,7 @@ font-weight:bold;</string>
      <x>0</x>
      <y>0</y>
      <width>646</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -435,7 +429,7 @@ font-weight:bold;</string>
   </widget>
   <action name="configAction">
    <property name="icon">
-    <iconset resource="../resources/icons.qrc">
+    <iconset>
      <normaloff>:/app/icons/setting_tools.png</normaloff>:/app/icons/setting_tools.png</iconset>
    </property>
    <property name="text">
@@ -457,7 +451,7 @@ font-weight:bold;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resources/icons.qrc">
+    <iconset>
      <normaloff>:/app/icons/small_tiles.png</normaloff>:/app/icons/small_tiles.png</iconset>
    </property>
    <property name="text">
@@ -469,7 +463,7 @@ font-weight:bold;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resources/icons.qrc">
+    <iconset>
      <normaloff>:/app/icons/control_play_blue.png</normaloff>:/app/icons/control_play_blue.png</iconset>
    </property>
    <property name="text">
@@ -478,7 +472,7 @@ font-weight:bold;</string>
   </action>
   <action name="slotStoreAction">
    <property name="icon">
-    <iconset resource="../resources/icons.qrc">
+    <iconset>
      <normaloff>:/app/icons/server_components.png</normaloff>:/app/icons/server_components.png</iconset>
    </property>
    <property name="text">
@@ -513,21 +507,7 @@ font-weight:bold;</string>
    <extends>QListWidget</extends>
    <header>historylistwidget.h</header>
   </customwidget>
-  <customwidget>
-   <class>TFSelectionBar</class>
-   <extends>QWidget</extends>
-   <header>tfselectionbar.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>LayerSelector</class>
-   <extends>QWidget</extends>
-   <header>layerselector.h</header>
-   <container>1</container>
-  </customwidget>
  </customwidgets>
- <resources>
-  <include location="../resources/icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -21,7 +21,7 @@
 #include <QStringList>
 #include "bass.h"
 #include "bass_fx.h"
-#include "bassasiodevice.h"
+// #include "bassasiodevice.h"
 #include "bassdevice.h"
 #include "cartslot.h"
 #include "configuration.h"

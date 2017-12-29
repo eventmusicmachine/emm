@@ -22,7 +22,6 @@
 #include <QMap>
 #include <QObject>
 #include "bass.h"
-#include "bassasio.h"
 
 class QTimer;
 

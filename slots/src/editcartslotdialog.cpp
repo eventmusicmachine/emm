@@ -21,7 +21,7 @@
 #include <QProgressDialog>
 #include <QScrollBar>
 #include <math.h>
-#include "bassasiodevice.h"
+// #include "bassasiodevice.h"
 #include "bassdevice.h"
 #include "cartslot.h"
 #include "editcartslotdialog.h"

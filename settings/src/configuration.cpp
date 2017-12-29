@@ -18,21 +18,9 @@
 #include <QMutex>
 #include <QSettings>
 #include "configuration.h"
-#include "layerdata.h"
 #include "bassdevice.h"
-#include "bassasiodevice.h"
 
 Configuration* Configuration::instance = 0;
-
-int Configuration::getHorizontalSlots()
-{
-    return this->horizontalSlots;
-}
-
-int Configuration::getVerticalSlots()
-{
-    return this->verticalSlots;
-}
 
 int Configuration::getPFLDriver()
 {
@@ -84,13 +72,6 @@ int Configuration::getPlaylistFPos()
     return this->playlistFPos;
 }
 
-int Configuration::getLayer()
-{
-    return this->layer;
-}
-
-
-
 int Configuration::getSlotBuffer()
 {
     return this->slotBuffer;
@@ -108,20 +89,6 @@ bool Configuration::getPauseButton()
 
 int Configuration::getSlotTimeSize() {
     return this->slotTimeSize;
-}
-
-QMap<int, LayerData*> Configuration::getLayers() {
-    return this->layers;
-}
-
-void Configuration::setHorizontalSlots(int horizontalSlots)
-{
-    this->horizontalSlots = horizontalSlots;
-}
-
-void Configuration::setVerticalSlots(int verticalSlots)
-{
-    this->verticalSlots = verticalSlots;
 }
 
 void Configuration::setPFLDriver(int pflDriver)
@@ -174,11 +141,6 @@ void Configuration::setPlaylistFPos(int playlistFPos)
     this->playlistFPos = playlistFPos;
 }
 
-void Configuration::setLayer(int layer)
-{
-    this->layer = layer;
-}
-
 void Configuration::setSlotBuffer(int slotBuffer)
 {
     this->slotBuffer = slotBuffer;
@@ -201,9 +163,6 @@ void Configuration::setSlotTimeSize(int size) {
 void Configuration::readData()
 {
     QSettings settings(Configuration::getStorageLocation() + "/config.ini", QSettings::IniFormat);
-    horizontalSlots = settings.value("Slots/Horizontal",5).toInt();
-    verticalSlots = settings.value("Slots/Vertical",5).toInt();
-    layer = settings.value("Slots/Layer",1).toInt();
     pflDriver = settings.value("PFL/Type",0).toInt();
     pflDevice = settings.value("PFL/Device",1).toInt();
     pflChannel = settings.value("PFL/Channel",1).toInt();
@@ -218,22 +177,11 @@ void Configuration::readData()
     layerKeyboardSync = settings.value("Slots/LayerKeyboardSync",false).toBool();
     pauseButton = settings.value("Slots/PauseButton",false).toBool();
     slotTimeSize = settings.value("Slots/TimeSize",10).toInt();
-
-    layers.clear();
-    for (int i=0;i<layer;i++) {
-        LayerData *data = new LayerData(i+1);
-        data->setName(settings.value("Layer"+QString::number(i+1)+"/Name","Layer "+QString::number(i+1)).toString());
-        data->setVisible(settings.value("Layer"+QString::number(i+1)+"/Visible",true).toBool());
-        layers.insert(i,data);
-    }
 }
 
 void Configuration::saveData()
 {
     QSettings settings(Configuration::getStorageLocation() + "/config.ini", QSettings::IniFormat);
-    settings.setValue("Slots/Horizontal",horizontalSlots);
-    settings.setValue("Slots/Vertical",verticalSlots);
-    settings.setValue("Slots/Layer",layer);
     settings.setValue("PFL/Type",pflDriver);
     settings.setValue("PFL/Device",pflDevice);
     settings.setValue("PFL/Channel",pflChannel);
@@ -249,24 +197,7 @@ void Configuration::saveData()
     settings.setValue("Slots/TimeSize",slotTimeSize);
     settings.setValue("Slots/PauseButton",pauseButton);
     BassDevice::setBuffer(slotBuffer);
-    BassAsioDevice::setBuffer(slotBuffer);
-
-    for (int i=0;i<layer;i++) {
-        LayerData *data = layers.value(i);
-        settings.setValue("Layer"+QString::number(i+1)+"/Name",data->getName());
-        settings.setValue("Layer"+QString::number(i+1)+"/Visible",data->getVisible());
-    }
-}
-
-void Configuration::updateLayerCount(int count) {
-    if (count > layers.size()) {
-        LayerData *layer = new LayerData(count);
-        layer->setName("Layer "+QString::number(count));
-        layer->setVisible(true);
-        layers.insert(count-1,layer);
-    } else {
-        layers.remove(count);
-    }
+    // BassAsioDevice::setBuffer(slotBuffer);
 }
 
 Configuration* Configuration::getInstance()

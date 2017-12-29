@@ -35,7 +35,7 @@ QString BassDevice::getName()
 
 void BassDevice::init()
 {
-    if (!BASS_Init(deviceID,44100,0,(HWND)mainwindow->winId(),NULL)) {
+    /* if (!BASS_Init(deviceID,44100,0,(HWND)mainwindow->winId(),NULL)) {
         emit errorOccured(BASS_ErrorGetCode());
     }
     else
@@ -50,7 +50,7 @@ void BassDevice::init()
             streams.append(newMixer);
             BASS_ChannelPlay(newMixer,false);
         }
-    }
+    } */
 }
 
 BASS_INFO BassDevice::getInfo()

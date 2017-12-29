@@ -20,13 +20,11 @@ INCLUDEPATH += $$PWD/include
 HEADERS += \
     $$PWD/include/configuration.h \
     $$PWD/include/configurationdialog.h \
-    $$PWD/include/layerdata.h \
     $$PWD/include/globaldata.h
 
 SOURCES += \
     $$PWD/src/configuration.cpp \
     $$PWD/src/configurationdialog.cpp \
-    $$PWD/src/layerdata.cpp \
     $$PWD/src/globaldata.cpp
 
 FORMS += \

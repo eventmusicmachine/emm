@@ -20,9 +20,9 @@
 #include "abstractaudioobject.h"
 #include "bassmix.h"
 #include "bass_fx.h"
-#include "bassasiodevice.h"
+// #include "bassasiodevice.h"
 #include "bassdevice.h"
-#include "keyboardcontroller.h"
+// #include "keyboardcontroller.h"
 
 AbstractAudioObject::AbstractAudioObject(int, QObject *parent) : QObject(parent)
 {
@@ -61,7 +61,7 @@ void AbstractAudioObject::loadStream(double vol)
         break;
     case 1:
         BASS_SetDevice(0);
-        BASS_ASIO_SetDevice(device);
+        // BASS_ASIO_SetDevice(device);
         break;
     }
 
@@ -84,8 +84,8 @@ void AbstractAudioObject::loadStream(double vol)
         break;
     case 1:
         stream = BASS_FX_TempoCreate(stream,BASS_FX_FREESOURCE | BASS_STREAM_DECODE);
-        if (BassAsioDevice::getDeviceWithID(device) == NULL) return;
-        BassAsioDevice::getDeviceWithID(device)->addStreamToMixer(stream,channel);
+        // if (BassAsioDevice::getDeviceWithID(device) == NULL) return;
+        // BassAsioDevice::getDeviceWithID(device)->addStreamToMixer(stream,channel);
         break;
     }
     if (vol != 0) {
@@ -115,7 +115,7 @@ DWORD AbstractAudioObject::getSpeakerFlag()
 
 void AbstractAudioObject::play()
 {
-    KeyboardController::increasePlayerCount();
+    // KeyboardController::increasePlayerCount();
     BASS_Mixer_ChannelFlags(stream, 0, BASS_MIXER_PAUSE);
     BASS_ChannelSetAttribute(stream,BASS_ATTRIB_VOL,1);
     timer->start(100);
@@ -130,7 +130,7 @@ void AbstractAudioObject::stop()
 {
     if (!playing)
         return;
-    KeyboardController::reducePlayerCount();
+    // KeyboardController::reducePlayerCount();
     BASS_ChannelStop(stream);
     BASS_Mixer_ChannelFlags(stream, BASS_MIXER_PAUSE, BASS_MIXER_PAUSE);
     playing = false;
@@ -222,11 +222,12 @@ void AbstractAudioObject::initDevice()
         }
         break;
     case 1: {
-            BassAsioDevice *bd = BassAsioDevice::getDeviceWithID(device);
+            /* BassAsioDevice *bd = BassAsioDevice::getDeviceWithID(device);
             if (bd == NULL)
                 return;
             if (!bd->isInitialized())
                 bd->init();
+                */
         }
         break;
     }

@@ -21,7 +21,7 @@ win32 {
 macx {
     LIBS += -L$$PWD/lib/mac
 }
-LIBS += -lbass -ltags -lbassasio -lbassmix -lbass_fx
+LIBS += -lbass -ltags -lbassmix -lbass_fx
 
 INCLUDEPATH += $$PWD/lib/header
 INCLUDEPATH += $$PWD/include
@@ -29,7 +29,7 @@ INCLUDEPATH += $$PWD/include
 HEADERS += \
     $$PWD/include/abstractaudioobject.h \
     $$PWD/include/abstractbassdevice.h \
-    $$PWD/include/bassasiodevice.h \
+    # $$PWD/include/bassasiodevice.h \
     $$PWD/include/bassdevice.h \
     $$PWD/include/audioprocessor.h \
     $$PWD/include/pflplayer.h \
@@ -40,7 +40,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/src/abstractaudioobject.cpp \
     $$PWD/src/abstractbassdevice.cpp \
-    $$PWD/src/bassasiodevice.cpp \
+    # $$PWD/src/bassasiodevice.cpp \
     $$PWD/src/bassdevice.cpp \
     $$PWD/src/audioprocessor.cpp \
     $$PWD/src/pflplayer.cpp \

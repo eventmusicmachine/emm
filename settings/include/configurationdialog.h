@@ -39,10 +39,6 @@ private:
 private slots:
     void closeWindow();
     void saveAndClose();
-    void selectionChanged();
-    void updateLayerCount(int);
-    void updateLayerEnabled(bool);
-    void updateLayerName(QString);
 };
 
 #endif // CONFIGURATIONDIALOG_H

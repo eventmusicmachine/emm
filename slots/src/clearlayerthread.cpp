@@ -28,7 +28,7 @@ ClearLayerThread::ClearLayerThread(int selectedLayer, QObject *parent) :
 
 void ClearLayerThread::run() {
     Configuration *config = Configuration::getInstance();
-    int number = config->getVerticalSlots()*config->getHorizontalSlots()*selectedLayer;
+    /* int number = config->getVerticalSlots()*config->getHorizontalSlots()*selectedLayer;
     int minus = number;
     emit updateMax(config->getVerticalSlots()*config->getHorizontalSlots());
     for (int i=0;i<config->getVerticalSlots();i++)
@@ -41,5 +41,5 @@ void ClearLayerThread::run() {
             number++;
             emit updateStatus(number-minus);
         }
-    }
+    } */
 }

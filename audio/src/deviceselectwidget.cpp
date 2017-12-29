@@ -15,7 +15,7 @@
  * along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
  * ************************************************************************* */
 
-#include "bassasiodevice.h"
+// #include "bassasiodevice.h"
 #include "bassdevice.h"
 #include "deviceselectwidget.h"
 #include "ui_deviceselectwidget.h"
@@ -39,10 +39,10 @@ void DeviceSelectWidget::showDevices(int driver)
     ui->deviceComboBox->clear();
     if (driver==1)
     {
-        foreach(AbstractBassDevice *device,BassAsioDevice::getAllDevices())
+        /* foreach(AbstractBassDevice *device,BassAsioDevice::getAllDevices())
         {
             ui->deviceComboBox->addItem(device->getName(),device->getDeviceID());
-        }
+        }*/
     }
     else
     {
@@ -70,10 +70,10 @@ void DeviceSelectWidget::updateChannel(int item)
     }
     ui->channelSpinBox->setValue(1);
     ui->channelSpinBox->setMinimum(1);
-    if (ui->driverComboBox->currentIndex()==0)
+    /* if (ui->driverComboBox->currentIndex()==0)
         ui->channelSpinBox->setMaximum(BassDevice::getDeviceWithID(deviceid)->getChannelCount());
     else
-        ui->channelSpinBox->setMaximum(BassAsioDevice::getDeviceWithID(deviceid)->getChannelCount());
+        ui->channelSpinBox->setMaximum(BassAsioDevice::getDeviceWithID(deviceid)->getChannelCount());*/
 }
 
 void DeviceSelectWidget::selectDevice(int driver, int device, int channel)

@@ -17,7 +17,7 @@
 
 #include <QMutex>
 #include "audioprocessor.h"
-#include "bassasiodevice.h"
+// #include "bassasiodevice.h"
 #include "bassdevice.h"
 #include "cartslot.h"
 #include "pflplayer.h"
@@ -29,13 +29,13 @@ AudioProcessor* AudioProcessor::instance = 0;
 void AudioProcessor::initDevices(MainWindow *mw)
 {
     BassDevice::initialize(mw);
-    BassAsioDevice::initialize(mw);
+    // BassAsioDevice::initialize(mw);
 }
 
 void AudioProcessor::freeDevices()
 {
     BassDevice::freeAllDevices();
-    BassAsioDevice::freeAllDevices();
+    // BassAsioDevice::freeAllDevices();
 }
 
 CartSlot* AudioProcessor::getCartSlotWithNumber(int number)

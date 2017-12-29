@@ -21,14 +21,10 @@
 #include <QMap>
 #include <QObject>
 
-class LayerData;
-
 class Configuration : public QObject
 {
     Q_OBJECT
 public:
-    int getHorizontalSlots();
-    int getVerticalSlots();
     int getPFLDriver();
     int getPFLDevice();
     int getPFLChannel();
@@ -39,14 +35,10 @@ public:
     int getPlaylistFade();
     int getSlotFade();
     int getPlaylistFPos();
-    int getLayer();
     int getSlotBuffer();
     bool getLayerKeyboardSync();
     bool getPauseButton();
     int getSlotTimeSize();
-    QMap<int, LayerData*> getLayers();
-    void setHorizontalSlots(int horizontalSlots);
-    void setVerticalSlots(int verticalSlots);
     void setPFLDriver(int pflDriver);
     void setPFLDevice(int pflDevice);
     void setPFLChannel(int pflChannel);
@@ -57,12 +49,10 @@ public:
     void setPlaylistFade(int playlistFade);
     void setSlotFade(int slotFade);
     void setPlaylistFPos(int playlistFPos);
-    void setLayer(int layer);
     void setSlotBuffer(int slotBuffer);
     void setLayerKeyboardSync(bool layerKeyboardSync);
     void setPauseButton(bool pauseButton);
     void setSlotTimeSize(int size);
-    void updateLayerCount(int newCount);
     void saveData();
     static void setStorageLocation(QString location);
     static QString getStorageLocation();
@@ -75,9 +65,6 @@ private:
     Configuration& operator=(const Configuration &);
     static Configuration* instance;
 
-    int horizontalSlots;
-    int verticalSlots;
-    int layer;
     int pflDriver;
     int pflDevice;
     int pflChannel;
@@ -92,7 +79,6 @@ private:
     int slotTimeSize;
     bool layerKeyboardSync;
     bool pauseButton;
-    QMap<int, LayerData*> layers;
 
     void readData();
 

@@ -16,7 +16,7 @@
  * ************************************************************************* */
 
 #include <QSettings>
-#include "bassasiodevice.h"
+// #include "bassasiodevice.h"
 #include "bassdevice.h"
 #include "cartslot.h"
 #include "playlistentry.h"

@@ -32,7 +32,7 @@ void CopyColorsThread::run() {
     QStringList backgroundColors;
     fontColors.clear();
     backgroundColors.clear();
-    int number = config->getVerticalSlots()*config->getHorizontalSlots()*selectedLayer;
+    /* int number = config->getVerticalSlots()*config->getHorizontalSlots()*selectedLayer;
     emit updateMax(config->getVerticalSlots()*config->getHorizontalSlots()*config->getLayer());
     for (int i=0;i<config->getVerticalSlots();i++)
     {
@@ -59,5 +59,5 @@ void CopyColorsThread::run() {
                 emit updateStatus(number);
             }
         }
-    }
+    } */
 }

@@ -28,7 +28,7 @@
 #include "cartslot.h"
 #include "pluginloader.h"
 #include "configuration.h"
-#include "keyboardcontroller.h"
+// #include "keyboardcontroller.h"
 #include "mainwindow.h"
 #include "splashscreen.h"
 
@@ -74,10 +74,10 @@ int main(int argc, char *argv[])
     }
 
     s->showMessage("Verbindung zur Tastatur herstellen...");
-    KeyboardController *keyController = KeyboardController::getInstance();
+    /* KeyboardController *keyController = KeyboardController::getInstance();
     QObject::connect(keyController, SIGNAL(errorOccured(QString)), s, SLOT(showErrorMessage(QString)));
     QObject::connect(keyController, SIGNAL(keyPressed(int,int)), &w, SLOT(keyboardSignal(int,int)));
-    keyController->initializeKeyboardController();
+    keyController->initializeKeyboardController(); */
 
     s->showMessage("Audiogeräte initialisieren...");
 
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 
     int number = 1;
     Configuration *config = Configuration::getInstance();
-    for (int i=0;i<config->getLayer();i++)
+    /* for (int i=0;i<config->getLayer();i++)
     {
         for (int j=0;j<config->getVerticalSlots();j++)
         {
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
                 number++;
             }
         }
-    }
+    } */
     s->showMessage("Benutzeroberfläche initialisieren...");
     w.init();
     s->close();

@@ -18,14 +18,10 @@
 INCLUDEPATH += $$PWD/include
 
 HEADERS += \
-    $$PWD/include/tfabstracttoolbar.h \
-    $$PWD/include/tfcontrolbar.h \
-    $$PWD/include/tfselectionbar.h
+    $$PWD/include/tfcontrolbar.h
 
 SOURCES += \
-    $$PWD/src/tfabstracttoolbar.cpp \
-    $$PWD/src/tfcontrolbar.cpp \
-    $$PWD/src/tfselectionbar.cpp
+    $$PWD/src/tfcontrolbar.cpp
 
 TRANSLATIONS = \
     $$PWD/translations/emm_widgets_en.ts \

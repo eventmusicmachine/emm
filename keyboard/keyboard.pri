@@ -18,11 +18,11 @@
 INCLUDEPATH += $$PWD/include
 INCLUDEPATH += $$PWD/lib/header
 
-HEADERS += \
-    $$PWD/include/keyboardcontroller.h
+#HEADERS += \
+#    $$PWD/include/keyboardcontroller.h
 
-SOURCES += \
-    $$PWD/src/keyboardcontroller.cpp
+#SOURCES += \
+#    $$PWD/src/keyboardcontroller.cpp
 
 TRANSLATIONS = \
     $$PWD/translations/emm_keyboard_en.ts \

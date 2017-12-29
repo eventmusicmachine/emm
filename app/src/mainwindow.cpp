@@ -29,7 +29,6 @@
 #include "configurationdialog.h"
 #include "mainwindow.h"
 #include "audioprocessor.h"
-#include "bassasiodevice.h"
 #include "bassdevice.h"
 #include "cartslot.h"
 #include "playlistplayer.h"
@@ -38,7 +37,6 @@
 #include "configuration.h"
 #include "copycolorsthread.h"
 #include "globaldata.h"
-#include "keyboardcontroller.h"
 #include "playlist.h"
 #include "playerwidget.h"
 #include "slotstoredialog.h"
@@ -52,17 +50,14 @@ MainWindow::~MainWindow()
 {
     AudioProcessor::getInstance()->freeDevices();
     AudioProcessor::dropInstance();
-    KeyboardController::getInstance()->closeKeyboardController();
     delete ui;
 }
 
 void MainWindow::init() {
     ui->setupUi(this);
 
-    ui->menuWidget->addButton(ui->slotAction);
-    ui->menuWidget->addButton(ui->playlistAction);
-    connect(ui->menuWidget, SIGNAL(currentTabChanged(int)),ui->stackedWidget,SLOT(setCurrentIndex(int)));
-    ui->menuWidget->selectFirstButton();
+    //ui->menuWidget->addButton(ui->playlistAction);
+    //connect(ui->menuWidget, SIGNAL(currentTabChanged(int)),ui->stackedWidget,SLOT(setCurrentIndex(int)));
 
     createPlayers();
 
@@ -84,7 +79,7 @@ void MainWindow::init() {
     connect(ui->playlistNextButton, SIGNAL(clicked()), Playlist::getInstance(), SLOT(fadeNext()));
     connect(ui->openButton, SIGNAL(clicked()), ui->playListTable, SLOT(openPlaylist()));
     connect(ui->saveButton, SIGNAL(clicked()), ui->playListTable, SLOT(savePlaylist()));
-    connect(ui->layerSelector, SIGNAL(currentTabChanged(int)), this, SLOT(updateSlotAssignment()));
+    // connect(ui->layerSelector, SIGNAL(currentTabChanged(int)), this, SLOT(updateSlotAssignment()));
     connect(ui->saveHistoryButton, SIGNAL(clicked()), ui->historyList, SLOT(saveHistory()));
     connect(ui->slotStoreAction, SIGNAL(triggered()), this, SLOT(showSlotStore()));
     connect(ui->colorAction, SIGNAL(triggered()), this, SLOT(copyColors()));
@@ -95,35 +90,13 @@ void MainWindow::init() {
 void MainWindow::createPlayers()
 {
     Configuration *config = Configuration::getInstance();
-    int layers = config->getLayer();
-    ui->layerSelector->setLayerCount(layers);
-    int currentLayer = ui->layerSelector->getSelectedButton();
-    foreach(CartSlotWidget *cartSlotWidget,slotWidgets)
-    {
-        ui->slotLayout->removeWidget(cartSlotWidget);
-        cartSlotWidget->~CartSlotWidget();
-    }
-    slotWidgets.clear();
     foreach(PlayerWidget *playerWidget,playerWidgets)
     {
         ui->playerLayout->removeWidget(playerWidget);
         disconnect(playerWidget,0,0,0);
         playerWidget->~PlayerWidget();
     }
-    slotWidgets.clear();
     playerWidgets.clear();
-
-    int number=1+currentLayer*config->getVerticalSlots()*config->getHorizontalSlots();
-    for (int i=0;i<config->getVerticalSlots();i++)
-    {
-        for (int j=0;j<config->getHorizontalSlots();j++)
-        {
-            CartSlotWidget *newWidget = new CartSlotWidget(number);
-            ui->slotLayout->addWidget(newWidget,i,j);
-            slotWidgets.append(newWidget);
-            number++;
-        }
-    }
 
     for (int i=0;i<config->getPlayer();i++)
     {
@@ -137,8 +110,7 @@ void MainWindow::createPlayers()
 void MainWindow::updateSlotAssignment()
 {
     Configuration *config = Configuration::getInstance();
-    int currentLayer = ui->layerSelector->getSelectedButton();
-    int number=1+currentLayer*config->getVerticalSlots()*config->getHorizontalSlots();
+    /* int number=1+currentLayer*config->getVerticalSlots()*config->getHorizontalSlots();
     for (int i=0;i<slotWidgets.size();i++) {
         int displayNumber;
         if (config->getLayerKeyboardSync()) {
@@ -148,7 +120,7 @@ void MainWindow::updateSlotAssignment()
         }
         slotWidgets.at(i)->setNewNumber(number,true,displayNumber);
         number++;
-    }
+    } */
 }
 
 void MainWindow::showConfigDialog()
@@ -156,8 +128,8 @@ void MainWindow::showConfigDialog()
     ConfigurationDialog *configDialog = new ConfigurationDialog(this);
     if (configDialog->exec()==1)
     {
-        ui->layerSelector->selectFirstButton();
-        createPlayers();
+        // ui->layerSelector->selectFirstButton();
+        // createPlayers();
     }
 }
 
@@ -190,15 +162,15 @@ void MainWindow::keyboardSignal(int key, int pressed)
     if (pressed==0) //pressed
     {
         if (key==122) {
-            int layer = ui->layerSelector->getSelectedButton();
-            if (layer >= 1)
-                ui->layerSelector->selectButtonAt(layer-1);
+            // int layer = ui->layerSelector->getSelectedButton();
+            // if (layer >= 1)
+            //    ui->layerSelector->selectButtonAt(layer-1);
         } else if (key==123) {
-            int layer = ui->layerSelector->getSelectedButton();
-            if (layer <= conf->getLayer()-2)
-                ui->layerSelector->selectButtonAt(layer+1);
+            // int layer = ui->layerSelector->getSelectedButton();
+            // if (layer <= conf->getLayer()-2)
+            //    ui->layerSelector->selectButtonAt(layer+1);
         } else if (key==124) {
-            ui->menuWidget->selectButtonAt((ui->menuWidget->getSelectedButton()+1)%2);
+            // ui->menuWidget->selectButtonAt((ui->menuWidget->getSelectedButton()+1)%2);
         } else if (key==125) {
             ui->autoPlayCheckBox->setChecked(!ui->autoPlayCheckBox->isChecked());
         } else if (key==126) {
@@ -208,7 +180,7 @@ void MainWindow::keyboardSignal(int key, int pressed)
         } else if (key==128) {
             CartSlot::fadeOutAllSlots(NULL,true);
             PlaylistPlayer::fadeOutAllPlayers();
-        } else if (key<=(conf->getHorizontalSlots()*conf->getVerticalSlots())) {
+        /*} else if (key<=(conf->getHorizontalSlots()*conf->getVerticalSlots())) {
             int key2 = key;
             if (conf->getLayerKeyboardSync()) {
                 key2 += (conf->getHorizontalSlots()*conf->getVerticalSlots()*ui->layerSelector->getSelectedButton());
@@ -221,9 +193,9 @@ void MainWindow::keyboardSignal(int key, int pressed)
             } else {
                 slot->play();
             }
-            ui->stackedWidget->setCurrentIndex(0);
+            ui->stackedWidget->setCurrentIndex(0); */
         } else if (key >= 116 && key <= 121) {
-            ui->layerSelector->selectButtonAt(key-116);
+            // ui->layerSelector->selectButtonAt(key-116);
         } else {
             int id = floor((double)key-109-((double)key-110)/2);
             if (key%2 ==0) //start
@@ -248,17 +220,16 @@ void MainWindow::wheelEvent(QWheelEvent *e)
     Configuration *conf = Configuration::getInstance();
     int numDegrees = e->delta() / 8;
     int numSteps = numDegrees / 15;
-    int currentIndex = ui->layerSelector->getSelectedButton();
-    int layerCount = conf->getLayer();
+    /* int currentIndex = ui->layerSelector->getSelectedButton();
     if (numSteps > 0)
     {
         currentIndex = qMax(0,currentIndex-numSteps);
     }
     else
     {
-        currentIndex = qMin(layerCount-1,currentIndex-numSteps);
+        // currentIndex = qMin(layerCount-1,currentIndex-numSteps);
     }
-    ui->layerSelector->selectButtonAt(currentIndex);
+    ui->layerSelector->selectButtonAt(currentIndex);*/
 }
 
 void MainWindow::showAbout()
@@ -278,7 +249,7 @@ void MainWindow::copyColors() {
     if (res == QMessageBox::No) {
         return;
     }
-    CopyColorsThread *copy = new CopyColorsThread(ui->layerSelector->getSelectedButton());
+    /* CopyColorsThread *copy = new CopyColorsThread(ui->layerSelector->getSelectedButton());
     QProgressDialog *dia = new QProgressDialog(this);
     dia->setCancelButton(NULL);
     dia->setLabelText(tr("Farben kopieren...."));
@@ -287,7 +258,7 @@ void MainWindow::copyColors() {
     connect(copy,SIGNAL(updateMax(int)), dia, SLOT(setMaximum(int)));
     connect(dia,SIGNAL(canceled()), copy, SLOT(quit()));
     copy->start();
-    dia->exec();
+    dia->exec(); */
 }
 
 void MainWindow::clearSlots() {
@@ -295,7 +266,7 @@ void MainWindow::clearSlots() {
     if (res == QMessageBox::No) {
         return;
     }
-    ClearLayerThread *clear = new ClearLayerThread(ui->layerSelector->getSelectedButton());
+    /* ClearLayerThread *clear = new ClearLayerThread(ui->layerSelector->getSelectedButton());
     QProgressDialog *dia = new QProgressDialog(this);
     dia->setCancelButton(NULL);
     dia->setLabelText(tr("Layer löschen...."));
@@ -304,13 +275,13 @@ void MainWindow::clearSlots() {
     connect(clear,SIGNAL(updateMax(int)), dia, SLOT(setMaximum(int)));
     connect(dia,SIGNAL(canceled()), clear, SLOT(quit()));
     clear->start();
-    dia->exec();
-    foreach(CartSlotWidget *cartSlotWidget,slotWidgets)
+    dia->exec(); */
+    /*foreach(CartSlotWidget *cartSlotWidget,slotWidgets)
     {
         cartSlotWidget->updateLength(0);
         cartSlotWidget->updatePosition(0);
         cartSlotWidget->showInfo();
-	}
+    }*/
 }
 
 void MainWindow::setConfigDirectory()

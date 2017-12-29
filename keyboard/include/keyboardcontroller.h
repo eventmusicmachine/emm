@@ -19,8 +19,8 @@
 #define KEYBOARDCONTROLLER_H
 
 #include <QObject>
-#include "MwxUsb.h"
-#include "windows.h"
+// #include "MwxUsb.h"
+// #include "windows.h"
 
 class QTimer;
 

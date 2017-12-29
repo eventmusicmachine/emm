@@ -24,8 +24,7 @@ HEADERS += \
     $$PWD/include/loadslotdialog.h \
     $$PWD/include/slottablemodel.h \
     $$PWD/include/clearlayerthread.h \
-    $$PWD/include/copycolorsthread.h \
-    $$PWD/include/layerselector.h
+    $$PWD/include/copycolorsthread.h
 
 SOURCES += \
     $$PWD/src/cartslot.cpp \
@@ -34,8 +33,7 @@ SOURCES += \
     $$PWD/src/loadslotdialog.cpp \
     $$PWD/src/slottablemodel.cpp \
     $$PWD/src/clearlayerthread.cpp \
-    $$PWD/src/copycolorsthread.cpp \
-    $$PWD/src/layerselector.cpp
+    $$PWD/src/copycolorsthread.cpp
 
 FORMS += \
     $$PWD/ui/cartslotwidget.ui \
