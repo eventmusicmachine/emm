@@ -76,6 +76,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("eventmusicmachine.de");
     QCoreApplication::setApplicationName("Event Music Machine");
 
+    QFile styleFile(":/qss/default.qss");
+    styleFile.open(QFile::ReadOnly);
+    app.setStyleSheet(QString(styleFile.readAll()));
+    styleFile.close();
+
     QSettings::setDefaultFormat(QSettings::IniFormat);
     QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "EMM", "emm");
     

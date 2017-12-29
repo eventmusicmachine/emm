@@ -14,4 +14,5 @@ DEFINES += RELATIVE_PLUGIN_PATH_STR=\\\"$$RELATIVE_PLUGIN_PATH\\\"
 
 SOURCES += main.cpp
 
-HEADERS +=
+RESOURCES += \
+    resources.qrc
