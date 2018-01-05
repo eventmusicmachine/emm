@@ -72,6 +72,12 @@ MainWindow::MainWindow(QWidget *parent) :
     helpMenu->addAction(e2);
     connect(aboutAction, &QAction::triggered, this, &MainWindow::about);
 
+    // About Action
+    QAction *pluginsAction = new QAction(tr("Plugins..."), this);
+    Action *e3 = ActionManager::registerAction(pluginsAction, "PLUGINS");
+    helpMenu->addAction(e3);
+    connect(pluginsAction, &QAction::triggered, this, &MainWindow::plugins);
+
     connect(m_toolBarButtons, SIGNAL(buttonPressed(int)), m_componentStack, SLOT(setCurrentIndex(int)));
 }
 
@@ -132,5 +138,22 @@ void MainWindow::destroyAboutDialog()
     if (m_aboutDialog) {
         m_aboutDialog->deleteLater();
         m_aboutDialog = 0;
+    }
+}
+
+void MainWindow::plugins()
+{
+    if (!m_pluginOverview) {
+        m_pluginOverview = new ExtensionSystem::PluginErrorOverview(this);
+        connect(m_pluginOverview, &QDialog::finished, this, &MainWindow::destroyPluginsDialog);
+        m_pluginOverview->show();
+    }
+}
+
+void MainWindow::destroyPluginsDialog()
+{
+    if (m_pluginOverview) {
+        m_pluginOverview->deleteLater();
+        m_pluginOverview = 0;
     }
 }

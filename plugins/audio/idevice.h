@@ -16,36 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include "audioplugin.h"
-#include "devicemanager.h"
+#ifndef IDEVICE_H
+#define IDEVICE_H
 
-using namespace Audio;
-using namespace Audio::Internal;
+#include <QObject>
+#include "audio_global.h"
 
-AudioPlugin::AudioPlugin()
+namespace Audio {
+
+class AUDIO_EXPORT IDevice : public QObject
 {
-}
+  Q_OBJECT
+public:
+    virtual QString name() = 0;
+    virtual int channelCount() = 0;
 
-AudioPlugin::~AudioPlugin()
-{
+signals:
+    void channelCountUpdated(int count);
 
-}
+};
 
-bool AudioPlugin::initialize(const QStringList &arguments, QString *errorString)
-{
-    Q_UNUSED(arguments)
-    Q_UNUSED(errorString)
+} // namespace Audio
 
-    new DeviceManager(this);
-
-    return true;
-}
-
-void AudioPlugin::extensionsInitialized()
-{
-}
-
-ExtensionSystem::IPlugin::ShutdownFlag AudioPlugin::aboutToShutdown()
-{
-    return SynchronousShutdown;
-}
+#endif // IDEVICE_H

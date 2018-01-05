@@ -16,55 +16,39 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef OUTPUTSELECTIONWIDGET_H
+#define OUTPUTSELECTIONWIDGET_H
 
-#include <QMainWindow>
+#include <QWidget>
 
-#include "icore.h"
+#include "audio_global.h"
 
-QT_BEGIN_NAMESPACE
-class QToolBar;
-class QButtonGroup;
-class QStackedWidget;
-QT_END_NAMESPACE
+namespace Audio {
 
-namespace ExtensionSystem {
-    class PluginErrorOverview;
-}
+class IDevice;
 
-namespace Core {
+namespace Ui {
+class OutputSelectionWidget;
+} // namespace Ui
 
-namespace Internal {
-
-class AboutDialog;
-
-class MainWindow : public QMainWindow
+class AUDIO_EXPORT OutputSelectionWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-    bool init(QString *errorMessage);
-    void extensionsInitialized();
+    explicit OutputSelectionWidget(QWidget *parent = 0);
+    ~OutputSelectionWidget();
 
 private:
-    void about();
-    void destroyAboutDialog();
-    void plugins();
-    void destroyPluginsDialog();
+    Ui::OutputSelectionWidget *m_ui;
+    int m_selectedDriver;
 
-    ICore *m_coreImpl = nullptr;
-    AboutDialog *m_aboutDialog = nullptr;
-    ExtensionSystem::PluginErrorOverview *m_pluginOverview = nullptr;
-    QToolBar *m_toolBar = nullptr;
-    QButtonGroup *m_toolBarButtons = nullptr;
-    QStackedWidget *m_componentStack = nullptr;
+private slots:
+    void driverChanged(int index);
+    void deviceChanged(int index);
+    void channelCountChanged(int count);
 };
 
-} // namespace Internal
-} // namespace Core
+} // namespace Audio
 
-#endif // MAINWINDOW_H
+#endif // OUTPUTSELECTIONWIDGET_H

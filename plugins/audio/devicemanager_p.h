@@ -16,55 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef DEVICEMANAGER_P_H
+#define DEVICEMANAGER_P_H
 
-#include <QMainWindow>
+#include <QObject>
 
-#include "icore.h"
+namespace Audio {
 
-QT_BEGIN_NAMESPACE
-class QToolBar;
-class QButtonGroup;
-class QStackedWidget;
-QT_END_NAMESPACE
-
-namespace ExtensionSystem {
-    class PluginErrorOverview;
-}
-
-namespace Core {
+class IDriver;
 
 namespace Internal {
 
-class AboutDialog;
-
-class MainWindow : public QMainWindow
+class DeviceManagerPrivate : public QObject
 {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    ~DeviceManagerPrivate();
 
-    bool init(QString *errorMessage);
-    void extensionsInitialized();
-
-private:
-    void about();
-    void destroyAboutDialog();
-    void plugins();
-    void destroyPluginsDialog();
-
-    ICore *m_coreImpl = nullptr;
-    AboutDialog *m_aboutDialog = nullptr;
-    ExtensionSystem::PluginErrorOverview *m_pluginOverview = nullptr;
-    QToolBar *m_toolBar = nullptr;
-    QButtonGroup *m_toolBarButtons = nullptr;
-    QStackedWidget *m_componentStack = nullptr;
+    QList<IDriver*> m_drivers;
 };
 
 } // namespace Internal
-} // namespace Core
+} // namespace Audio
 
-#endif // MAINWINDOW_H
+#endif // DEVICEMANAGER_P_H

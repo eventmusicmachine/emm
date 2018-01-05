@@ -16,55 +16,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef DEVICEMANAGER_H
+#define DEVICEMANAGER_H
 
-#include <QMainWindow>
+#include <QObject>
 
-#include "icore.h"
+#include "audio_global.h"
 
-QT_BEGIN_NAMESPACE
-class QToolBar;
-class QButtonGroup;
-class QStackedWidget;
-QT_END_NAMESPACE
+namespace Audio {
 
-namespace ExtensionSystem {
-    class PluginErrorOverview;
-}
-
-namespace Core {
+class IDriver;
 
 namespace Internal {
 
-class AboutDialog;
-
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
-
-public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-    bool init(QString *errorMessage);
-    void extensionsInitialized();
-
-private:
-    void about();
-    void destroyAboutDialog();
-    void plugins();
-    void destroyPluginsDialog();
-
-    ICore *m_coreImpl = nullptr;
-    AboutDialog *m_aboutDialog = nullptr;
-    ExtensionSystem::PluginErrorOverview *m_pluginOverview = nullptr;
-    QToolBar *m_toolBar = nullptr;
-    QButtonGroup *m_toolBarButtons = nullptr;
-    QStackedWidget *m_componentStack = nullptr;
-};
+class AudioPlugin;
 
 } // namespace Internal
-} // namespace Core
 
-#endif // MAINWINDOW_H
+class AUDIO_EXPORT DeviceManager : public QObject
+{
+    Q_OBJECT
+public:
+    void registerDriver(IDriver* device);
+    QList<IDriver*> drivers();
+    static DeviceManager *instance();
+
+private:
+    DeviceManager(QObject *parent = nullptr);
+    ~DeviceManager();
+
+    friend class Internal::AudioPlugin;
+};
+
+} // namespace Audio
+
+#endif // DEVICEMANAGER_H

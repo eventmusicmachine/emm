@@ -16,36 +16,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include "audioplugin.h"
-#include "devicemanager.h"
+#ifndef IDRIVER_H
+#define IDRIVER_H
 
-using namespace Audio;
-using namespace Audio::Internal;
+#include <QObject>
 
-AudioPlugin::AudioPlugin()
+namespace Audio {
+
+class IDevice;
+
+class IDriver : public QObject
 {
-}
+    Q_OBJECT
+public:
+    ~IDriver() {
+        qDeleteAll(m_devices);
+    }
 
-AudioPlugin::~AudioPlugin()
-{
+    QList<IDevice*> devices() const {
+        return m_devices;
+    }
 
-}
+    virtual QString name() const = 0;
 
-bool AudioPlugin::initialize(const QStringList &arguments, QString *errorString)
-{
-    Q_UNUSED(arguments)
-    Q_UNUSED(errorString)
+protected:
+    QList<IDevice*> m_devices;
+};
 
-    new DeviceManager(this);
+} // namespace Audio
 
-    return true;
-}
-
-void AudioPlugin::extensionsInitialized()
-{
-}
-
-ExtensionSystem::IPlugin::ShutdownFlag AudioPlugin::aboutToShutdown()
-{
-    return SynchronousShutdown;
-}
+#endif // IDRIVER_H

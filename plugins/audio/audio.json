@@ -1,1 +1,9 @@
-{}
+{
+    "Name": "Audio",
+    "Version": "3.0.0",
+    "Required": true,
+    "HiddenByDefault": false,
+    "Vendor": "Event Music Machine",
+    "Category": "Audio",
+    "Description": "Audio Management for the EMM"
+}
