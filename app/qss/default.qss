@@ -24,17 +24,17 @@ QToolBar:right {
     border-left:1px solid rgba(57, 57, 57, 255);
 }
 
-QToolButton {
+QToolBar > QToolButton {
     border:0;
     color:white;
 }
 
-QToolButton:checked, QToolButton:selected {
+QToolBar > QToolButton:checked, QToolButton:selected {
     font-weight:bold;
     color: black;
 }
 
-QToolButton:disabled {
+QToolBar > QToolButton:disabled {
     color:#cccccc;
 }
 
