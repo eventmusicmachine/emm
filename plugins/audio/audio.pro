@@ -17,7 +17,8 @@ HEADERS += \
     devicemanager.h \
     devicemanager_p.h \
     idriver.h \
-    idevice.h
+    idevice.h \
+    ichannel.h
 
 DISTFILES += \
     audio.json

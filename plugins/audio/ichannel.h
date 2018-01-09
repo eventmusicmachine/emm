@@ -16,29 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef IDEVICE_H
-#define IDEVICE_H
+#ifndef ICHANNEL_H
+#define ICHANNEL_H
 
 #include <QObject>
+
 #include "audio_global.h"
 
 namespace Audio {
 
-class IChannel;
-
-class AUDIO_EXPORT IDevice : public QObject
+class AUDIO_EXPORT IChannel : public QObject
 {
-  Q_OBJECT
-public:
-    virtual QString name() = 0;
-    virtual int outputCount() = 0;
-    virtual IChannel *createChannel(QString fileName) = 0;
+    Q_OBJECT
 
-signals:
-    void outputCountUpdated(int count);
-
+public slots:
+    virtual void play() = 0;
+    virtual void pause() = 0;
+    virtual void stop() = 0;
 };
 
-} // namespace Audio
+}
 
-#endif // IDEVICE_H
+#endif // ICHANNEL_H
