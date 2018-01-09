@@ -38,7 +38,7 @@ class AUDIO_EXPORT DeviceManager : public QObject
     Q_OBJECT
 public:
     void registerDriver(IDriver* device);
-    QList<IDriver*> drivers();
+    QMap<QString, IDriver*> drivers();
     static DeviceManager *instance();
 
 private:

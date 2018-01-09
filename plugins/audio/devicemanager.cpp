@@ -42,14 +42,14 @@ DeviceManager *DeviceManager::instance()
     return m_instance;
 }
 
-QList<IDriver*> DeviceManager::drivers()
+QMap<QString, IDriver*> DeviceManager::drivers()
 {
     return d->m_drivers;
 }
 
 void DeviceManager::registerDriver(IDriver *driver)
 {
-    d->m_drivers.append(driver);
+    d->m_drivers.insert(driver->id(), driver);
 }
 
 DeviceManagerPrivate::~DeviceManagerPrivate()

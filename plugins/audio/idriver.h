@@ -37,7 +37,9 @@ public:
         return m_devices;
     }
 
+    virtual QString id() const = 0;
     virtual QString name() const = 0;
+    virtual QStringList supportedMimeTypes() const = 0;
 
 protected:
     QList<IDevice*> m_devices;

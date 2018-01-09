@@ -39,9 +39,17 @@ public:
     explicit OutputSelectionWidget(QWidget *parent = 0);
     ~OutputSelectionWidget();
 
+    QString driver() const;
+    int device() const;
+    int channel() const;
+    void setSelection(QString driver, int device, int channel);
+
 private:
     Ui::OutputSelectionWidget *m_ui;
-    int m_selectedDriver;
+    QString m_driver;
+    int m_device;
+    IDevice *m_deviceInstance = 0;
+    int m_channel;
 
 private slots:
     void driverChanged(int index);

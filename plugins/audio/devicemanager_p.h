@@ -20,6 +20,7 @@
 #define DEVICEMANAGER_P_H
 
 #include <QObject>
+#include <QMap>
 
 namespace Audio {
 
@@ -33,7 +34,7 @@ class DeviceManagerPrivate : public QObject
 public:
     ~DeviceManagerPrivate();
 
-    QList<IDriver*> m_drivers;
+    QMap<QString, IDriver*> m_drivers;
 };
 
 } // namespace Internal
