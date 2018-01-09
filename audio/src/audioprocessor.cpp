@@ -28,13 +28,11 @@ AudioProcessor* AudioProcessor::instance = 0;
 
 void AudioProcessor::initDevices(MainWindow *mw)
 {
-    BassDevice::initialize(mw);
     // BassAsioDevice::initialize(mw);
 }
 
 void AudioProcessor::freeDevices()
 {
-    BassDevice::freeAllDevices();
     // BassAsioDevice::freeAllDevices();
 }
 

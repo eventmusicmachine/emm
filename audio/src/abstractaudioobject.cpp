@@ -32,50 +32,26 @@ AbstractAudioObject::AbstractAudioObject(int, QObject *parent) : QObject(parent)
     connect(timer,SIGNAL(timeout()),this,SLOT(updatePosition()));
 }
 
-int AbstractAudioObject::getDeviceID()
-{
-    return this->device;
-}
-
-int AbstractAudioObject::getChannel()
-{
-    return this->channel;
-}
-
-int AbstractAudioObject::getType()
-{
-    return this->type;
-}
-
-QString AbstractAudioObject::getFileName()
-{
-    return this->filename;
-}
-
 void AbstractAudioObject::loadStream(double vol)
 {
-    switch (type)
+    /*switch (type)
     {
-    case 0:
-        BASS_SetDevice(device);
-        break;
     case 1:
         BASS_SetDevice(0);
         // BASS_ASIO_SetDevice(device);
         break;
-    }
+    }*/
 
     unloadStream();
-    stream = BASS_StreamCreateFile(false,filename.toLatin1(),0,0, BASS_SAMPLE_FLOAT | BASS_STREAM_DECODE);
-    if (BASS_ErrorGetCode() == 2 && filename != "") {
+    /*if (BASS_ErrorGetCode() == 2 && filename != "") {
         fileMissing = true;
     } else {
         fileMissing = false;
-    }
-    if (type == 0 && device == 0)
+    }*/
+    /*if (type == 0 && device == 0)
         return;
-
-    switch (type)
+*/
+  /*  switch (type)
     {
     case 0:
         stream = BASS_FX_TempoCreate(stream,BASS_FX_FREESOURCE);
@@ -87,7 +63,7 @@ void AbstractAudioObject::loadStream(double vol)
         // if (BassAsioDevice::getDeviceWithID(device) == NULL) return;
         // BassAsioDevice::getDeviceWithID(device)->addStreamToMixer(stream,channel);
         break;
-    }
+    }*/
     if (vol != 0) {
         HFX hstream = BASS_ChannelSetFX(stream, BASS_FX_BFX_VOLUME,0);
         BASS_BFX_VOLUME volume;
@@ -103,14 +79,14 @@ void AbstractAudioObject::loadStream(double vol)
 
 DWORD AbstractAudioObject::getSpeakerFlag()
 {
-    switch (channel)
+    /*switch (channel)
     {
     case 1: return BASS_SPEAKER_FRONT;
     case 2: return BASS_SPEAKER_CENLFE;
     case 3: return BASS_SPEAKER_REAR;
     case 4: return BASS_SPEAKER_REAR2;
     }
-    return BASS_SPEAKER_FRONT;
+    return BASS_SPEAKER_FRONT;*/
 }
 
 void AbstractAudioObject::play()
@@ -185,18 +161,6 @@ void AbstractAudioObject::fadeOut(int ms)
     test->singleShot(ms,this,SLOT(stop()));
 }
 
-QString AbstractAudioObject::getColor()
-{
-    return this->color;
-}
-
-QString AbstractAudioObject::getFontColor()
-{
-    if (this->fontColor == "0")
-        return "#ffffff";
-    return this->fontColor;
-}
-
 void AbstractAudioObject::updatePosition()
 {
     QWORD pos = BASS_ChannelGetPosition(stream,BASS_POS_BYTE);
@@ -211,14 +175,14 @@ void AbstractAudioObject::updatePosition()
 
 void AbstractAudioObject::initDevice()
 {
-    switch (type)
+    /*switch (type)
     {
     case 0: {
             BassDevice *bd = BassDevice::getDeviceWithID(device);
             if (bd == NULL || device == 0)
                 return;
-            if (!bd->isInitialized())
-                bd->init();
+            //if (!bd->isInitialized())
+            //    bd->init();
         }
         break;
     case 1: {
@@ -227,10 +191,10 @@ void AbstractAudioObject::initDevice()
                 return;
             if (!bd->isInitialized())
                 bd->init();
-                */
+
         }
         break;
-    }
+    }*/
 }
 
 double AbstractAudioObject::DBToLevel(double db)

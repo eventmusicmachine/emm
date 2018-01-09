@@ -37,10 +37,10 @@ ConfigurationDialog::ConfigurationDialog(QWidget *parent) :
     ui->bufferSpinBox->setValue(config->getSlotBuffer());
     ui->keyboardSyncCheckBox->setChecked(config->getLayerKeyboardSync());
     ui->playlistFadePosSpinBox->setValue(config->getPlaylistFPos());
-    ui->deviceSelectWidget->setNewTitel(tr("PFL"));
-    ui->deviceSelectWidget->selectDevice(config->getPFLDriver(),config->getPFLDevice(),config->getPFLChannel());
-    ui->defaultDeviceWidget->setNewTitel(tr("Standard Audiogerät"));
-    ui->defaultDeviceWidget->selectDevice(config->getDefaultDriver(),config->getDefaultDevice(),config->getDefaultChannel());
+    // ui->deviceSelectWidget->setNewTitel(tr("PFL"));
+    // ui->deviceSelectWidget->selectDevice(config->getPFLDriver(),config->getPFLDevice(),config->getPFLChannel());
+    // ui->defaultDeviceWidget->setNewTitel(tr("Standard Audiogerät"));
+    // ui->defaultDeviceWidget->selectDevice(config->getDefaultDriver(),config->getDefaultDevice(),config->getDefaultChannel());
     ui->slotTimeSpinBox->setValue(config->getSlotTimeSize());
     ui->pauseCheckBox->setChecked(config->getPauseButton());
 }
@@ -67,12 +67,12 @@ void ConfigurationDialog::saveAndClose()
     config->setSlotFade(ui->slotFadeSpinBox->value());
     config->setLayerKeyboardSync(ui->keyboardSyncCheckBox->isChecked());
     config->setPlaylistFPos(ui->playlistFadePosSpinBox->value());
-    config->setPFLDevice(ui->deviceSelectWidget->getDevice());
-    config->setPFLDriver(ui->deviceSelectWidget->getDriver());
-    config->setPFLChannel(ui->deviceSelectWidget->getChannel());
-    config->setDefaultDevice(ui->defaultDeviceWidget->getDevice());
-    config->setDefaultDriver(ui->defaultDeviceWidget->getDriver());
-    config->setDefaultChannel(ui->defaultDeviceWidget->getChannel());
+    // config->setPFLDevice(ui->deviceSelectWidget->getDevice());
+    // config->setPFLDriver(ui->deviceSelectWidget->getDriver());
+    // config->setPFLChannel(ui->deviceSelectWidget->getChannel());
+    // config->setDefaultDevice(ui->defaultDeviceWidget->getDevice());
+    // config->setDefaultDriver(ui->defaultDeviceWidget->getDriver());
+    // config->setDefaultChannel(ui->defaultDeviceWidget->getChannel());
     config->setSlotBuffer(ui->bufferSpinBox->value());
     config->setSlotTimeSize(ui->slotTimeSpinBox->value());
     config->setPauseButton(ui->pauseCheckBox->isChecked());

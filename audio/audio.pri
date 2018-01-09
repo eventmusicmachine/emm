@@ -34,8 +34,7 @@ HEADERS += \
     $$PWD/include/audioprocessor.h \
     $$PWD/include/pflplayer.h \
     $$PWD/include/pluginloader.h \
-    $$PWD/include/audiovisualizer.h \
-    $$PWD/include/deviceselectwidget.h
+    $$PWD/include/audiovisualizer.h
 
 SOURCES += \
     $$PWD/src/abstractaudioobject.cpp \
@@ -45,11 +44,9 @@ SOURCES += \
     $$PWD/src/audioprocessor.cpp \
     $$PWD/src/pflplayer.cpp \
     $$PWD/src/pluginloader.cpp \
-    $$PWD/src/audiovisualizer.cpp \
-    $$PWD/src/deviceselectwidget.cpp
+    $$PWD/src/audiovisualizer.cpp
 
-FORMS += \
-    $$PWD/ui/deviceselectwidget.ui
+FORMS +=
 
 TRANSLATIONS = \
     $$PWD/translations/emm_audio_en.ts \

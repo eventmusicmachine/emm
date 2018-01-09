@@ -25,8 +25,6 @@ class GlobalData : public QObject
     Q_OBJECT
 public:
     static QString getColorCode(QString color);
-    static QStringList getSupportedAudioFormats(bool detail=true);
-    static void addFilter(QString filter);
 
 private:
     static QStringList additionalFilters;

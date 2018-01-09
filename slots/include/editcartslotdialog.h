@@ -41,10 +41,6 @@ private:
     Ui::EditCartSlotDialog *ui;
     AudioVisualizer* visualWidget;
     PFLPlayer* player;
-    QString color;
-    QString fontColor;
-    void setColor(QString color);
-    void setFontColor(QString color);
     bool database;
     void setData();
     void loadData(CartSlot* slot, bool db);
@@ -59,8 +55,6 @@ private slots:
     void playCue();
     void stopCue();
     void selectFile();
-    void selectColor();
-    void selectFontColor();
     void loadFromDB();
     void saveToDB();
     void setCurrentPosAsStartPos();

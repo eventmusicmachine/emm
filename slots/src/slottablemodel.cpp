@@ -46,17 +46,17 @@ QVariant SlotTableModel::data(const QModelIndex &index, int role) const
         switch (index.column())
         {
         case 0: return s->getNumber();
-        case 1: return s->getText1();
-        case 2: return s->getFileName();
-        case 3: return s->getColor();
-        case 4: return s->getFontColor();
-        case 5: {
+        // case 1: return s->getText1();
+        // case 2: return s->getFileName();
+        // case 3: return s->getColor();
+        // case 4: return s->getFontColor();
+        /*case 5: {
             int usedId = CartSlot::isUsed(s->getFileName());
             if (usedId == -1) {
                 return "X";
             }
             return usedId;
-        }
+        }*/
         }
     }
     else if (role == Qt::BackgroundRole || role == Qt::ForegroundRole)
@@ -66,8 +66,8 @@ QVariant SlotTableModel::data(const QModelIndex &index, int role) const
             CartSlot* s = slot.at(index.row());
             switch (index.column())
             {
-            case 3: return QColor(s->getColor());
-            case 4: return QColor(s->getFontColor());
+            // case 3: return QColor(s->getColor());
+            // case 4: return QColor(s->getFontColor());
             }
         }
 

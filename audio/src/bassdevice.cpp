@@ -18,20 +18,6 @@
 #include "bassdevice.h"
 #include "bassmix.h"
 #include "configuration.h"
-#include "mainwindow.h"
-
-QList<BassDevice*> BassDevice::allDevices = QList<BassDevice*>();
-
-BassDevice::BassDevice(int deviceID, QObject *parent) :
-        AbstractBassDevice(deviceID, parent)
-{
-
-}
-
-QString BassDevice::getName()
-{
-    return this->deviceInfo.name;
-}
 
 void BassDevice::init()
 {
@@ -40,7 +26,6 @@ void BassDevice::init()
     }
     else
     {
-        this->initialized = true;
         if (!this->setOutputDevice())
             return;
 
@@ -51,17 +36,6 @@ void BassDevice::init()
             BASS_ChannelPlay(newMixer,false);
         }
     } */
-}
-
-BASS_INFO BassDevice::getInfo()
-{
-    this->setOutputDevice();
-    BASS_INFO info;
-    if (!BASS_GetInfo(&info))
-    {
-        emit errorOccured(BASS_ErrorGetCode());
-    }
-    return info;
 }
 
 bool BassDevice::setOutputDevice()
@@ -76,45 +50,27 @@ bool BassDevice::setOutputDevice()
 
 void BassDevice::free()
 {
-    this->setOutputDevice();
     if (!BASS_Free())
     {
         emit errorOccured(BASS_ErrorGetCode());
-    }
-    else
-    {
-        this->initialized = false;
     }
 }
 
 void BassDevice::setBuffer(int ms)
 {
-    foreach(BassDevice* device, allDevices)
+    /*foreach(BassDevice* device, allDevices)
     {
-        if (device->isInitialized()) {
+        /*if (device->isInitialized()) {
             device->setOutputDevice();
             BASS_SetConfig(BASS_CONFIG_BUFFER,ms);
         }
-    }
+    }*/
 }
 
-void BassDevice::initialize(MainWindow *mw)
+/*void BassDevice::initialize()
 {
-    mainwindow = mw;
-    int a;
-    BASS_DEVICEINFO info;
     BASS_SetConfig(BASS_CONFIG_BUFFER,Configuration::getInstance()->getSlotBuffer());
-
-    for (a=0; BASS_GetDeviceInfo(a, &info); a++) {
-        if (info.flags&BASS_DEVICE_ENABLED) {
-            BassDevice *newDevice = new BassDevice(a,mw);
-            newDevice->deviceInfo = info;
-            allDevices.append(newDevice);
-            connect(newDevice,SIGNAL(errorOccured(int)),mw,SLOT(showBassErrorMessage(int)));
-            //newDevice->init();
-        }
-    }
-}
+}*/
 
 DWORD BassDevice::getSpeakerFlag(int channel)
 {
@@ -128,26 +84,11 @@ DWORD BassDevice::getSpeakerFlag(int channel)
     return BASS_SPEAKER_FRONT;
 }
 
-QList<BassDevice*> BassDevice::getAllDevices()
-{
-    return allDevices;
-}
-
 BassDevice* BassDevice::getDeviceWithID(int id)
 {
-    foreach(BassDevice *device, allDevices)
+    /*foreach(BassDevice *device, allDevices)
     {
         if (device->deviceID == id) return device;
     }
-    return NULL;
+    return NULL;*/
 }
-
-void BassDevice::freeAllDevices()
-{
-    foreach(BassDevice *device, allDevices)
-    {
-        if (device->initialized)
-            device->free();
-    }
-}
-

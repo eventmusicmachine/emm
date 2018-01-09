@@ -17,15 +17,10 @@
 
 #include "abstractbassdevice.h"
 #include "bassmix.h"
-#include "mainwindow.h"
-
-MainWindow* AbstractBassDevice::mainwindow = NULL;
 
 AbstractBassDevice::AbstractBassDevice(int deviceID, QObject *parent) :
         QObject(parent)
 {
-    this->deviceID = deviceID;
-    this->initialized = false;
     this->channelCount = 0;
 }
 
@@ -45,13 +40,8 @@ int AbstractBassDevice::getDeviceID()
 
 int AbstractBassDevice::getChannelCount()
 {
-    if (!this->initialized) {
+    /*if (!this->initialized) {
         this->init();
-    }
+    }*/
     return this->channelCount;
-}
-
-bool AbstractBassDevice::isInitialized()
-{
-    return this->initialized;
 }

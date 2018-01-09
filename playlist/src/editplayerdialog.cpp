@@ -30,9 +30,9 @@ EditPlayerDialog::EditPlayerDialog(int playerNumber,QWidget *parent) :
     this->playerNumber = playerNumber;
 
     PlaylistPlayer *player = PlaylistPlayer::getObjectWithNumber(playerNumber);
-    ui->deviceSelectWidget->selectDevice(player->getType(),player->getDeviceID(),player->getChannel());
-    setColor(player->getColor());
-    setFontColor(player->getFontColor());
+    // ui->deviceSelectWidget->selectDevice(player->getType(),player->getDeviceID(),player->getChannel());
+    // setColor(player->getColor());
+    // setFontColor(player->getFontColor());
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
     connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(closeDialog()));
@@ -49,9 +49,9 @@ void EditPlayerDialog::save()
 {
     PlaylistPlayer *player = PlaylistPlayer::getObjectWithNumber(playerNumber);
     player->setDataAndSave(
-            ui->deviceSelectWidget->getDriver(),
-            ui->deviceSelectWidget->getDevice(),
-            ui->deviceSelectWidget->getChannel(),
+            0, //ui->deviceSelectWidget->getDriver(),
+            0, //ui->deviceSelectWidget->getDevice(),
+            0, //ui->deviceSelectWidget->getChannel(),
             color,
             fontColor
             );

@@ -34,14 +34,14 @@ PFLPlayer::PFLPlayer(int number, QObject *parent) :
 void PFLPlayer::readData()
 {
     QSettings settings(Configuration::getStorageLocation() + "/config.ini", QSettings::IniFormat);
-    device = settings.value("PFL/Device",0).toInt();
-    channel = settings.value("PFL/Channel",0).toInt();
-    type = settings.value("PFL/Type",0).toInt();
+    // device = settings.value("PFL/Device",0).toInt();
+    // channel = settings.value("PFL/Channel",0).toInt();
+    // type = settings.value("PFL/Type",0).toInt();
 }
 
 void PFLPlayer::analyse(bool readName)
 {
-    BASS_SetDevice(0);
+    /*BASS_SetDevice(0);
     peak=0;
     visualInformation.clear();
     HSTREAM channel=BASS_StreamCreateFile(FALSE,this->filename.toLatin1(),0,0,BASS_STREAM_DECODE);
@@ -64,7 +64,7 @@ void PFLPlayer::analyse(bool readName)
         if (title != "")
             emit sendName(title);
         BASS_StreamFree(stream);
-    }
+    }*/
 }
 
 void PFLPlayer::setDB(double db)
@@ -104,11 +104,6 @@ int PFLPlayer::getPeak()
 double PFLPlayer::getPeakInDB()
 {
     return 20 * log10((double)peak / (double)32768);
-}
-
-void PFLPlayer::setFilename(QString filename)
-{
-    this->filename = filename;
 }
 
 PFLPlayer* PFLPlayer::getInstance()

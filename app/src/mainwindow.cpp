@@ -62,7 +62,7 @@ void MainWindow::init() {
     createPlayers();
 
     fileModel = new QFileSystemModel();
-    fileModel->setNameFilters(GlobalData::getSupportedAudioFormats(false));
+    //fileModel->setNameFilters(GlobalData::getSupportedAudioFormats(false));
     fileModel->setRootPath("/");
     fileModel->setFilter(QDir::AllDirs | QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot);
     fileModel->setNameFilterDisables(false);

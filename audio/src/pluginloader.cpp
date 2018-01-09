@@ -33,7 +33,7 @@ void PluginLoader::loadPlugins()
         QStringList extensionList = extensions.split(";");
         foreach(QString format,extensionList)
         {
-            GlobalData::addFilter(format);
+            //GlobalData::addFilter(format);
         }
     }
 }

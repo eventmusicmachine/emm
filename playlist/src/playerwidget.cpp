@@ -46,11 +46,11 @@ PlayerWidget::PlayerWidget(int number, QWidget *parent) :
 
 void PlayerWidget::showInfo()
 {
-    ui->contentWidget->setStyleSheet("QWidget#contentWidget {border:1px solid #000000; background-color: "+GlobalData::getColorCode(player->getColor())+"}");
-    ui->playedLabel->setStyleSheet("font-size:25px; color:"+GlobalData::getColorCode(player->getFontColor()));
-    ui->toPlayLabel->setStyleSheet("font-size:25px; color:"+GlobalData::getColorCode(player->getFontColor()));
-    ui->artistLabel->setStyleSheet("font-size:20px; font-weight:bold; color:"+GlobalData::getColorCode(player->getFontColor()));
-    ui->titleLabel->setStyleSheet("font-size:18px; color:"+GlobalData::getColorCode(player->getFontColor()));
+    // ui->contentWidget->setStyleSheet("QWidget#contentWidget {border:1px solid #000000; background-color: "+GlobalData::getColorCode(player->getColor())+"}");
+    // ui->playedLabel->setStyleSheet("font-size:25px; color:"+GlobalData::getColorCode(player->getFontColor()));
+    // ui->toPlayLabel->setStyleSheet("font-size:25px; color:"+GlobalData::getColorCode(player->getFontColor()));
+    // ui->artistLabel->setStyleSheet("font-size:20px; font-weight:bold; color:"+GlobalData::getColorCode(player->getFontColor()));
+    // ui->titleLabel->setStyleSheet("font-size:18px; color:"+GlobalData::getColorCode(player->getFontColor()));
 }
 
 PlayerWidget::~PlayerWidget()

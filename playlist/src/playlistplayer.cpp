@@ -41,32 +41,32 @@ PlaylistPlayer::PlaylistPlayer(int number, QObject *parent) :
 
 void PlaylistPlayer::setDataAndSave(int type, int device, int channel, QString color, QString fontColor)
 {
-    this->device = device;
-    this->channel = channel;
-    this->type = type;
-    this->color = color;
-    this->fontColor = fontColor;
+    // this->device = device;
+    // this->channel = channel;
+    // this->type = type;
+    // this->color = color;
+    // this->fontColor = fontColor;
     this->saveData();
 }
 
 void PlaylistPlayer::readData()
 {
     QSettings settings(Configuration::getStorageLocation() + "/slots.ini", QSettings::IniFormat);
-    type = settings.value("Player"+QString::number(number)+"/Type",0).toInt();
-    device = settings.value("Player"+QString::number(number)+"/Device",1).toInt();
-    channel = settings.value("Player"+QString::number(number)+"/Channel",1).toInt();
-    color = settings.value("Player"+QString::number(number)+"/Color",0).toString();
-    fontColor = settings.value("Player"+QString::number(number)+"/FontColor",0).toString();
+    // type = settings.value("Player"+QString::number(number)+"/Type",0).toInt();
+    // device = settings.value("Player"+QString::number(number)+"/Device",1).toInt();
+    // channel = settings.value("Player"+QString::number(number)+"/Channel",1).toInt();
+    // color = settings.value("Player"+QString::number(number)+"/Color",0).toString();
+    // fontColor = settings.value("Player"+QString::number(number)+"/FontColor",0).toString();
 }
 
 void PlaylistPlayer::saveData()
 {
     QSettings settings(Configuration::getStorageLocation() + "/slots.ini", QSettings::IniFormat);
-    settings.setValue("Player"+QString::number(number)+"/Type",type);
-    settings.setValue("Player"+QString::number(number)+"/Device",device);
-    settings.setValue("Player"+QString::number(number)+"/Channel",channel);
-    settings.setValue("Player"+QString::number(number)+"/Color",color);
-    settings.setValue("Player"+QString::number(number)+"/FontColor",fontColor);
+    // settings.setValue("Player"+QString::number(number)+"/Type",type);
+    // settings.setValue("Player"+QString::number(number)+"/Device",device);
+    // settings.setValue("Player"+QString::number(number)+"/Channel",channel);
+    // settings.setValue("Player"+QString::number(number)+"/Color",color);
+    // settings.setValue("Player"+QString::number(number)+"/FontColor",fontColor);
 }
 
 PlaylistPlayer* PlaylistPlayer::getObjectWithNumber(int number)
@@ -98,11 +98,11 @@ void PlaylistPlayer::loadEntry(PlaylistEntry *entry)
     if (entry == NULL)
     {
         this->unloadStream();
-        this->filename = "";
+        // this->filename = "";
     }
     else
     {
-        this->filename = loadedEntry->getFilename();
+        // this->filename = loadedEntry->getFilename();
         this->loadStream();
     }
     emit entryLoaded(entry);

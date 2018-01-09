@@ -70,7 +70,7 @@ void CartSlotWidget::setNewNumber(int number, bool dis, int displayNumber)
 
 void CartSlotWidget::showInfo()
 {
-    this->normalColor = GlobalData::getColorCode(slot->getColor());
+    // this->normalColor = GlobalData::getColorCode(slot->getColor());
     QColor col = QColor(this->normalColor);
     int r,g,b;
     col.getRgb(&r,&g,&b);
@@ -78,19 +78,12 @@ void CartSlotWidget::showInfo()
     col2.setRgb(255-r,255-g,255-b);
     this->blinkColor = col2.name();
 
-    this->normalFontColor = slot->getFontColor();
+    // this->normalFontColor = slot->getFontColor();
     QColor col3 = QColor(this->normalFontColor);
     col3.getRgb(&r,&g,&b);
     QColor col4;
     col4.setRgb(255-r,255-g,255-b);
     this->blinkFontColor = col4.name();
-
-    ui->text1Label->setText("<center>"+slot->getText1()+"</center>");
-
-    QFont font = ui->text1Label->font();
-    font.setPixelSize(slot->getFontSize());
-    font.setBold(true);
-    ui->text1Label->setFont(font);
 
     QPalette p(ui->text1Label->palette());
     p.setColor(QPalette::Text,QColor(this->normalFontColor));
@@ -115,15 +108,6 @@ void CartSlotWidget::setColor(bool blink)
         color = this->normalColor;
         fontColor = this->normalFontColor;
     }
-    QPalette p(ui->contentWidget->palette());
-    p.setColor(QPalette::Background, QColor(color));
-    ui->contentWidget->setPalette(p);
-
-    QPalette t(ui->text1Label->palette());
-    t.setColor(QPalette::Text, QColor(fontColor));
-    t.setColor(QPalette::Foreground, QColor(fontColor));
-    ui->text1Label->setPalette(t);
-    ui->toPlayLabel->setPalette(t);
 }
 
 void CartSlotWidget::editCartSlot()
@@ -185,8 +169,6 @@ void CartSlotWidget::mousePressEvent(QMouseEvent *e)
     } else {
         if (e->button() == Qt::LeftButton)
             slot->play();
-        else
-            editCartSlot();
     }
 }
 

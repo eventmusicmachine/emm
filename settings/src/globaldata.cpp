@@ -45,32 +45,3 @@ QString GlobalData::getColorCode(QString color)
     }
     return colorCode;
 }
-
-QStringList GlobalData::getSupportedAudioFormats(bool detail)
-{
-    QStringList mainFilters;
-    mainFilters << "*.mp3" << "*.mp2" << "*.mp1" << "*.ogg" << "*.wav" << "*.aiff";
-    mainFilters.append(additionalFilters);
-
-    QString files = tr("Dateien");
-    QString supported = tr("Unterstüzte");
-
-    QStringList filters;
-    if (detail) {
-        filters << supported+" "+files+" ("+mainFilters.join(" ")+")";
-        foreach(QString format,mainFilters)
-        {
-            filters << format.split(".").last().toUpper()+" "+files+" ("+format+")";
-        }
-        return filters;
-    }
-    else
-    {
-        return mainFilters;
-    }
-}
-
-void GlobalData::addFilter(QString filter)
-{
-    additionalFilters.append(filter);
-}

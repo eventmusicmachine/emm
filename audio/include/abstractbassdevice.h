@@ -33,12 +33,10 @@ public:
     int getChannelCount();
     void addStreamToMixer(HSTREAM stream,int channel,bool free=false);
     void unpause();
-    bool isInitialized();
     static void setBuffer(int ms);
 
 protected:
     int deviceID;
-    static MainWindow *mainwindow;
 
     virtual bool setOutputDevice()=0;
     virtual void init()=0;
@@ -48,7 +46,6 @@ protected:
 
     int channelCount;
     QString name;
-    bool initialized;
     QList<HSTREAM> streams;
 
 signals:

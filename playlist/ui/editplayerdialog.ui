@@ -90,7 +90,7 @@
     </widget>
    </item>
    <item>
-    <widget class="DeviceSelectWidget" name="deviceSelectWidget" native="true"/>
+    <widget class="QWidget" name="deviceSelectWidget" native="true"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -104,14 +104,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>DeviceSelectWidget</class>
-   <extends>QWidget</extends>
-   <header>deviceselectwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

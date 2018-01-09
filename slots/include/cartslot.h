@@ -24,7 +24,6 @@ class CartSlot : public AbstractAudioObject
 {
     Q_OBJECT
 public:
-    QString getText1();
     bool getFadeOut();
     bool getLetFade();
     bool getFadeOthers();
@@ -32,7 +31,6 @@ public:
     double getStartPos();
     double getStopPos();
     int getPitch();
-    int getFontSize();
     double getDB();
     int getNumber();
 	double getLength();
@@ -53,7 +51,6 @@ public:
 
 private:
     CartSlot(int number, QObject *parent = 0, bool db=false);
-    QString text1;
     bool fadeOutFlag;
     bool letFade;
     bool fadeOthers;
@@ -61,7 +58,6 @@ private:
     double startPos;
     double stopPos;
     int pitch;
-    int fontSize;
     double db;
     double length;
     bool database;

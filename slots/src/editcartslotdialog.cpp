@@ -15,7 +15,6 @@
  * along with Event Music Machine. If not, see <http://www.gnu.org/licenses/>.
  * ************************************************************************* */
 
-#include <QColorDialog>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QProgressDialog>
@@ -50,10 +49,10 @@ EditCartSlotDialog::EditCartSlotDialog(int slotNumber,bool db, QWidget *parent) 
     connect(player, SIGNAL(newData(QList<PFLPlayer::VolumeInformation>)), visualWidget, SLOT(setData(QList<PFLPlayer::VolumeInformation>)));
     connect(player, SIGNAL(sendSongLength(double)), visualWidget, SLOT(setLength(double)));
     connect(player, SIGNAL(sendCurrentPosition(double)), visualWidget, SLOT(setPos(double)));
-    connect(player, SIGNAL(sendName(QString)), ui->line1Text, SLOT(setText(QString)));
+    // connect(player, SIGNAL(sendName(QString)), ui->line1Text, SLOT(setText(QString)));
     connect(visualWidget, SIGNAL(setCurrentPosition(double)), player, SLOT(setPosition(double)));
 
-    player->setFilename(ui->fileText->text());
+    // player->setFilename(ui->fileText->text());
     player->analyse();
     player->setDB(ui->volSpinBox->value());
     visualWidget->updateVolume(ui->volSpinBox->value());
@@ -72,7 +71,6 @@ EditCartSlotDialog::EditCartSlotDialog(int slotNumber,bool db, QWidget *parent) 
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
     connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(closeDialog()));
-    connect(ui->selectFileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
     connect(ui->getMaxVolButton, SIGNAL(clicked()), this, SLOT(getMaxVol()));
     connect(ui->volSpinBox, SIGNAL(valueChanged(double)), visualWidget, SLOT(updateVolume(double)));
     connect(ui->zoomInButton, SIGNAL(clicked()), visualWidget, SLOT(zoomIn()));
@@ -87,8 +85,6 @@ EditCartSlotDialog::EditCartSlotDialog(int slotNumber,bool db, QWidget *parent) 
     connect(ui->stopPosTime, SIGNAL(timeChanged(QTime)), visualWidget, SLOT(setEndPos(QTime)));
     connect(ui->playCueButton, SIGNAL(clicked()), this, SLOT(playCue()));
     connect(ui->stopCueButton, SIGNAL(clicked()), this, SLOT(stopCue()));
-    connect(ui->selectColorButton, SIGNAL(clicked()), this, SLOT(selectColor()));
-    connect(ui->selectFontColorButton, SIGNAL(clicked()), this, SLOT(selectFontColor()));
     connect(ui->saveSlotButton, SIGNAL(clicked()), this, SLOT(saveToDB()));
     connect(ui->loadSlotButton, SIGNAL(clicked()), this, SLOT(loadFromDB()));
     connect(ui->setStartPointButton, SIGNAL(clicked()), this, SLOT(setCurrentPosAsStartPos()));
@@ -109,12 +105,6 @@ void EditCartSlotDialog::save()
 
 void EditCartSlotDialog::loadData(CartSlot *slot, bool db)
 {
-    ui->fileText->setText(slot->getFileName());
-    ui->line1Text->setText(slot->getText1());
-    if (!db)
-        ui->deviceSelectWidget->selectDevice(slot->getType(),slot->getDeviceID(),slot->getChannel());
-    setColor(slot->getColor());
-    setFontColor(slot->getFontColor());
     ui->letFadeCheckBox->setChecked(slot->getLetFade());
     ui->fadeOutCheckBox->setChecked(slot->getFadeOut());
     ui->fadeOthersCheckBox->setChecked(slot->getFadeOthers());
@@ -128,7 +118,7 @@ void EditCartSlotDialog::loadData(CartSlot *slot, bool db)
     int msecsStop = (slot->getStopPos()-secsStop-minStop*60)*1000;
     ui->stopPosTime->setTime(QTime(0,minStop,secsStop,msecsStop));
     ui->pitchSpinBox->setValue(slot->getPitch());
-    ui->fontSizeSpinBox->setValue(slot->getFontSize());
+    // ui->fontSizeSpinBox->setValue(slot->getFontSize());
     ui->volSpinBox->setValue(slot->getDB());
     ui->eqActiveCheckBox->setChecked(slot->getEQActive());
     QString config = slot->getEQConfig();
@@ -147,7 +137,7 @@ void EditCartSlotDialog::loadData(CartSlot *slot, bool db)
             case 9: ui->eqCh10->setValue(parts.at(i).toInt()); break;
         }
     }
-    setColor(slot->getColor());
+    // setColor(slot->getColor());
 }
 
 void EditCartSlotDialog::setData()
@@ -158,13 +148,13 @@ void EditCartSlotDialog::setData()
     double startPos = startTime.minute()*60+startTime.second()+(double)startTime.msec()/1000;
     double stopPos = stopTime.minute()*60+stopTime.second()+(double)stopTime.msec()/1000;
     slot->setDataAndSave(
-            ui->fileText->text(),
-            ui->line1Text->text(),
-            ui->deviceSelectWidget->getDriver(),
-            ui->deviceSelectWidget->getDevice(),
-            ui->deviceSelectWidget->getChannel(),
-            color,
-            fontColor,
+            "test",
+            "test",
+            0, //ui->deviceSelectWidget->getDriver(),
+            0, //ui->deviceSelectWidget->getDevice(),
+            0,//ui->deviceSelectWidget->getChannel(),
+            "#000000", // color,
+            "#000000", // fontColor,
             ui->fadeOutCheckBox->isChecked(),
             ui->letFadeCheckBox->isChecked(),
             ui->fadeOthersCheckBox->isChecked(),
@@ -172,7 +162,7 @@ void EditCartSlotDialog::setData()
             startPos,
             stopPos,
             ui->pitchSpinBox->value(),
-            ui->fontSizeSpinBox->value(),
+            6, //ui->fontSizeSpinBox->value(),
             ui->volSpinBox->value(),
             ui->eqActiveCheckBox->isChecked(),
             QString::number(ui->eqCh1->value())+';'+QString::number(ui->eqCh2->value())+';'+QString::number(ui->eqCh3->value())+';'+QString::number(ui->eqCh4->value())+';'+QString::number(ui->eqCh5->value())+';'+QString::number(ui->eqCh6->value())+';'+QString::number(ui->eqCh7->value())+';'+QString::number(ui->eqCh8->value())+';'+QString::number(ui->eqCh9->value())+';'+QString::number(ui->eqCh10->value())
@@ -187,37 +177,20 @@ void EditCartSlotDialog::closeDialog()
 
 void EditCartSlotDialog::selectFile()
 {
-    QFileDialog dialog(this);
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setViewMode(QFileDialog::List);
-    dialog.setNameFilters(GlobalData::getSupportedAudioFormats());
+    /*
     dialog.setWindowFlags(Qt::Dialog | Qt::WindowMaximizeButtonHint);
-    if (dialog.exec())
-        if (dialog.selectedFiles().size()>0) {
+
             if (CartSlot::isUsed(dialog.selectedFiles().first()) != -1) {
                 int res = QMessageBox::question(this, tr("Titel wird bereits verwendet"), tr("Dieser Titel ist schon in einem anderen Slot geladen. Soll er trotzdem ausgewählt werden?"), QMessageBox::Yes, QMessageBox::No);
                 if (res == QMessageBox::No) {
                     return;
                 }
             }
-            ui->fileText->setText(dialog.selectedFiles().first());
-            player->setFilename(ui->fileText->text());
+            // player->setFilename(ui->fileText->text());
             player->analyse(true);
         }
-}
 
-void EditCartSlotDialog::setColor(QString color)
-{
-    QString colorCode=GlobalData::getColorCode(color);
-    ui->colorLabel->setStyleSheet("border:1px solid #000000; background-color: "+colorCode);
-    this->color = colorCode;
-}
-
-void EditCartSlotDialog::setFontColor(QString color)
-{
-    QString colorCode=GlobalData::getColorCode(color);
-    ui->fontColorLabel->setStyleSheet("border:1px solid #000000; background-color: "+colorCode);
-    this->fontColor = colorCode;
+        */
 }
 
 void EditCartSlotDialog::getMaxVol()
@@ -279,26 +252,6 @@ void EditCartSlotDialog::playCue() {
 
 void EditCartSlotDialog::stopCue() {
     player->playCue(ui->stopPosTime->time(),true);
-}
-
-void EditCartSlotDialog::selectColor()
-{
-    QColor selectedColor;
-    selectedColor = QColorDialog::getColor(QColor(color),this);
-    if (selectedColor.isValid())
-    {
-        setColor(selectedColor.name());
-    }
-}
-
-void EditCartSlotDialog::selectFontColor()
-{
-    QColor selectedColor;
-    selectedColor = QColorDialog::getColor(QColor(fontColor),this);
-    if (selectedColor.isValid())
-    {
-        setFontColor(selectedColor.name());
-    }
 }
 
 void EditCartSlotDialog::saveToDB()

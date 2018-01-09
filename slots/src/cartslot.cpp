@@ -52,11 +52,6 @@ void CartSlot::fetchLength() {
     emit sendSongLength(length);
 }
 
-QString CartSlot::getText1()
-{
-    return this->text1;
-}
-
 void CartSlot::play()
 {
     if (this->isPlaying())
@@ -125,11 +120,6 @@ int CartSlot::getPitch()
     return this->pitch;
 }
 
-int CartSlot::getFontSize()
-{
-    return this->fontSize;
-}
-
 double CartSlot::getDB()
 {
     return this->db;
@@ -156,13 +146,6 @@ double CartSlot::getLength() {
 
 void CartSlot::setDataAndSave(QString filename, QString text1, int type, int device, int channel, QString color, QString fontColor, bool fadeOut, bool letFade, bool fadeOthers, bool loop, double startPos, double stopPos, int pitch, int fontSize, double db, bool eqActive, QString eqConfig)
 {
-    this->filename = filename;
-    this->text1 = text1;
-    this->type = type;
-    this->device = device;
-    this->channel = channel;
-    this->color = color;
-    this->fontColor = fontColor;
     this->fadeOutFlag = fadeOut;
     this->fadeOthers = fadeOthers;
     this->letFade = letFade;
@@ -170,7 +153,6 @@ void CartSlot::setDataAndSave(QString filename, QString text1, int type, int dev
     this->startPos = startPos;
     this->stopPos = stopPos;
     this->pitch = pitch;
-    this->fontSize = fontSize;
     this->db = db;
     this->eqActive = eqActive;
     this->eqConfig = eqConfig;
@@ -184,8 +166,8 @@ void CartSlot::setDataAndSave(QString filename, QString text1, int type, int dev
 
 void CartSlot::setColorsAndSave(QString color, QString fontColor)
 {
-    this->color = color;
-    this->fontColor = fontColor;
+    // this->color = color;
+    // this->fontColor = fontColor;
     this->saveData();
 }
 
@@ -195,13 +177,6 @@ void CartSlot::readData()
     {
         Configuration *config = Configuration::getInstance();
         QSettings settings(Configuration::getStorageLocation() + "/slots.ini", QSettings::IniFormat);
-        device = settings.value("Slot"+QString::number(number)+"/Device",config->getDefaultDevice()).toInt();
-        channel = settings.value("Slot"+QString::number(number)+"/Channel",config->getDefaultChannel()).toInt();
-        type = settings.value("Slot"+QString::number(number)+"/Type",config->getDefaultDriver()).toInt();
-        filename = settings.value("Slot"+QString::number(number)+"/File").toString();
-        text1 = settings.value("Slot"+QString::number(number)+"/Text1").toString();
-        color = settings.value("Slot"+QString::number(number)+"/Color",0).toString();
-        fontColor = settings.value("Slot"+QString::number(number)+"/FontColor",0).toString();
         letFade = settings.value("Slot"+QString::number(number)+"/LetFade",true).toBool();
         fadeOutFlag = settings.value("Slot"+QString::number(number)+"/FadeOut",true).toBool();
         fadeOthers = settings.value("Slot"+QString::number(number)+"/FadeOthers",true).toBool();
@@ -209,7 +184,6 @@ void CartSlot::readData()
         startPos = settings.value("Slot"+QString::number(number)+"/Start",0).toDouble();
         stopPos = settings.value("Slot"+QString::number(number)+"/Stop",0).toDouble();
         pitch = settings.value("Slot"+QString::number(number)+"/Pitch",0).toInt();
-        fontSize = settings.value("Slot"+QString::number(number)+"/FontSize",14).toInt();
         db = settings.value("Slot"+QString::number(number)+"/DB",0).toDouble();
         eqActive = settings.value("Slot"+QString::number(number)+"/EqualizerActive",false).toBool();
         eqConfig = settings.value("Slot"+QString::number(number)+"/EqualizerConfig","").toString();
@@ -221,10 +195,10 @@ void CartSlot::readData()
         query.bindValue(0,this->number);
         query.exec();
         query.next();
-        filename = query.value(1).toString();
-        text1 = query.value(2).toString();
-        color = query.value(3).toString();
-        fontColor = query.value(13).toString();
+        // filename = query.value(1).toString();
+        // text1 = query.value(2).toString();
+        // color = query.value(3).toString();
+        // fontColor = query.value(13).toString();
         letFade = query.value(6).toBool();
         fadeOutFlag = query.value(4).toBool();
         fadeOthers = query.value(5).toBool();
@@ -232,7 +206,7 @@ void CartSlot::readData()
         startPos = query.value(8).toDouble();
         stopPos = query.value(9).toDouble();
         pitch = query.value(10).toDouble();
-        fontSize = query.value(11).toInt();
+        // fontSize = query.value(11).toInt();
         db = query.value(12).toDouble();
         eqActive = false;
         eqConfig = "";
@@ -244,13 +218,6 @@ void CartSlot::saveData()
     if (!this->database)
     {
         QSettings settings(Configuration::getStorageLocation() + "/slots.ini", QSettings::IniFormat);
-        settings.setValue("Slot"+QString::number(number)+"/Device",device);
-        settings.setValue("Slot"+QString::number(number)+"/Channel",channel);
-        settings.setValue("Slot"+QString::number(number)+"/Type",type);
-        settings.setValue("Slot"+QString::number(number)+"/File",filename);
-        settings.setValue("Slot"+QString::number(number)+"/Text1",text1);
-        settings.setValue("Slot"+QString::number(number)+"/Color",color);
-        settings.setValue("Slot"+QString::number(number)+"/FontColor",fontColor);
         settings.setValue("Slot"+QString::number(number)+"/LetFade",letFade);
         settings.setValue("Slot"+QString::number(number)+"/FadeOut",fadeOutFlag);
         settings.setValue("Slot"+QString::number(number)+"/FadeOthers",fadeOthers);
@@ -258,7 +225,6 @@ void CartSlot::saveData()
         settings.setValue("Slot"+QString::number(number)+"/Start",startPos);
         settings.setValue("Slot"+QString::number(number)+"/Stop",stopPos);
         settings.setValue("Slot"+QString::number(number)+"/Pitch",pitch);
-        settings.setValue("Slot"+QString::number(number)+"/FontSize",fontSize);
         settings.setValue("Slot"+QString::number(number)+"/DB",db);
         settings.setValue("Slot"+QString::number(number)+"/EqualizerActive",eqActive);
         settings.setValue("Slot"+QString::number(number)+"/EqualizerConfig",eqConfig);
@@ -275,9 +241,9 @@ void CartSlot::saveData()
             query.prepare("UPDATE slots SET filename=?,desc=?,color=?,fade_out=?,fade_others=?,let_fade=?,loop=?,start_pos=?,stop_pos=?,pitch=?,font_size=?,db=?,font_color=? WHERE slot_id=?");
             query.bindValue(13,number);
         }
-        query.bindValue(0,filename);
-        query.bindValue(1,text1);
-        query.bindValue(2,color);
+        // query.bindValue(0,filename);
+        // query.bindValue(1,text1);
+        // query.bindValue(2,color);
         query.bindValue(3,fadeOutFlag);
         query.bindValue(4,fadeOthers);
         query.bindValue(5,letFade);
@@ -285,9 +251,9 @@ void CartSlot::saveData()
         query.bindValue(7,startPos);
         query.bindValue(8,stopPos);
         query.bindValue(9,pitch);
-        query.bindValue(10,fontSize);
+        // query.bindValue(10,fontSize);
         query.bindValue(11,db);
-        query.bindValue(12,fontColor);
+        // query.bindValue(12,fontColor);
         query.exec();
     }
 }
@@ -376,19 +342,19 @@ void CartSlot::loadFromSlot(int id)
 }
 
 void CartSlot::empty() {
-    this->filename = "";
+    // this->filename = "";
     this->startPos = 0;
     this->stopPos = 0;
     this->length = 0;
-    this->text1 = "";
+    // this->text1 = "";
     this->loadStream();
     this->saveData();
     this->updatePosition();
 }
 
 void CartSlot::clearColor() {
-    this->fontColor = "#000000";
-    this->color = "#FFFFFF";
+    // this->fontColor = "#000000";
+    // this->color = "#FFFFFF";
 
 }
 
@@ -415,9 +381,9 @@ int CartSlot::isUsed(QString filename)
 {
     foreach(int key, audioObjects.keys())
     {
-        if (audioObjects.value(key)->getFileName() == filename) {
+        /*if (audioObjects.value(key)->getFileName() == filename) {
             return key;
-        }
+        }*/
     }
     return -1;
 }

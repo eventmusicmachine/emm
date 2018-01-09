@@ -29,12 +29,6 @@ class AbstractAudioObject : public QObject
 {
     Q_OBJECT
 public:
-    int getDeviceID();
-    int getChannel();
-    QString getColor();
-    QString getFontColor();
-    int getType();
-    QString getFileName();
     bool isPlaying();
     bool isPaused();
     void fadeOut(int ms);
@@ -46,17 +40,11 @@ public:
 protected:
     AbstractAudioObject(int , QObject * = 0);
 
-    int type;
-    int device;
-    int channel;
     int number;
-    QString filename;
     bool playing;
     bool fading;
     bool paused;
     HSTREAM stream;
-    QString color;
-    QString fontColor;
     QTimer *timer;
     QList<BASS_DX8_PARAMEQ> eqs;
 	bool fileMissing;
