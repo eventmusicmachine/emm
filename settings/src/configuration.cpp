@@ -18,39 +18,8 @@
 #include <QMutex>
 #include <QSettings>
 #include "configuration.h"
-#include "bassdevice.h"
 
 Configuration* Configuration::instance = 0;
-
-int Configuration::getPFLDriver()
-{
-    return this->pflDriver;
-}
-
-int Configuration::getPFLDevice()
-{
-    return this->pflDevice;
-}
-
-int Configuration::getPFLChannel()
-{
-    return this->pflChannel;
-}
-
-int Configuration::getDefaultDriver()
-{
-    return this->defaultDriver;
-}
-
-int Configuration::getDefaultDevice()
-{
-    return this->defaultDevice;
-}
-
-int Configuration::getDefaultChannel()
-{
-    return this->defaultChannel;
-}
 
 int Configuration::getPlayer()
 {
@@ -72,11 +41,6 @@ int Configuration::getPlaylistFPos()
     return this->playlistFPos;
 }
 
-int Configuration::getSlotBuffer()
-{
-    return this->slotBuffer;
-}
-
 bool Configuration::getLayerKeyboardSync()
 {
     return this->layerKeyboardSync;
@@ -89,36 +53,6 @@ bool Configuration::getPauseButton()
 
 int Configuration::getSlotTimeSize() {
     return this->slotTimeSize;
-}
-
-void Configuration::setPFLDriver(int pflDriver)
-{
-    this->pflDriver = pflDriver;
-}
-
-void Configuration::setPFLDevice(int pflDevice)
-{
-    this->pflDevice = pflDevice;
-}
-
-void Configuration::setPFLChannel(int pflChannel)
-{
-    this->pflChannel = pflChannel;
-}
-
-void Configuration::setDefaultDriver(int defaultDriver)
-{
-    this->defaultDriver = defaultDriver;
-}
-
-void Configuration::setDefaultDevice(int defaultDevice)
-{
-    this->defaultDevice = defaultDevice;
-}
-
-void Configuration::setDefaultChannel(int defaultChannel)
-{
-    this->defaultChannel = defaultChannel;
 }
 
 void Configuration::setPlayer(int player)
@@ -141,11 +75,6 @@ void Configuration::setPlaylistFPos(int playlistFPos)
     this->playlistFPos = playlistFPos;
 }
 
-void Configuration::setSlotBuffer(int slotBuffer)
-{
-    this->slotBuffer = slotBuffer;
-}
-
 void Configuration::setLayerKeyboardSync(bool layerKeyboardSync)
 {
     this->layerKeyboardSync = layerKeyboardSync;
@@ -163,17 +92,10 @@ void Configuration::setSlotTimeSize(int size) {
 void Configuration::readData()
 {
     QSettings settings(Configuration::getStorageLocation() + "/config.ini", QSettings::IniFormat);
-    pflDriver = settings.value("PFL/Type",0).toInt();
-    pflDevice = settings.value("PFL/Device",1).toInt();
-    pflChannel = settings.value("PFL/Channel",1).toInt();
-    defaultDriver = settings.value("DefaultDevice/Type",0).toInt();
-    defaultDevice = settings.value("DefaultDevice/Device",1).toInt();
-    defaultChannel = settings.value("DefaultDevice/Channel",1).toInt();
     player = settings.value("Playlist/Player",2).toInt();
     playlistFade = settings.value("Playlist/Fade",4000).toInt();
     slotFade = settings.value("Slots/Fade",800).toInt();
     playlistFPos = settings.value("Playlist/FadePos",8000).toInt();
-    slotBuffer = settings.value("Slots/Buffer",5000).toInt();
     layerKeyboardSync = settings.value("Slots/LayerKeyboardSync",false).toBool();
     pauseButton = settings.value("Slots/PauseButton",false).toBool();
     slotTimeSize = settings.value("Slots/TimeSize",10).toInt();
@@ -182,21 +104,14 @@ void Configuration::readData()
 void Configuration::saveData()
 {
     QSettings settings(Configuration::getStorageLocation() + "/config.ini", QSettings::IniFormat);
-    settings.setValue("PFL/Type",pflDriver);
-    settings.setValue("PFL/Device",pflDevice);
-    settings.setValue("PFL/Channel",pflChannel);
-    settings.setValue("DefaultDevice/Type",defaultDriver);
-    settings.setValue("DefaultDevice/Device",defaultDevice);
-    settings.setValue("DefaultDevice/Channel",defaultChannel);
     settings.setValue("Playlist/Player",player);
     settings.setValue("Playlist/Fade",playlistFade);
     settings.setValue("Slots/Fade",slotFade);
     settings.setValue("Playlist/FadePos",playlistFPos);
-    settings.setValue("Slots/Buffer",slotBuffer);
     settings.setValue("Slots/LayerKeyboardSync",layerKeyboardSync);
     settings.setValue("Slots/TimeSize",slotTimeSize);
     settings.setValue("Slots/PauseButton",pauseButton);
-    BassDevice::setBuffer(slotBuffer);
+    // BassDevice::setBuffer(slotBuffer);
     // BassAsioDevice::setBuffer(slotBuffer);
 }
 

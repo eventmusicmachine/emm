@@ -38,35 +38,6 @@ void BassDevice::init()
     } */
 }
 
-bool BassDevice::setOutputDevice()
-{
-    if (!BASS_SetDevice(deviceID))
-    {
-        emit errorOccured(BASS_ErrorGetCode());
-        return false;
-    }
-    return true;
-}
-
-void BassDevice::free()
-{
-    if (!BASS_Free())
-    {
-        emit errorOccured(BASS_ErrorGetCode());
-    }
-}
-
-void BassDevice::setBuffer(int ms)
-{
-    /*foreach(BassDevice* device, allDevices)
-    {
-        /*if (device->isInitialized()) {
-            device->setOutputDevice();
-            BASS_SetConfig(BASS_CONFIG_BUFFER,ms);
-        }
-    }*/
-}
-
 /*void BassDevice::initialize()
 {
     BASS_SetConfig(BASS_CONFIG_BUFFER,Configuration::getInstance()->getSlotBuffer());
@@ -82,13 +53,4 @@ DWORD BassDevice::getSpeakerFlag(int channel)
     case 4: return BASS_SPEAKER_REAR2;
     }
     return BASS_SPEAKER_FRONT;
-}
-
-BassDevice* BassDevice::getDeviceWithID(int id)
-{
-    /*foreach(BassDevice *device, allDevices)
-    {
-        if (device->deviceID == id) return device;
-    }
-    return NULL;*/
 }

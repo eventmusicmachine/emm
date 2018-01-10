@@ -581,7 +581,7 @@
           <item>
            <widget class="QPushButton" name="playButton">
             <property name="icon">
-             <iconset resource="../resources/icons.qrc">
+             <iconset>
               <normaloff>:/slots/icons/control_play_blue.png</normaloff>:/slots/icons/control_play_blue.png</iconset>
             </property>
             <property name="flat">
@@ -592,7 +592,7 @@
           <item>
            <widget class="QPushButton" name="stopButton">
             <property name="icon">
-             <iconset resource="../resources/icons.qrc">
+             <iconset>
               <normaloff>:/slots/icons/control_stop_blue.png</normaloff>:/slots/icons/control_stop_blue.png</iconset>
             </property>
             <property name="flat">
@@ -616,7 +616,7 @@
           <item>
            <widget class="QPushButton" name="autoscrollButton">
             <property name="icon">
-             <iconset resource="../resources/icons.qrc">
+             <iconset>
               <normaloff>:/slots/icons/timeline_marker.png</normaloff>:/slots/icons/timeline_marker.png</iconset>
             </property>
             <property name="checkable">
@@ -646,7 +646,7 @@
           <item>
            <widget class="QPushButton" name="zoomInButton">
             <property name="icon">
-             <iconset resource="../resources/icons.qrc">
+             <iconset>
               <normaloff>:/slots/icons/zoom_in.png</normaloff>:/slots/icons/zoom_in.png</iconset>
             </property>
             <property name="flat">
@@ -657,7 +657,7 @@
           <item>
            <widget class="QPushButton" name="zoomOutButton">
             <property name="icon">
-             <iconset resource="../resources/icons.qrc">
+             <iconset>
               <normaloff>:/slots/icons/zoom_out.png</normaloff>:/slots/icons/zoom_out.png</iconset>
             </property>
             <property name="flat">
@@ -675,7 +675,7 @@
          </property>
          <widget class="QWidget" name="tabWidgetPage1">
           <attribute name="icon">
-           <iconset resource="../resources/icons.qrc">
+           <iconset>
             <normaloff>:/slots/icons/sound.png</normaloff>:/slots/icons/sound.png</iconset>
           </attribute>
           <attribute name="title">
@@ -755,7 +755,7 @@
               </size>
              </property>
              <property name="icon">
-              <iconset resource="../resources/icons.qrc">
+              <iconset>
                <normaloff>:/slots/icons/control_play_blue.png</normaloff>:/slots/icons/control_play_blue.png</iconset>
              </property>
             </widget>
@@ -782,7 +782,7 @@
               </size>
              </property>
              <property name="icon">
-              <iconset resource="../resources/icons.qrc">
+              <iconset>
                <normaloff>:/slots/icons/control_play_blue.png</normaloff>:/slots/icons/control_play_blue.png</iconset>
              </property>
             </widget>
@@ -858,7 +858,7 @@
            <item row="1" column="2">
             <widget class="QPushButton" name="setStartPointButton">
              <property name="icon">
-              <iconset resource="../resources/icons.qrc">
+              <iconset>
                <normaloff>:/slots/icons/flag_2.png</normaloff>:/slots/icons/flag_2.png</iconset>
              </property>
             </widget>
@@ -866,7 +866,7 @@
            <item row="2" column="2">
             <widget class="QPushButton" name="setStopPointButton">
              <property name="icon">
-              <iconset resource="../resources/icons.qrc">
+              <iconset>
                <normaloff>:/slots/icons/flag_2.png</normaloff>:/slots/icons/flag_2.png</iconset>
              </property>
             </widget>
@@ -875,7 +875,7 @@
          </widget>
          <widget class="QWidget" name="tab_3">
           <attribute name="icon">
-           <iconset resource="../resources/icons.qrc">
+           <iconset>
             <normaloff>:/slots/icons/mixer.png</normaloff>:/slots/icons/mixer.png</iconset>
           </attribute>
           <attribute name="title">
@@ -1103,9 +1103,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resources/icons.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

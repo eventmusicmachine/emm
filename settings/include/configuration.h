@@ -25,31 +25,17 @@ class Configuration : public QObject
 {
     Q_OBJECT
 public:
-    int getPFLDriver();
-    int getPFLDevice();
-    int getPFLChannel();
-    int getDefaultDriver();
-    int getDefaultDevice();
-    int getDefaultChannel();
     int getPlayer();
     int getPlaylistFade();
     int getSlotFade();
     int getPlaylistFPos();
-    int getSlotBuffer();
     bool getLayerKeyboardSync();
     bool getPauseButton();
     int getSlotTimeSize();
-    void setPFLDriver(int pflDriver);
-    void setPFLDevice(int pflDevice);
-    void setPFLChannel(int pflChannel);
-    void setDefaultDriver(int defaultDriver);
-    void setDefaultDevice(int defaultDevice);
-    void setDefaultChannel(int defaultChannel);
     void setPlayer(int player);
     void setPlaylistFade(int playlistFade);
     void setSlotFade(int slotFade);
     void setPlaylistFPos(int playlistFPos);
-    void setSlotBuffer(int slotBuffer);
     void setLayerKeyboardSync(bool layerKeyboardSync);
     void setPauseButton(bool pauseButton);
     void setSlotTimeSize(int size);
@@ -65,17 +51,10 @@ private:
     Configuration& operator=(const Configuration &);
     static Configuration* instance;
 
-    int pflDriver;
-    int pflDevice;
-    int pflChannel;
-    int defaultDriver;
-    int defaultDevice;
-    int defaultChannel;
     int player;
     int playlistFade;
     int playlistFPos;
     int slotFade;
-    int slotBuffer;
     int slotTimeSize;
     bool layerKeyboardSync;
     bool pauseButton;

@@ -25,18 +25,12 @@ class BassDevice : public AbstractBassDevice
     Q_OBJECT
 public:
     static void initialize(MainWindow *mw);
-    static QList<BassDevice*> getAllDevices();
-    static BassDevice* getDeviceWithID(int id);
-    static void setBuffer(int ms);
     static DWORD getSpeakerFlag(int channel);
     void init();
-    bool setOutputDevice();
 
 private:
     BASS_DEVICEINFO deviceInfo;
     static DWORD CALLBACK proc(HSTREAM handle, void *buf, DWORD len, void *user);
-
-    void free();
 
 };
 
