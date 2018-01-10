@@ -79,9 +79,13 @@ void OutputSelectionWidget::setSelection(QString driver, int device, int channel
 void OutputSelectionWidget::driverChanged(int index)
 {
     m_ui->deviceComboBox->clear();
-    QMap<QString, IDriver*> drivers = DeviceManager::instance()->drivers();
     m_driver = m_ui->driverComboBox->itemData(index).toString();
-    QList<IDevice*> devices = drivers.value(m_driver)->devices();
+    IDriver *driver = driverInstance();
+    if (!driver) {
+        return;
+    }
+
+    QList<IDevice*> devices = driver->devices();
 
     for (int i = 0; i < devices.length(); i++)
     {
@@ -98,8 +102,12 @@ void OutputSelectionWidget::deviceChanged(int index)
         disconnect(m_deviceInstance, &IDevice::outputCountUpdated, this, &OutputSelectionWidget::outputCountChanged);
     }
 
-    QMap<QString, IDriver*> drivers = DeviceManager::instance()->drivers();
-    m_deviceInstance = drivers.value(m_driver)->devices().at(index);
+    IDriver *driver = driverInstance();
+    if (!driver) {
+        return;
+    }
+
+    m_deviceInstance = driver->devices().at(index);
     connect(m_deviceInstance, &IDevice::outputCountUpdated, this, &OutputSelectionWidget::outputCountChanged);
     int outputCount = m_deviceInstance->outputCount();
     outputCountChanged(outputCount);
@@ -116,4 +124,18 @@ void OutputSelectionWidget::outputCountChanged(int count)
         m_ui->channelSpinBox->setMaximum(0);
         m_ui->channelSpinBox->setValue(0);
     }
+}
+
+IDriver *OutputSelectionWidget::driverInstance() const
+{
+    QMap<QString, IDriver*> drivers = DeviceManager::instance()->drivers();
+    IDriver *driver = drivers.value(m_driver);
+    if (!driver) {
+        if (drivers.keys().length() > 0) {
+            driver = drivers.first();
+        } else {
+            return NULL;
+        }
+    }
+    return driver;
 }

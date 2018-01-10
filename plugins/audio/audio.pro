@@ -9,7 +9,8 @@ SOURCES += \
     audioplugin.cpp \
     outputselectionwidget.cpp \
     devicemanager.cpp \
-    idriver.cpp
+    idriver.cpp \
+    audiosettingspage.cpp
 
 HEADERS += \
     audioplugin.h \
@@ -19,10 +20,13 @@ HEADERS += \
     devicemanager_p.h \
     idriver.h \
     idevice.h \
-    ichannel.h
+    ichannel.h \
+    audiosettingsfactory.h \
+    audiosettingspage.h
+
+FORMS += \
+    outputselectionwidget.ui \
+    audiosettingspage.ui
 
 DISTFILES += \
     audio.json
-
-FORMS += \
-    outputselectionwidget.ui

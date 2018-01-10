@@ -16,8 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
+#include <settings/settingsmanager.h>
+#include <settings/navigationtreeitem.h>
+
 #include "audioplugin.h"
 #include "devicemanager.h"
+#include "audiosettingsfactory.h"
 
 using namespace Audio;
 using namespace Audio::Internal;
@@ -37,6 +41,10 @@ bool AudioPlugin::initialize(const QStringList &arguments, QString *errorString)
     Q_UNUSED(errorString)
 
     new DeviceManager(this);
+
+    Settings::NavigationTreeItem *settingsItem = Settings::SettingsManager::createNavigationNode("AUDIO", tr("Audio"));
+    settingsItem->setFactory(new AudioSettingsFactory());
+    Settings::SettingsManager::navigationNode("ROOT")->addChild(settingsItem);
 
     return true;
 }

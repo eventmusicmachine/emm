@@ -5,5 +5,11 @@
     "HiddenByDefault": false,
     "Vendor": "Event Music Machine",
     "Category": "Audio",
-    "Description": "Audio Management for the EMM"
+    "Description": "Audio Management for the EMM",
+    "Dependencies": [
+        {
+            "Name": "Settings",
+            "Version": "3.0.0"
+        }
+    ]
 }

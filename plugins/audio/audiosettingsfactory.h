@@ -16,49 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef OUTPUTSELECTIONWIDGET_H
-#define OUTPUTSELECTIONWIDGET_H
+#ifndef AUDIOSETTINGSFACTORY_H
+#define AUDIOSETTINGSFACTORY_H
 
-#include <QWidget>
+#include <settings/isettingspagefactory.h>
+#include <settings/isettingspage.h>
 
-#include "audio_global.h"
+#include "audiosettingspage.h"
 
 namespace Audio {
 
-class IDevice;
-class IDriver;
+namespace Internal {
 
-namespace Ui {
-class OutputSelectionWidget;
-} // namespace Ui
-
-class AUDIO_EXPORT OutputSelectionWidget : public QWidget
+class AudioSettingsFactory : public Settings::ISettingsPageFactory
 {
-    Q_OBJECT
-
 public:
-    explicit OutputSelectionWidget(QWidget *parent = 0);
-    ~OutputSelectionWidget();
-
-    QString driver() const;
-    int device() const;
-    int channel() const;
-    void setSelection(QString driver, int device, int channel);
-
-private:
-    IDriver *driverInstance() const;
-    Ui::OutputSelectionWidget *m_ui;
-    QString m_driver;
-    int m_device;
-    IDevice *m_deviceInstance = 0;
-    int m_channel;
-
-private slots:
-    void driverChanged(int index);
-    void deviceChanged(int index);
-    void outputCountChanged(int count);
+    Settings::ISettingsPage *createPage() {
+        return new AudioSettingsPage();
+    }
 };
 
+} // namespace Internal
 } // namespace Audio
 
-#endif // OUTPUTSELECTIONWIDGET_H
+#endif // AUDIOSETTINGSFACTORY_H

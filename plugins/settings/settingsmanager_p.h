@@ -37,7 +37,6 @@ public:
     ~SettingsManagerPrivate();
 
     IdNavigationNodeMap m_idNodeMap;
-    NavigationTreeItem *m_rootItem;
 };
 
 } // namespace Internal
