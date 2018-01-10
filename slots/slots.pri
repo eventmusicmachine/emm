@@ -22,7 +22,6 @@ HEADERS += \
     $$PWD/include/cartslotwidget.h \
     $$PWD/include/editcartslotdialog.h \
     $$PWD/include/loadslotdialog.h \
-    $$PWD/include/slottablemodel.h \
     $$PWD/include/clearlayerthread.h \
     $$PWD/include/copycolorsthread.h
 
@@ -31,7 +30,6 @@ SOURCES += \
     $$PWD/src/cartslotwidget.cpp \
     $$PWD/src/editcartslotdialog.cpp \
     $$PWD/src/loadslotdialog.cpp \
-    $$PWD/src/slottablemodel.cpp \
     $$PWD/src/clearlayerthread.cpp \
     $$PWD/src/copycolorsthread.cpp
 

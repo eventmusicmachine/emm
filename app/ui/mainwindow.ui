@@ -39,32 +39,6 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="stackedWidgetPage1">
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <property name="spacing">
-         <number>2</number>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <layout class="QGridLayout" name="slotLayout">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-         </layout>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="stackedWidgetPage2">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <property name="spacing">
@@ -109,7 +83,7 @@
               </sizepolicy>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../resources/icons.qrc">
                <normaloff>:/app/icons/folder.png</normaloff>:/app/icons/folder.png</iconset>
              </property>
              <property name="iconSize">
@@ -129,7 +103,7 @@
               </sizepolicy>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../resources/icons.qrc">
                <normaloff>:/app/icons/save_as.png</normaloff>:/app/icons/save_as.png</iconset>
              </property>
              <property name="iconSize">
@@ -268,7 +242,7 @@
                    </sizepolicy>
                   </property>
                   <property name="icon">
-                   <iconset>
+                   <iconset resource="../resources/icons.qrc">
                     <normaloff>:/app/icons/save_as.png</normaloff>:/app/icons/save_as.png</iconset>
                   </property>
                  </widget>
@@ -295,7 +269,7 @@
                <item>
                 <widget class="QCheckBox" name="autoPlayCheckBox">
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../resources/icons.qrc">
                    <normaloff>:/app/icons/arrow_switch.png</normaloff>:/app/icons/arrow_switch.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -335,7 +309,7 @@ font-weight:bold;</string>
                   <string>NEXT</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../resources/icons.qrc">
                    <normaloff>:/app/icons/document_page_next.png</normaloff>:/app/icons/document_page_next.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -399,7 +373,7 @@ font-weight:bold;</string>
      <x>0</x>
      <y>0</y>
      <width>646</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -429,7 +403,7 @@ font-weight:bold;</string>
   </widget>
   <action name="configAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="../resources/icons.qrc">
      <normaloff>:/app/icons/setting_tools.png</normaloff>:/app/icons/setting_tools.png</iconset>
    </property>
    <property name="text">
@@ -451,7 +425,7 @@ font-weight:bold;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../resources/icons.qrc">
      <normaloff>:/app/icons/small_tiles.png</normaloff>:/app/icons/small_tiles.png</iconset>
    </property>
    <property name="text">
@@ -463,7 +437,7 @@ font-weight:bold;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../resources/icons.qrc">
      <normaloff>:/app/icons/control_play_blue.png</normaloff>:/app/icons/control_play_blue.png</iconset>
    </property>
    <property name="text">
@@ -472,7 +446,7 @@ font-weight:bold;</string>
   </action>
   <action name="slotStoreAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="../resources/icons.qrc">
      <normaloff>:/app/icons/server_components.png</normaloff>:/app/icons/server_components.png</iconset>
    </property>
    <property name="text">
@@ -508,6 +482,8 @@ font-weight:bold;</string>
    <header>historylistwidget.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

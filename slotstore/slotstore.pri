@@ -20,9 +20,11 @@ QT += sql
 INCLUDEPATH += $$PWD/include
 
 HEADERS += \
+    $$PWD/include/slottablemodel.h \
     $$PWD/include/slotstoredialog.h
 
 SOURCES += \
+    $$PWD/src/slottablemodel.cpp \
     $$PWD/src/slotstoredialog.cpp
 
 RESOURCES += \
