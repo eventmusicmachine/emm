@@ -19,22 +19,17 @@
 #ifndef ISETTINGSPAGE_H
 #define ISETTINGSPAGE_H
 
-#include <QObject>
+#include <QWidget>
 
 #include "settings_global.h"
 
-QT_BEGIN_NAMESPACE
-class QWidget;
-QT_END_NAMESPACE
-
 namespace Settings {
 
-class SETTINGS_EXPORT ISettingsPage : public QObject
+class SETTINGS_EXPORT ISettingsPage : public QWidget
 {
     Q_OBJECT
 public:
     virtual QString id() const = 0;
-    virtual QWidget *widget() = 0;
 
 public:
     virtual void load() = 0;

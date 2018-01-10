@@ -52,7 +52,7 @@ private:
     QString m_text;
     QList<NavigationTreeItemPrivate*> m_childItems;
     NavigationTreeItemPrivate *m_parentItem;
-    ISettingsPageFactory *m_factory;
+    ISettingsPageFactory *m_factory = 0;
 
 };
 

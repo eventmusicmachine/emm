@@ -16,31 +16,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SETTINGSMANAGER_P_H
-#define SETTINGSMANAGER_P_H
+#include "idriver.h"
+#include "idevice.h"
 
-#include <QObject>
-#include <QHash>
+using namespace Audio;
 
-namespace Settings {
-
-class NavigationTreeItem;
-
-namespace Internal {
-
-class SettingsManagerPrivate : public QObject
+IDriver::~IDriver()
 {
-    Q_OBJECT
-public:
-    typedef QHash<QString, NavigationTreeItem *> IdNavigationNodeMap;
+    qDeleteAll(m_devices);
+}
 
-    ~SettingsManagerPrivate();
-
-    IdNavigationNodeMap m_idNodeMap;
-    NavigationTreeItem *m_rootItem;
-};
-
-} // namespace Internal
-} // namespace Settings
-
-#endif // SETTINGSMANAGER_P_H
+QList<IDevice*> IDriver::devices() const
+{
+    return m_devices;
+}

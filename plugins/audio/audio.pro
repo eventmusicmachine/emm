@@ -8,7 +8,8 @@ LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0)
 SOURCES += \
     audioplugin.cpp \
     outputselectionwidget.cpp \
-    devicemanager.cpp
+    devicemanager.cpp \
+    idriver.cpp
 
 HEADERS += \
     audioplugin.h \

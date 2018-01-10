@@ -54,7 +54,7 @@ private:
 private slots:
     void driverChanged(int index);
     void deviceChanged(int index);
-    void channelCountChanged(int count);
+    void outputCountChanged(int count);
 };
 
 } // namespace Audio

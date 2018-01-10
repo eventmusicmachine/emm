@@ -95,17 +95,17 @@ void OutputSelectionWidget::deviceChanged(int index)
     if (index < 0) return;
 
     if (m_deviceInstance) {
-        disconnect(m_deviceInstance, &IDevice::channelCountUpdated, this, &OutputSelectionWidget::channelCountChanged);
+        disconnect(m_deviceInstance, &IDevice::outputCountUpdated, this, &OutputSelectionWidget::outputCountChanged);
     }
 
     QMap<QString, IDriver*> drivers = DeviceManager::instance()->drivers();
     m_deviceInstance = drivers.value(m_driver)->devices().at(index);
-    connect(m_deviceInstance, &IDevice::channelCountUpdated, this, &OutputSelectionWidget::channelCountChanged);
-    int channelCount = m_deviceInstance->channelCount();
-    channelCountChanged(channelCount);
+    connect(m_deviceInstance, &IDevice::outputCountUpdated, this, &OutputSelectionWidget::outputCountChanged);
+    int outputCount = m_deviceInstance->outputCount();
+    outputCountChanged(outputCount);
 }
 
-void OutputSelectionWidget::channelCountChanged(int count)
+void OutputSelectionWidget::outputCountChanged(int count)
 {
     if (count > 0) {
         m_ui->channelSpinBox->setMinimum(1);

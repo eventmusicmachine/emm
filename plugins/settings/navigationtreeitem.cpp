@@ -18,6 +18,7 @@
 
 #include "navigationtreeitem.h"
 #include "navigationtreeitem_p.h"
+#include "isettingspagefactory.h"
 
 using namespace Settings;
 using namespace Settings::Internal;
@@ -32,8 +33,9 @@ NavigationTreeItemPrivate::NavigationTreeItemPrivate(QString id, QString text, N
 
 NavigationTreeItemPrivate::~NavigationTreeItemPrivate()
 {
-    qDeleteAll(m_childItems);
-    delete m_factory;
+    if (m_factory) {
+        delete m_factory;
+    }
 }
 
 void NavigationTreeItemPrivate::addChild(NavigationTreeItem *item)
@@ -60,6 +62,8 @@ int NavigationTreeItemPrivate::columnCount() const
 
 QVariant NavigationTreeItemPrivate::data(int column) const
 {
+    Q_UNUSED(column)
+
     return m_text;
 }
 

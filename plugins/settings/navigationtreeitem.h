@@ -30,6 +30,7 @@ class ISettingsPageFactory;
 class SETTINGS_EXPORT NavigationTreeItem
 {
 public:
+    virtual ~NavigationTreeItem() {}
     virtual void addChild(NavigationTreeItem *child) = 0;
 
     virtual NavigationTreeItem *child(int row) = 0;

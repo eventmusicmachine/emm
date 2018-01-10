@@ -27,8 +27,8 @@ using namespace Settings::Internal;
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
-    m_model(new NavigationTreeModel),
-    m_ui(new Ui::SettingsDialog)
+    m_ui(new Ui::SettingsDialog),
+    m_model(new NavigationTreeModel)
 {
     m_ui->setupUi(this);
 
@@ -56,12 +56,12 @@ void SettingsDialog::showSettingsWidget(const QModelIndex &selected)
             ISettingsPage *page = factory->createPage();
             m_visitedPages.append(page);
             if (m_page) {
-                QLayoutItem *item = m_ui->contentLayout->replaceWidget(m_page->widget(), page->widget());
+                QLayoutItem *item = m_ui->contentLayout->replaceWidget(m_page, page);
                 delete item;
                 delete m_page;
                 m_page = page;
             } else {
-                m_ui->contentLayout->addWidget(page->widget());
+                m_ui->contentLayout->addWidget(page);
                 m_page = page;
             }
             m_page->load();

@@ -27,6 +27,7 @@ class ISettingsPage;
 
 class SETTINGS_EXPORT ISettingsPageFactory {
   public:
+    virtual ~ISettingsPageFactory() {}
     virtual ISettingsPage *createPage() = 0;
 };
 

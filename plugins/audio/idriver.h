@@ -21,21 +21,18 @@
 
 #include <QObject>
 
+#include "audio_global.h"
+
 namespace Audio {
 
 class IDevice;
 
-class IDriver : public QObject
+class AUDIO_EXPORT IDriver : public QObject
 {
     Q_OBJECT
 public:
-    ~IDriver() {
-        qDeleteAll(m_devices);
-    }
-
-    QList<IDevice*> devices() const {
-        return m_devices;
-    }
+    virtual ~IDriver();
+    QList<IDevice*> devices() const;
 
     virtual QString id() const = 0;
     virtual QString name() const = 0;

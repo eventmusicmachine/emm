@@ -30,6 +30,7 @@ class AUDIO_EXPORT IDevice : public QObject
 {
   Q_OBJECT
 public:
+    virtual ~IDevice() {}
     virtual QString name() = 0;
     virtual int outputCount() = 0;
     virtual IChannel *createChannel(QString fileName) = 0;
