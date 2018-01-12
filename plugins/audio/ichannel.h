@@ -30,9 +30,15 @@ class AUDIO_EXPORT IChannel : public QObject
     Q_OBJECT
 
 public slots:
+    virtual void load(QString fileName) = 0;
     virtual void play() = 0;
     virtual void pause() = 0;
     virtual void stop() = 0;
+    virtual bool isPlaying() = 0;
+
+signals:
+    void lengthUpdated(float length);
+    void positionChanged(float position, float length);
 };
 
 }

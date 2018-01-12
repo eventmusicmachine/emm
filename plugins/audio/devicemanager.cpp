@@ -19,6 +19,8 @@
 #include "devicemanager.h"
 #include "devicemanager_p.h"
 #include "idriver.h"
+#include "idevice.h"
+#include "ichannel.h"
 
 using namespace Audio;
 using namespace Audio::Internal;
@@ -45,6 +47,22 @@ DeviceManager *DeviceManager::instance()
 QMap<QString, IDriver*> DeviceManager::drivers()
 {
     return d->m_drivers;
+}
+
+IChannel *DeviceManager::createChannel(QString driverName, int deviceId, int outputNo)
+{
+    if (!drivers().contains(driverName)) {
+        return nullptr;
+    }
+
+    IDriver *driver = drivers().value(driverName);
+    if (!driver->devices().value(deviceId)) {
+        return nullptr;
+    }
+
+    IDevice *device = driver->devices().value(deviceId);
+
+    return device->createChannel();
 }
 
 void DeviceManager::registerDriver(IDriver *driver)

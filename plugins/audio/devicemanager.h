@@ -26,6 +26,7 @@
 namespace Audio {
 
 class IDriver;
+class IChannel;
 
 namespace Internal {
 
@@ -38,6 +39,7 @@ class AUDIO_EXPORT DeviceManager : public QObject
     Q_OBJECT
 public:
     void registerDriver(IDriver* device);
+    IChannel *createChannel(QString driver, int device, int output);
     QMap<QString, IDriver*> drivers();
     static DeviceManager *instance();
 

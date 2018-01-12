@@ -33,7 +33,7 @@ public:
     virtual ~IDevice() {}
     virtual QString name() = 0;
     virtual int outputCount() = 0;
-    virtual IChannel *createChannel(QString fileName) = 0;
+    virtual IChannel *createChannel() = 0;
 
 signals:
     void outputCountUpdated(int count);
