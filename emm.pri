@@ -3,6 +3,7 @@ EMM_PRI_INCLUDED = 1
 
 EMM_VERSION = 3.0.0
 VERSION = $$EMM_VERSION
+CONFIG += c++11
 
 defineReplace(qtLibraryTargetName) {
    unset(LIBRARY_NAME)
@@ -124,4 +125,10 @@ for(ever) {
     }
     EMM_LIB_DEPENDS = $$unique(EMM_LIB_DEPENDS)
     EMM_LIB_DEPENDS -= $$unique(done_libs)
+}
+
+coverage {
+QMAKE_CXXFLAGS += --coverage
+QMAKE_LFLAGS += --coverage
+LIBS *= -lgcov
 }

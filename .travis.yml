@@ -1,0 +1,18 @@
+language: cpp
+compiler: gcc
+dist: xenial
+before_install:
+- sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.0-xenial
+- sudo apt-get update -qq
+install:
+- sudo apt-get install -qq qt510base qt510declarative gdb
+- sudo pip install -U cpp-coveralls
+before_script:
+- source /opt/qt510/bin/qt510-env.sh
+- qmake -v
+- qmake emm.pro -spec linux-g++ "CONFIG+=debug test coverage"
+- make
+script:
+- bin/CoreTests
+after_success:
+- coveralls --exclude test --gcov-options '\-lp'

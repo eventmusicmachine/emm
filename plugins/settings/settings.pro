@@ -3,7 +3,6 @@ include(../../emmplugin.pri)
 DEFINES += SETTINGS_LIBRARY
 
 QT += widgets
-LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0)
 
 SOURCES += \
     settingsdialog.cpp \

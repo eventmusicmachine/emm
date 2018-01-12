@@ -3,7 +3,6 @@ include(../../emmplugin.pri)
 DEFINES += CORE_LIBRARY
 
 QT += widgets
-LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0)
 
 SOURCES += \
     mainwindow.cpp \
@@ -19,10 +18,8 @@ HEADERS += \
     icentralcomponentfactory.h \
     coreplugin.h
 
-DISTFILES += \
-    core.json
-
 FORMS += \
     aboutdialog.ui
 
-
+DISTFILES += \
+    core.json

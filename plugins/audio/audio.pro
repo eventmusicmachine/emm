@@ -3,7 +3,6 @@ include(../../emmplugin.pri)
 DEFINES += AUDIO_LIBRARY
 
 QT += widgets
-LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0)
 
 SOURCES += \
     audioplugin.cpp \

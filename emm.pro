@@ -6,9 +6,11 @@ CONFIG += ordered
 SUBDIRS = \
     libs \
     app \
-    plugins
+    plugins \
+    test
 
 OTHER_FILES += \
     README.md \
     LICENSE \
-    .gitignore
+    .gitignore \
+    .travis.yml
