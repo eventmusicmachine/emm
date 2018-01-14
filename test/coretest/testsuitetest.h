@@ -23,6 +23,7 @@
 
 class TestSuiteTest : public QObject
 {
+    Q_OBJECT
 private slots:
     void testSomething();
 };

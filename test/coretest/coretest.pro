@@ -1,10 +1,6 @@
-include(../../emm.pri)
+include(../../emmtest.pri)
 
-DESTDIR = $$EMM_APP_PATH
-TEMPLATE = app
 TARGET = CoreTests
-
-QT += testlib
 
 SOURCES +=  \
     main.cpp \

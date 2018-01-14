@@ -3,4 +3,3 @@ CONFIG += ordered
 
 SUBDIRS += \
     coretest
-
