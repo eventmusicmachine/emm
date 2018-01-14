@@ -10,7 +10,6 @@ QT += widgets
 LIBS += -l$$qtLibraryName(ExtensionSystem, 4.5.0) -l$$qtLibraryName(Utils, 4.5.0)
 
 DEFINES += EMM_VERSION=\\\"$$EMM_VERSION\\\"
-DEFINES += RELATIVE_PLUGIN_PATH_STR=\\\"$$RELATIVE_PLUGIN_PATH\\\"
 
 SOURCES += main.cpp
 

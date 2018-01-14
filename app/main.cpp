@@ -30,7 +30,6 @@ using namespace ExtensionSystem;
 
 const char corePluginName[] = "Core";
 const char * const EMM_VERSION_LONG = EMM_VERSION;
-const char * const RELATIVE_PLUGIN_PATH = RELATIVE_PLUGIN_PATH_STR;
 
 typedef QList<PluginSpec *> PluginSpecSet;
 
@@ -50,7 +49,7 @@ static inline QString msgCoreLoadFailure(const QString &why)
 
 static inline QStringList getPluginPaths()
 {
-    QStringList rc(QDir::cleanPath(QApplication::applicationDirPath() + '/' + RELATIVE_PLUGIN_PATH));
+    QStringList rc(QDir::cleanPath(QApplication::applicationDirPath() + "/plugins"));
     // Local plugin path: <localappdata>/plugins/<ideversion>
     //    where <localappdata> is e.g.
     //    "%LOCALAPPDATA%\EMM\emm" on Windows Vista and later
