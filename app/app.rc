@@ -1,0 +1,24 @@
+#include <windows.h>
+
+#define STRINGIFY1(x) #x
+#define STRINGIFY(x) STRINGIFY1(x)
+
+IDI_ICON1   ICON    DISCARDABLE    "icon.ico"
+
+VS_VERSION_INFO VERSIONINFO
+    FILEVERSION    RC_VERSION
+    PRODUCTVERSION RC_VERSION
+{
+    BLOCK "StringFileInfo"
+    {
+       // U.S. English - Windows, Multilingual
+       BLOCK "040904E4"
+       {
+          VALUE "FileDescription", "Event Music Machine"
+          VALUE "FileVersion", STRINGIFY(RC_VERSION_STRING)
+          VALUE "ProductName", "Event Music Machine"
+          VALUE "ProductVersion", STRINGIFY(RC_VERSION_STRING)
+          VALUE "LegalCopyright", "2011-2018 Christoph Kraemer"
+        }
+    }
+ }

@@ -17,6 +17,10 @@ with the same compiler.
 
 - gcc-5
 
+### Windows
+
+- MSVC 2017
+
 ## License
 
 This software is released under the GPLv3 license.
