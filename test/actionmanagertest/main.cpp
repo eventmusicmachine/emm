@@ -16,24 +16,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
+#include <QApplication>
+#include <QtTest>
+#include "actionmanagersuite.h"
+#include "mousetriggersuite.h"
 
-#include "action_p.h"
-
-using namespace Actions;
-using namespace Actions::Internal;
-
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
 
-}
+    ActionManagerSuite actionManagerSuite;
+    MouseTriggerSuite mouseTriggerSuite;
 
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
-
-QAction *ActionPrivate::action() const
-{
-    return m_action;
+    return QTest::qExec(&actionManagerSuite, argc, argv) |
+        QTest::qExec(&mouseTriggerSuite, argc, argv);
 }

@@ -16,24 +16,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
+#ifndef ACTIONMANAGERSUITE_H
+#define ACTIONMANAGERSUITE_H
 
-#include "action_p.h"
+#include <QtTest>
 
-using namespace Actions;
-using namespace Actions::Internal;
-
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+class ActionManagerSuite : public QObject
 {
+    Q_OBJECT
+private slots:
+    void initTestCase();
 
-}
+    void testInit();
+    void testRegisterAction();
+    void testRegisterTrigger();
+};
 
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
-
-QAction *ActionPrivate::action() const
-{
-    return m_action;
-}
+#endif // ACTIONMANAGERSUITE_H

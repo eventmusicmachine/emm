@@ -29,6 +29,7 @@ QT_END_NAMESPACE
 namespace Actions {
 
 class ActionManager;
+class Trigger;
 
 namespace Internal {
 
@@ -42,6 +43,7 @@ class ActionManagerPrivate : public QObject
 public:
     typedef QHash<QString, ActionContainerPrivate *> IdContainerMap;
     typedef QHash<QString, ActionPrivate *> IdActionMap;
+    typedef QHash<QString, Trigger *> IdTriggerMap;
 
     ~ActionManagerPrivate();
 
@@ -49,6 +51,7 @@ public:
 
     IdContainerMap m_idContainerMap;
     IdActionMap m_idActionMap;
+    IdTriggerMap m_idTriggerMap;
 };
 
 } // namespace Internal

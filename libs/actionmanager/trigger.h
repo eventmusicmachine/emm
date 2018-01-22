@@ -16,24 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
+#ifndef TRIGGER_H
+#define TRIGGER_H
 
-#include "action_p.h"
+#include <QObject>
 
-using namespace Actions;
-using namespace Actions::Internal;
+#include "actionmanager_global.h"
 
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+namespace Actions {
+
+class ACTIONMANAGER_EXPORT Trigger : public QObject
 {
+    Q_OBJECT
+public:
 
-}
+signals:
 
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
+public slots:
+};
 
-QAction *ActionPrivate::action() const
-{
-    return m_action;
-}
+} // namespace Actions
+
+#endif // TRIGGER_H

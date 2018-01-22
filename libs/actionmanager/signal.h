@@ -16,24 +16,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
 
-#include "action_p.h"
+#ifndef SIGNAL_H
+#define SIGNAL_H
 
-using namespace Actions;
-using namespace Actions::Internal;
+#include <QObject>
 
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+#include "actionmanager_global.h"
+
+namespace Actions {
+
+namespace Internal {
+
+class SignalPrivate;
+
+} // namespace Internal
+
+class ACTIONMANAGER_EXPORT Signal : public QObject
 {
+    Q_OBJECT
+public:
+    Signal(QObject *parent = 0);
 
-}
+protected:
+    Signal(Internal::SignalPrivate &d);
+    Internal::SignalPrivate *d;
 
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
+signals:
+    void triggered();
+};
 
-QAction *ActionPrivate::action() const
-{
-    return m_action;
-}
+} // namespace Actions
+
+#endif // SIGNAL_H

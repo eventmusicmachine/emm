@@ -24,6 +24,7 @@
 #include "actionmanager_p.h"
 #include "actioncontainer_p.h"
 #include "action_p.h"
+#include "trigger.h"
 
 Q_LOGGING_CATEGORY(actionManagerLog, "emm.actionmanager")
 
@@ -82,6 +83,12 @@ Action *ActionManager::registerAction(QAction *action, QString id)
     Action *a = d->createAction(action, id);
 
     return a;
+}
+
+Trigger *ActionManager::registerTrigger(Trigger *trigger, QString id)
+{
+    d->m_idTriggerMap.insert(id, trigger);
+    return trigger;
 }
 
 ActionContainer *ActionManager::actionContainer(QString id)

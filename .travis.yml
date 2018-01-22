@@ -1,6 +1,6 @@
 language: cpp
 compiler: gcc
-dist: xenial
+group: travis_latest
 before_install:
 - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.0-xenial
 - sudo apt-get update -qq

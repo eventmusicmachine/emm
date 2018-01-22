@@ -16,24 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
+#ifndef SIGNAL_P_H
+#define SIGNAL_P_H
 
-#include "action_p.h"
+#include <QObject>
 
-using namespace Actions;
-using namespace Actions::Internal;
+namespace Actions {
 
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+namespace Internal {
+
+class SignalPrivate : public QObject
 {
+    Q_OBJECT
+public:
+    SignalPrivate(QObject *parent = 0);
 
-}
+private:
+    Qt::KeyboardModifiers m_modifiers;
+};
 
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
+} // namespace Internal
+} // namespace Actions
 
-QAction *ActionPrivate::action() const
-{
-    return m_action;
-}
+#endif // SIGNAL_P_H

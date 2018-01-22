@@ -32,7 +32,8 @@ class ActionPrivate : public Action
 public:
     ActionPrivate(QString id, QAction *action);
 
-    QAction *action() const;
+    QString id() const override;
+    QAction *action() const override;
 
 private:
     QString m_id;

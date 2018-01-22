@@ -16,24 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
+#ifndef MOUSESIGNAL_P_H
+#define MOUSESIGNAL_P_H
 
-#include "action_p.h"
+#include "signal_p.h"
 
-using namespace Actions;
-using namespace Actions::Internal;
+namespace Actions {
 
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+namespace Internal {
+
+class MouseSignalPrivate : public SignalPrivate
 {
+    Q_OBJECT
 
-}
+public:
+    MouseSignalPrivate();
+    MouseSignalPrivate(Qt::MouseButtons buttons);
 
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
+    Qt::MouseButtons m_buttons = Qt::NoButton;
+};
 
-QAction *ActionPrivate::action() const
-{
-    return m_action;
-}
+} // namespace Internal
+} // namespace Actions
+
+#endif // MOUSESIGNAL_P_H

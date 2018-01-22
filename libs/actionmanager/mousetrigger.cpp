@@ -16,24 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
 
-#include "action_p.h"
+#include "mousetrigger.h"
 
 using namespace Actions;
-using namespace Actions::Internal;
-
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
-{
-
-}
-
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
-
-QAction *ActionPrivate::action() const
-{
-    return m_action;
-}

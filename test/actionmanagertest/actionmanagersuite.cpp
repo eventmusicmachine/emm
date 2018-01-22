@@ -17,23 +17,41 @@
  **************************************************************************/
 
 #include <QAction>
+#include <actionmanager/action.h>
+#include <actionmanager/actionmanager.h>
 
-#include "action_p.h"
+#include "actionmanagersuite.h"
+#include "testtrigger.h"
 
 using namespace Actions;
-using namespace Actions::Internal;
 
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+void ActionManagerSuite::initTestCase()
 {
-
+    ActionManager::initialize(this);
 }
 
-QString ActionPrivate::id() const
+void ActionManagerSuite::testInit()
 {
-    return m_id;
+    ActionManager *am = ActionManager::instance();
+
+    QVERIFY2(am != 0, "Instance was not created");
 }
 
-QAction *ActionPrivate::action() const
+void ActionManagerSuite::testRegisterAction()
 {
-    return m_action;
+    QAction *action = new QAction();
+    ActionManager *am = ActionManager::instance();
+
+    Action *internalAction = am->registerAction(action, "TEST");
+
+    QCOMPARE(internalAction->id(), "TEST");
+    QCOMPARE(internalAction->action(), action);
+}
+
+void ActionManagerSuite::testRegisterTrigger()
+{
+    TestTrigger *trigger = new TestTrigger();
+    // ActionManager *am = ActionManager::instance();
+
+    // Trigger *triggerInstance = am->registerTrigger(trigger, "TEST");
 }

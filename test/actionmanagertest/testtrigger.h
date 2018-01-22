@@ -16,24 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
+#ifndef TESTTRIGGER_H
+#define TESTTRIGGER_H
 
-#include "action_p.h"
+#include <actionmanager/trigger.h>
 
-using namespace Actions;
-using namespace Actions::Internal;
-
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+class TestTrigger : public Actions::Trigger
 {
+    Q_OBJECT
 
-}
+};
 
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
-
-QAction *ActionPrivate::action() const
-{
-    return m_action;
-}
+#endif // TESTTRIGGER_H

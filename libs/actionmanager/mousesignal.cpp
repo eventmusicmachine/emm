@@ -16,24 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
-
-#include "action_p.h"
+#include "mousesignal.h"
+#include "mousesignal_p.h"
 
 using namespace Actions;
 using namespace Actions::Internal;
 
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
-{
+MouseSignal::MouseSignal() : Signal(*new MouseSignalPrivate) {
 
 }
 
-QString ActionPrivate::id() const
-{
-    return m_id;
+MouseSignal::MouseSignal(Qt::MouseButtons buttons) : Signal(*new MouseSignalPrivate(buttons)) {
+
 }
 
-QAction *ActionPrivate::action() const
+void MouseSignal::send(QMouseEvent *event)
 {
-    return m_action;
+    MouseSignalPrivate *d2 = static_cast<MouseSignalPrivate *>(d);
+
+    if (d2->m_buttons == event->buttons()) {
+        emit triggered();
+    }
+}
+
+MouseSignalPrivate::MouseSignalPrivate() : SignalPrivate()
+{
+}
+
+MouseSignalPrivate::MouseSignalPrivate(Qt::MouseButtons buttons) :
+    SignalPrivate(),
+    m_buttons(buttons)
+{
 }

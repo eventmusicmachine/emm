@@ -16,24 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#include <QAction>
+#include <QSignalSpy>
 
-#include "action_p.h"
+#include "mousetriggersuite.h"
+#include "mousesignalwidget.h"
 
-using namespace Actions;
-using namespace Actions::Internal;
-
-ActionPrivate::ActionPrivate(QString id, QAction *action) : m_id(id), m_action(action)
+void MouseTriggerSuite::testLeftClick()
 {
+    Actions::MouseSignal *signal = new Actions::MouseSignal(Qt::LeftButton);
+    MouseSignalWidget *widget = new MouseSignalWidget(signal);
+    QSignalSpy spy(signal, &Actions::MouseSignal::triggered);
 
-}
+    QTest::mousePress(widget, Qt::LeftButton);
 
-QString ActionPrivate::id() const
-{
-    return m_id;
-}
+    QCOMPARE(spy.count(), 1);
 
-QAction *ActionPrivate::action() const
-{
-    return m_action;
+    delete signal;
+    delete widget;
 }

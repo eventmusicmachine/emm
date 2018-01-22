@@ -33,6 +33,7 @@ class ACTIONMANAGER_EXPORT Action : public QObject
 {
     Q_OBJECT
 public:
+    virtual QString id() const = 0;
     virtual QAction *action() const = 0;
 };
 

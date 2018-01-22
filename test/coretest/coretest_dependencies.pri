@@ -1,0 +1,1 @@
+EMM_TEST_NAME = CoreTest
