@@ -55,6 +55,7 @@ private:
     void destroyAboutDialog();
     void plugins();
     void destroyPluginsDialog();
+    void actionManager();
 
     ICore *m_coreImpl = nullptr;
     AboutDialog *m_aboutDialog = nullptr;

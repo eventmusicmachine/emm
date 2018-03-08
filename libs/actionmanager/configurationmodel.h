@@ -16,26 +16,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SIGNAL_P_H
-#define SIGNAL_P_H
+#ifndef CONFIGURATIONMODEL_H
+#define CONFIGURATIONMODEL_H
 
-#include <QObject>
+#include <QAbstractTableModel>
 
 namespace Actions {
 
 namespace Internal {
 
-class SignalPrivate : public QObject
+class ConfigurationModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    SignalPrivate(QObject *parent = 0);
-
-    QString m_id;
-    QString m_description;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 };
 
 } // namespace Internal
 } // namespace Actions
 
-#endif // SIGNAL_P_H
+#endif // CONFIGURATIONMODEL_H

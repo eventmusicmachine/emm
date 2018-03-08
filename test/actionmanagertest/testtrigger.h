@@ -20,11 +20,14 @@
 #define TESTTRIGGER_H
 
 #include <actionmanager/trigger.h>
+#include <actionmanager/signal.h>
+#include <actionmanager/action.h>
 
 class TestTrigger : public Actions::Trigger
 {
     Q_OBJECT
-
+public:
+    Actions::Signal* createSignal(QString id, QString description) override;
 };
 
 #endif // TESTTRIGGER_H

@@ -16,5 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
+#include <actionmanager/action.h>
+
 #include "testtrigger.h"
 
+Actions::Signal *TestTrigger::createSignal(QString id, QString description)
+{
+    Q_UNUSED(id)
+    Q_UNUSED(description)
+
+    return 0;
+}

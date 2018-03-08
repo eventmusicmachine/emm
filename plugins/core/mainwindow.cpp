@@ -23,6 +23,7 @@
 #include <QToolBar>
 #include <QToolButton>
 
+#include <actionmanager/configurationdialog.h>
 #include <actionmanager/actionmanager.h>
 #include <actionmanager/actioncontainer.h>
 #include <extensionsystem/pluginerroroverview.h>
@@ -77,6 +78,12 @@ MainWindow::MainWindow(QWidget *parent) :
     Action *e3 = ActionManager::registerAction(pluginsAction, "PLUGINS");
     helpMenu->addAction(e3);
     connect(pluginsAction, &QAction::triggered, this, &MainWindow::plugins);
+
+    // ActionManager Config Dialog
+    QAction *amAction = new QAction(tr("Action Manager..."), this);
+    Action *e4 = ActionManager::registerAction(amAction, "ACTION_MANAGER");
+    fileMenu->addAction(e4);
+    connect(amAction, &QAction::triggered, this, &MainWindow::actionManager);
 
     connect(m_toolBarButtons, SIGNAL(buttonPressed(int)), m_componentStack, SLOT(setCurrentIndex(int)));
 }
@@ -156,4 +163,10 @@ void MainWindow::destroyPluginsDialog()
         m_pluginOverview->deleteLater();
         m_pluginOverview = 0;
     }
+}
+
+void MainWindow::actionManager()
+{
+    Actions::ConfigurationDialog configDialog(this);
+    configDialog.exec();
 }

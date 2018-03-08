@@ -16,26 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SIGNAL_P_H
-#define SIGNAL_P_H
+#ifndef CONNECTION_H
+#define CONNECTION_H
 
 #include <QObject>
 
+#include "actionmanager_global.h"
+
 namespace Actions {
+
+class Signal;
+class Receiver;
 
 namespace Internal {
 
-class SignalPrivate : public QObject
+class ConnectionPrivate;
+
+} // namespace Internal
+
+class ACTIONMANAGER_EXPORT Connection : public QObject
 {
     Q_OBJECT
 public:
-    SignalPrivate(QObject *parent = 0);
+    Connection(Signal *signal, Receiver *receiver);
 
-    QString m_id;
-    QString m_description;
+protected:
+    Connection(Internal::ConnectionPrivate &d);
+    Internal::ConnectionPrivate *d;
 };
 
-} // namespace Internal
-} // namespace Actions
+} //namespace Actions
 
-#endif // SIGNAL_P_H
+#endif // CONNECTION_H

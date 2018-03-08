@@ -26,6 +26,7 @@ class MouseTriggerSuite : public QObject
     Q_OBJECT
 private slots:
     void testLeftClick();
+    void testConnection();
 };
 
 #endif // MOUSETRIGGERSUITE_H

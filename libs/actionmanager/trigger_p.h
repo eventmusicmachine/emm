@@ -16,26 +16,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SIGNAL_P_H
-#define SIGNAL_P_H
+#ifndef TRIGGER_P_H
+#define TRIGGER_P_H
 
 #include <QObject>
+#include <QMap>
 
 namespace Actions {
 
+class Signal;
+
 namespace Internal {
 
-class SignalPrivate : public QObject
+class TriggerPrivate : public QObject
 {
     Q_OBJECT
 public:
-    SignalPrivate(QObject *parent = 0);
+    TriggerPrivate(QObject *parent = 0);
+    ~TriggerPrivate();
 
-    QString m_id;
-    QString m_description;
+    QMap<QString, Signal*> m_signals;
 };
+
 
 } // namespace Internal
 } // namespace Actions
 
-#endif // SIGNAL_P_H
+#endif // TRIGGER_P_H

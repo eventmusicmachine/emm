@@ -33,6 +33,8 @@ namespace Actions {
 class ActionContainer;
 class Action;
 class Trigger;
+class Receiver;
+class Signal;
 
 class ACTIONMANAGER_EXPORT ActionManager : public QObject
 {
@@ -45,7 +47,8 @@ public:
     static ActionContainer *createMenuBar(QString id);
 
     static Action *registerAction(QAction *action, QString id);
-    Trigger *registerTrigger(Trigger *trigger, QString id);
+    Trigger *registerTrigger(QString id, Trigger *trigger);
+    Receiver *registerReceiver(QString id, Receiver *receiver);
 
     static ActionContainer *actionContainer(QString id);
 

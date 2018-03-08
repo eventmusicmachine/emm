@@ -16,7 +16,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-
 #include "mousetrigger.h"
+#include "mousesignal.h"
+#include "action.h"
 
 using namespace Actions;
+
+MouseTrigger::MouseTrigger(QObject *parent) : Trigger(parent)
+{
+    qRegisterMetaType<Qt::MouseButtons>("MouseButtons");
+}
+
+Signal* MouseTrigger::createSignal(QString id, QString description)
+{
+    Signal *signal = new MouseSignal(id, description);
+    return signal;
+}

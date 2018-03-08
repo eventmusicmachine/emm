@@ -16,26 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SIGNAL_P_H
-#define SIGNAL_P_H
+#include "mouseconnection.h"
+#include "mouseconnection_p.h"
 
-#include <QObject>
+using namespace Actions;
+using namespace Actions::Internal;
 
-namespace Actions {
-
-namespace Internal {
-
-class SignalPrivate : public QObject
+MouseConnection::MouseConnection(Signal *signal, Receiver *receiver, Qt::MouseButtons buttons) : Connection(*new MouseConnectionPrivate)
 {
-    Q_OBJECT
-public:
-    SignalPrivate(QObject *parent = 0);
-
-    QString m_id;
-    QString m_description;
-};
-
-} // namespace Internal
-} // namespace Actions
-
-#endif // SIGNAL_P_H
+    Connection(signal, receiver);
+    MouseConnectionPrivate *d_ptr = static_cast<MouseConnectionPrivate*>(d);
+    d_ptr->m_buttons = buttons;
+}

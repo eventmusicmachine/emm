@@ -16,26 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SIGNAL_P_H
-#define SIGNAL_P_H
+#include "configurationdialog.h"
+#include "ui_configurationdialog.h"
+#include "configurationmodel.h"
 
-#include <QObject>
+using namespace Actions;
 
-namespace Actions {
-
-namespace Internal {
-
-class SignalPrivate : public QObject
+ConfigurationDialog::ConfigurationDialog(QWidget *parent) :
+    QDialog(parent),
+    m_ui(new Ui::ConfigurationDialog),
+    m_model(new Internal::ConfigurationModel)
 {
-    Q_OBJECT
-public:
-    SignalPrivate(QObject *parent = 0);
+    m_ui->setupUi(this);
+    m_ui->actionsTableView->setModel(m_model);
+}
 
-    QString m_id;
-    QString m_description;
-};
-
-} // namespace Internal
-} // namespace Actions
-
-#endif // SIGNAL_P_H
+ConfigurationDialog::~ConfigurationDialog()
+{
+    delete m_model;
+    delete m_ui;
+}

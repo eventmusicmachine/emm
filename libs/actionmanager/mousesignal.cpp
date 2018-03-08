@@ -18,33 +18,28 @@
 
 #include "mousesignal.h"
 #include "mousesignal_p.h"
+#include "mouseconnection.h"
 
 using namespace Actions;
 using namespace Actions::Internal;
 
-MouseSignal::MouseSignal() : Signal(*new MouseSignalPrivate) {
-
-}
-
-MouseSignal::MouseSignal(Qt::MouseButtons buttons) : Signal(*new MouseSignalPrivate(buttons)) {
-
+MouseSignal::MouseSignal(QString id, QString description) : Signal(*new MouseSignalPrivate) {
+    d->m_id = id;
+    d->m_description = description;
 }
 
 void MouseSignal::send(QMouseEvent *event)
 {
-    MouseSignalPrivate *d2 = static_cast<MouseSignalPrivate *>(d);
-
-    if (d2->m_buttons == event->buttons()) {
-        emit triggered();
-    }
+    emit triggered(event->buttons());
 }
 
-MouseSignalPrivate::MouseSignalPrivate() : SignalPrivate()
+void MouseSignal::connect(Receiver *receiver, Qt::MouseButtons buttons)
 {
+    MouseSignalPrivate *d_ptr = static_cast<MouseSignalPrivate*>(d);
+    d_ptr->m_connections.append(new MouseConnection(this, receiver, buttons));
 }
 
-MouseSignalPrivate::MouseSignalPrivate(Qt::MouseButtons buttons) :
-    SignalPrivate(),
-    m_buttons(buttons)
+MouseSignalPrivate::~MouseSignalPrivate()
 {
+    qDeleteAll(m_connections);
 }

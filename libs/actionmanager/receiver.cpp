@@ -16,26 +16,4 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SIGNAL_P_H
-#define SIGNAL_P_H
-
-#include <QObject>
-
-namespace Actions {
-
-namespace Internal {
-
-class SignalPrivate : public QObject
-{
-    Q_OBJECT
-public:
-    SignalPrivate(QObject *parent = 0);
-
-    QString m_id;
-    QString m_description;
-};
-
-} // namespace Internal
-} // namespace Actions
-
-#endif // SIGNAL_P_H
+#include "receiver.h"

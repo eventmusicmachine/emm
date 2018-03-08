@@ -30,6 +30,7 @@ namespace Actions {
 
 class ActionManager;
 class Trigger;
+class Receiver;
 
 namespace Internal {
 
@@ -44,6 +45,7 @@ public:
     typedef QHash<QString, ActionContainerPrivate *> IdContainerMap;
     typedef QHash<QString, ActionPrivate *> IdActionMap;
     typedef QHash<QString, Trigger *> IdTriggerMap;
+    typedef QHash<QString, Receiver *> IdReceiverMap;
 
     ~ActionManagerPrivate();
 
@@ -52,6 +54,7 @@ public:
     IdContainerMap m_idContainerMap;
     IdActionMap m_idActionMap;
     IdTriggerMap m_idTriggerMap;
+    IdReceiverMap m_idReceiverMap;
 };
 
 } // namespace Internal

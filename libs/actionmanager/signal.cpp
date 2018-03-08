@@ -24,9 +24,11 @@ using namespace Actions;
 using namespace Actions::Internal;
 
 
-Signal::Signal(QObject *parent) : QObject(parent),
+Signal::Signal(QString id, QString description, QObject *parent) : QObject(parent),
     d(new SignalPrivate(this))
 {
+    d->m_id = id;
+    d->m_description = description;
 }
 
 Signal::Signal(SignalPrivate &d_ptr) : d(&d_ptr)

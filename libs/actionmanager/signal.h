@@ -21,6 +21,7 @@
 #define SIGNAL_H
 
 #include <QObject>
+#include <QEvent>
 
 #include "actionmanager_global.h"
 
@@ -36,14 +37,12 @@ class ACTIONMANAGER_EXPORT Signal : public QObject
 {
     Q_OBJECT
 public:
-    Signal(QObject *parent = 0);
+    Signal(QString id, QString descripton, QObject *parent = 0);
 
 protected:
     Signal(Internal::SignalPrivate &d);
     Internal::SignalPrivate *d;
 
-signals:
-    void triggered();
 };
 
 } // namespace Actions

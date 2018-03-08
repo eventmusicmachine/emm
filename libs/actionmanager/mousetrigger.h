@@ -25,10 +25,15 @@
 
 namespace Actions {
 
+class Action;
+
 class ACTIONMANAGER_EXPORT MouseTrigger : public Trigger
 {
     Q_OBJECT
 public:
+    MouseTrigger(QObject *parent = 0);
+
+    Signal* createSignal(QString id, QString description) override;
 
 signals:
 

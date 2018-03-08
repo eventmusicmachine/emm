@@ -17,4 +17,32 @@
  **************************************************************************/
 
 #include "trigger.h"
+#include "trigger_p.h"
+#include "signal.h"
 
+using namespace Actions;
+using namespace Actions::Internal;
+
+Trigger::Trigger(QObject *parent) : QObject(parent),
+    d(new TriggerPrivate(this))
+{
+}
+
+Trigger::Trigger(TriggerPrivate &d_ptr) : d(&d_ptr)
+{
+}
+
+Signal* Trigger::signal(QString id) const
+{
+    return d->m_signals.value(id);
+}
+
+TriggerPrivate::TriggerPrivate(QObject *parent) : QObject(parent)
+{
+
+}
+
+TriggerPrivate::~TriggerPrivate()
+{
+    qDeleteAll(m_signals);
+}

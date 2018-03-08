@@ -23,17 +23,27 @@
 #include <QMouseEvent>
 
 #include "signal.h"
+#include "receiver.h"
 #include "actionmanager_global.h"
 
 namespace Actions {
+
+class MouseTrigger;
 
 class ACTIONMANAGER_EXPORT MouseSignal : public Signal
 {
     Q_OBJECT
 public:
-    MouseSignal();
-    MouseSignal(Qt::MouseButtons buttons);
     void send(QMouseEvent *event);
+    void connect(Receiver *receiver, Qt::MouseButtons buttons);
+
+private:
+    MouseSignal(QString id, QString description);
+
+    friend class Actions::MouseTrigger;
+
+signals:
+    void triggered(const Qt::MouseButtons buttons);
 };
 
 } // namespace Actions

@@ -25,6 +25,8 @@
 #include "actioncontainer_p.h"
 #include "action_p.h"
 #include "trigger.h"
+#include "receiver.h"
+#include "signal.h"
 
 Q_LOGGING_CATEGORY(actionManagerLog, "emm.actionmanager")
 
@@ -85,10 +87,16 @@ Action *ActionManager::registerAction(QAction *action, QString id)
     return a;
 }
 
-Trigger *ActionManager::registerTrigger(Trigger *trigger, QString id)
+Trigger *ActionManager::registerTrigger(QString id, Trigger *trigger)
 {
     d->m_idTriggerMap.insert(id, trigger);
     return trigger;
+}
+
+Receiver *ActionManager::registerReceiver(QString id, Receiver *receiver)
+{
+    d->m_idReceiverMap.insert(id, receiver);
+    return receiver;
 }
 
 ActionContainer *ActionManager::actionContainer(QString id)
@@ -104,6 +112,8 @@ ActionContainer *ActionManager::actionContainer(QString id)
 ActionManagerPrivate::~ActionManagerPrivate()
 {
     qDeleteAll(m_idContainerMap);
+    qDeleteAll(m_idTriggerMap);
+    qDeleteAll(m_idReceiverMap);
 }
 
 ActionPrivate *ActionManagerPrivate::createAction(QAction *action, QString id)

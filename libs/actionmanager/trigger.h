@@ -25,14 +25,27 @@
 
 namespace Actions {
 
+class Action;
+class Signal;
+
+namespace Internal {
+
+class TriggerPrivate;
+
+} // namespace Internal
+
 class ACTIONMANAGER_EXPORT Trigger : public QObject
 {
     Q_OBJECT
 public:
+    Trigger(QObject *parent = 0);
 
-signals:
+    virtual Signal* createSignal(QString id, QString description) = 0;
+    Signal* signal(QString id) const;
 
-public slots:
+protected:
+    Trigger(Internal::TriggerPrivate &d);
+    Internal::TriggerPrivate *d;
 };
 
 } // namespace Actions

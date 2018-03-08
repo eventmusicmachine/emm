@@ -10,7 +10,12 @@ SOURCES += \
     trigger.cpp \
     mousetrigger.cpp \
     mousesignal.cpp \
-    signal.cpp
+    signal.cpp \
+    receiver.cpp \
+    connection.cpp \
+    mouseconnection.cpp \
+    configurationdialog.cpp \
+    configurationmodel.cpp
 
 HEADERS += \
     actionmanager.h \
@@ -25,4 +30,15 @@ HEADERS += \
     mousesignal.h \
     signal.h \
     signal_p.h \
-    mousesignal_p.h
+    mousesignal_p.h \
+    trigger_p.h \
+    receiver.h \
+    connection.h \
+    mouseconnection.h \
+    mouseconnection_p.h \
+    connection_p.h \
+    configurationdialog.h \
+    configurationmodel.h
+
+FORMS += \
+    configurationdialog.ui

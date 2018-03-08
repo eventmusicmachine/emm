@@ -16,26 +16,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************/
 
-#ifndef SIGNAL_P_H
-#define SIGNAL_P_H
+#ifndef CONNECTION_P_H
+#define CONNECTION_P_H
 
 #include <QObject>
+#include <QSharedPointer>
 
 namespace Actions {
 
+class Signal;
+class Receiver;
+
 namespace Internal {
 
-class SignalPrivate : public QObject
+class ConnectionPrivate : public QObject
 {
     Q_OBJECT
 public:
-    SignalPrivate(QObject *parent = 0);
+    ConnectionPrivate(QObject *parent = 0);
 
-    QString m_id;
-    QString m_description;
+    QSharedPointer<Signal> m_signal;
+    QSharedPointer<Receiver> m_receiver;
 };
 
 } // namespace Internal
 } // namespace Actions
 
-#endif // SIGNAL_P_H
+#endif // CONNECTION_P_H

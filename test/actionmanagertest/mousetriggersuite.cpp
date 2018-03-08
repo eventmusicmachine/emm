@@ -17,20 +17,48 @@
  **************************************************************************/
 
 #include <QSignalSpy>
+#include <actionmanager/actionmanager.h>
+#include <actionmanager/mousetrigger.h>
+#include <actionmanager/receiver.h>
 
 #include "mousetriggersuite.h"
 #include "mousesignalwidget.h"
 
+using namespace Actions;
+
 void MouseTriggerSuite::testLeftClick()
 {
-    Actions::MouseSignal *signal = new Actions::MouseSignal(Qt::LeftButton);
+    MouseTrigger *trigger = new MouseTrigger(this);
+    MouseSignal *signal = static_cast<MouseSignal *>(trigger->createSignal("ID", "Click Widget"));
     MouseSignalWidget *widget = new MouseSignalWidget(signal);
-    QSignalSpy spy(signal, &Actions::MouseSignal::triggered);
+    QSignalSpy spy(signal, &MouseSignal::triggered);
 
     QTest::mousePress(widget, Qt::LeftButton);
 
     QCOMPARE(spy.count(), 1);
 
-    delete signal;
+    delete widget;
+}
+
+void MouseTriggerSuite::testConnection()
+{
+    ActionManager::initialize(this);
+    ActionManager *actionManager = ActionManager::instance();
+
+    MouseTrigger *trigger = new MouseTrigger(this);
+    MouseSignal *signal = static_cast<MouseSignal *>(trigger->createSignal("TEST_SIGNAL", "Click Widget"));
+    MouseSignalWidget *widget = new MouseSignalWidget(signal);
+
+    Receiver *receiver = new Receiver;
+    actionManager->registerReceiver("TEST_REICEIVER", receiver);
+
+    signal->connect(receiver, Qt::LeftButton);
+
+    // QSignalSpy spy(receiver, &Receiver::received);
+
+    // QTest::mousePress(widget, Qt::LeftButton);
+
+    // QCOMPARE(spy.count(), 1);
+
     delete widget;
 }

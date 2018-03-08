@@ -23,6 +23,8 @@
 
 namespace Actions {
 
+class MouseConnection;
+
 namespace Internal {
 
 class MouseSignalPrivate : public SignalPrivate
@@ -30,10 +32,10 @@ class MouseSignalPrivate : public SignalPrivate
     Q_OBJECT
 
 public:
-    MouseSignalPrivate();
-    MouseSignalPrivate(Qt::MouseButtons buttons);
+    ~MouseSignalPrivate();
 
-    Qt::MouseButtons m_buttons = Qt::NoButton;
+    QList<MouseConnection*> m_connections;
+
 };
 
 } // namespace Internal
